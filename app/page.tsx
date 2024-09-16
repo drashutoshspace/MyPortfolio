@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Siddharth Roy",
+  title: "Ashutosh Mishra",
   description: "Frontend Engineer",
 };
 

@@ -25,10 +25,10 @@ import ThemeSwitcher from "./theme-switcher";
 import { useEffect } from "react";
 
 const socials = {
-  twitter: "https://twitter.com/reactoverflow",
-  instagram: "https://www.instagram.com/cybrchad/",
-  linkedin: "https://www.linkedin.com/in/reactoverflow/",
-  github: "https://github.com/siddharthroy12",
+  twitter: "https://twitter.com/drashutoshspace",
+  instagram: "https://www.instagram.com/drashutoshspace/",
+  linkedin: "https://www.linkedin.com/in/drashutoshspace/",
+  github: "https://github.com/drashutoshspace",
 };
 
 function ShortcutHint({ children, active }: { active: boolean, children: React.ReactNode }) {
@@ -144,7 +144,7 @@ export default function Navigation({ inDrawer }: NavigationProps) {
           className="mr-4 rounded-full"
         />
         <div>
-          <p>Siddharth Roy</p>
+          <p>Ashutosh Mishra</p>
           <p className="text-muted-foreground">Frontend Enginner</p>
         </div>
       </Link>
@@ -157,7 +157,70 @@ export default function Navigation({ inDrawer }: NavigationProps) {
           inDrawer={inDrawer}
         />
         <NavigationLink
+          name="Education"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Experiences"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Publications"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Projects"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Skills & Proficiencies"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Awards & Honors"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
           name="Posts"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Publications"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Publications"
+          shortcut={2}
+          icon={PenLineIcon}
+          link="/posts"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Publications"
           shortcut={2}
           icon={PenLineIcon}
           link="/posts"
