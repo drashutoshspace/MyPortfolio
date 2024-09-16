@@ -139,13 +139,13 @@ export default function Navigation({ inDrawer }: NavigationProps) {
         <Image
           width={40}
           height={40}
-          src="/author.webp"
+          src="/author.png"
           alt="Picture of the author"
           className="mr-4 rounded-full"
         />
         <div>
           <p>Ashutosh Mishra</p>
-          <p className="text-muted-foreground">Frontend Enginner</p>
+          <p className="text-muted-foreground">The Space Scientist</p>
         </div>
       </Link>
       <nav className="flex flex-col gap-1">
