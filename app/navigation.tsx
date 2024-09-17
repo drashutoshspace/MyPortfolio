@@ -11,8 +11,14 @@ import {
   GithubIcon,
   LinkedinIcon,
   ArrowUpRightIcon,
-  GoogleScholarIcon,
-  ORCIDIcon,
+  BookIcon,
+  GlobeIcon,
+  GraduationCapIcon, // For Education
+  BriefcaseIcon, // For Experiences
+  FileTextIcon, // For Publications
+  HammerIcon, // For Projects
+  CodeIcon, // For Skills & Proficiencies
+  AwardIcon, // For Awards & Honors
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -169,63 +175,69 @@ export default function Navigation({ inDrawer }: NavigationProps) {
         <NavigationLink
           name="Education"
           shortcut={2}
-          icon={PenLineIcon}
-          link="/"
+          icon={GraduationCapIcon}
+          link="/education"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Experiences"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/"
+          shortcut={3}
+          icon={BriefcaseIcon}
+          link="/experiences"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Publications"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/"
+          shortcut={4}
+          icon={FileTextIcon}
+          link="/publications"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Projects"
-          shortcut={2}
+          shortcut={5}
+          icon={HammerIcon}
+          link="/projects"
+          inDrawer={inDrawer}
+        />
+        <NavigationLink
+          name="Posts"
+          shortcut={6}
           icon={PenLineIcon}
-          link="/"
+          link="/posts"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Skills & Proficiencies"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/"
+          shortcut={7}
+          icon={CodeIcon}
+          link="/skills"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Awards & Honors"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/"
+          shortcut={8}
+          icon={AwardIcon}
+          link="/awards"
           inDrawer={inDrawer}
         />
       </nav>
       <Separator className="my-2" />
       <p className="text-muted-foreground text-xs p-2">Socials</p>
       <div className="flex flex-col gap-1">
-        <SocialLink name="Twitter" link={socials.twitter} icon={TwitterIcon} />
-        <SocialLink
-          name="Instagram"
-          link={socials.instagram}
-          icon={InstagramIcon}
-        />
-        <SocialLink name="Github" link={socials.github} icon={GithubIcon} />
-        <SocialLink name="Google Scholar" link={socials.scholar} icon={GoogleScholarIcon} />
-        <SocialLink name="ORCID" link={socials.orcid} icon={ORCIDIcon} />
         <SocialLink
           name="LinkedIn"
           link={socials.linkedin}
           icon={LinkedinIcon}
         />
+        <SocialLink name="Github" link={socials.github} icon={GithubIcon} />
+        <SocialLink
+          name="Google Scholar"
+          link={socials.scholar}
+          icon={BookIcon}
+        />
+        <SocialLink name="ORCID" link={socials.orcid} icon={GlobeIcon} />
+        <SocialLink name="Twitter" link={socials.twitter} icon={TwitterIcon} />
       </div>
 
       <Separator className="my-2" />
