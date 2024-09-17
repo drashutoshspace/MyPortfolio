@@ -23,9 +23,9 @@ export default async function ExperiencesPage() {
         
         {experiences.map((exp) => (
             
-          <div className='flex'> <BriefcaseIcon className="h-12 w-12 text-indigo-400 mr-4" /> <li key={exp.id} className="flex items-start mb-4">
-            
+          <li key={exp.id} className="flex items-start mb-4">
           <div>
+          <BriefcaseIcon className="h-12 w-12 text-indigo-400 mr-4"/>
            
             <h2 className="text-2xl font-semibold text-indigo-400">{exp.position}</h2>
             <p className="text-lg text-gray-300">{exp.company}, {exp.location}</p>
@@ -34,7 +34,7 @@ export default async function ExperiencesPage() {
               <p className="text-md text-gray-300 mt-2">{exp.description}</p>
             )}
           </div>
-        </li></div>
+        </li>
           
         ))}
       </ul>
