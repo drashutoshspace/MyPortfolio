@@ -21,7 +21,7 @@ export default async function ProjectsPage() {
       <h1 className="text-5xl font-bold mb-12 text-center">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
-          <div key={project.id} className="relative bg-gray-800 rounded-lg shadow-lg p-6 hover:bg-gray-700 transition duration-300 group">
+          <div key={project.id} className="relative border-[1px] border-gray-600 rounded-xl p-6 hover:bg-gray-900 transition duration-300 group">
             {/* Project Image always visible */}
             {project.project_link && (
               <a href={project.project_link} target="_blank" rel="noopener noreferrer">
@@ -34,14 +34,14 @@ export default async function ProjectsPage() {
             )}
 
             {/* Title and Date */}
-            <h2 className="text-2xl font-semibold text-indigo-400 mb-2">
+            <h2 className="text-2xl font-semibold mb-2">
               {project.title}
             </h2>
             <p className="text-sm text-gray-400 mb-4">{project.duration}</p>
 
             {/* Expandable Section */}
             <details className="group">
-              <summary className="cursor-pointer text-indigo-400 hover:underline">
+              <summary className="cursor-pointer hover:underline">
                 More Details
               </summary>
               <div className="mt-4">
@@ -51,7 +51,7 @@ export default async function ProjectsPage() {
                 </p>
 
                 {project.project_link && (
-                  <a href={project.project_link} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">
+                  <a href={project.project_link} target="_blank" rel="noopener noreferrer" className="hover:underline">
                     View Project
                   </a>
                 )}

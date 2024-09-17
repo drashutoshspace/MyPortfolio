@@ -227,7 +227,7 @@ export default function Navigation({ inDrawer }: NavigationProps) {
         />
       </nav>
       <Separator className="my-2" />
-      <p className="text-muted-foreground text-xs p-2">Socials</p>
+      <p className="text-muted-foreground text-xs p-2">Social Connect</p>
       <div className="flex flex-col gap-1">
         <SocialLink
           name="LinkedIn"
@@ -246,9 +246,9 @@ export default function Navigation({ inDrawer }: NavigationProps) {
 
       </div>
 
-      <Separator className="my-2" />
+      {/* <Separator className="my-2" />
       <p className="text-muted-foreground text-xs p-2">Settings</p>
-      <ThemeSwitcher />
+      <ThemeSwitcher /> */}
     </ScrollArea>
   );
 }
