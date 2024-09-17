@@ -36,7 +36,7 @@ export default function Home() {
   </div>
 
   <p className="mb-8 center">
-    With a deep passion for space exploration and innovation, I’m currently pursuing my PhD in Space Robotics at Tohoku University under Prof. Kazuya Yoshida. As a Japanse MEXT Scholar and Innovation Ambassador for the Ministry of Education Innovation Cell, I’m committed to bridging the knowledge gap between young international students, fostering global collaboration, and empowering the next generation to lead in space exploration.
+    With a deep passion for space exploration and innovation, I&apos;m currently pursuing my PhD in Space Robotics at Tohoku University under Prof. Kazuya Yoshida. As a Japanse MEXT Scholar and Innovation Ambassador for the Ministry of Education Innovation Cell, I&apos;m committed to bridging the knowledge gap between young international students, fostering global collaboration, and empowering the next generation to lead in space exploration.
   </p>
 </main>
 
