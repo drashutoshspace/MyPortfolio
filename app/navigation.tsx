@@ -11,6 +11,8 @@ import {
   GithubIcon,
   LinkedinIcon,
   ArrowUpRightIcon,
+  GoogleScholarIcon,
+  ORCIDIcon,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -29,12 +31,20 @@ const socials = {
   instagram: "https://www.instagram.com/drashutoshspace/",
   linkedin: "https://www.linkedin.com/in/drashutoshspace/",
   github: "https://github.com/drashutoshspace",
+  orcid: "https://orcid.org/0000-0002-8595-9995",
+  scholar: "https://scholar.google.com/citations?hl=en&user=KwFxQqIAAAAJ",
 };
 
-function ShortcutHint({ children, active }: { active: boolean, children: React.ReactNode }) {
+function ShortcutHint({
+  children,
+  active,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <Badge
-      variant={active ? 'default' : 'secondary'}
+      variant={active ? "default" : "secondary"}
       className={`h-5 w-5 place-content-center rounded border text-xs font-medium transition-colors duration-200 lg:grid`}
     >
       {children}
@@ -160,91 +170,42 @@ export default function Navigation({ inDrawer }: NavigationProps) {
           name="Education"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
+          link="/"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Experiences"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
+          link="/"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Publications"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
+          link="/"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Projects"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
+          link="/"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Skills & Proficiencies"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
+          link="/"
           inDrawer={inDrawer}
         />
         <NavigationLink
           name="Awards & Honors"
           shortcut={2}
           icon={PenLineIcon}
-          link="/posts"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Posts"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/posts"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Publications"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/posts"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Publications"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/posts"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Publications"
-          shortcut={2}
-          icon={PenLineIcon}
-          link="/posts"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Journey"
-          shortcut={3}
-          icon={RouteIcon}
-          link="/journey"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="My Pet"
-          shortcut={4}
-          icon={DogIcon}
-          link="/pet"
-          inDrawer={inDrawer}
-        />
-        <NavigationLink
-          name="Fun"
-          shortcut={5}
-          icon={FlowerIcon}
-          link="/fun"
+          link="/"
           inDrawer={inDrawer}
         />
       </nav>
@@ -258,6 +219,8 @@ export default function Navigation({ inDrawer }: NavigationProps) {
           icon={InstagramIcon}
         />
         <SocialLink name="Github" link={socials.github} icon={GithubIcon} />
+        <SocialLink name="Google Scholar" link={socials.scholar} icon={GoogleScholarIcon} />
+        <SocialLink name="ORCID" link={socials.orcid} icon={ORCIDIcon} />
         <SocialLink
           name="LinkedIn"
           link={socials.linkedin}
