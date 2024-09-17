@@ -7,6 +7,9 @@ import {
   DogIcon,
   FlowerIcon,
   TwitterIcon,
+  XIcon,
+  Github,
+  MailIcon,
   InstagramIcon,
   GithubIcon,
   LinkedinIcon,
@@ -39,6 +42,7 @@ const socials = {
   github: "https://github.com/drashutoshspace",
   orcid: "https://orcid.org/0000-0002-8595-9995",
   scholar: "https://scholar.google.com/citations?hl=en&user=KwFxQqIAAAAJ",
+  email: "mailto:network@drashutosh.space",
 };
 
 function ShortcutHint({
@@ -237,7 +241,9 @@ export default function Navigation({ inDrawer }: NavigationProps) {
           icon={BookIcon}
         />
         <SocialLink name="ORCID" link={socials.orcid} icon={GlobeIcon} />
-        <SocialLink name="Twitter" link={socials.twitter} icon={TwitterIcon} />
+        <SocialLink name="Twitter" link={socials.twitter} icon={XIcon} />
+        <SocialLink name="Email" link={socials.email} icon={MailIcon}/>
+
       </div>
 
       <Separator className="my-2" />
