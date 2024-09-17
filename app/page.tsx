@@ -27,7 +27,7 @@ export default function Home() {
     <iframe
       width="100%"
       height="315"
-      src="https://www.youtube.com/embed/D0UnqGm_miA?si=J2WEAqDtRRVkqLga&mute=1 " // Replace 'your-video-id' with your actual YouTube video ID
+      src="https://www.youtube.com/embed/D0UnqGm_miA?si=J2WEAqDtRRVkqLga&mute=1 "
       title="YouTube video player"
       frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

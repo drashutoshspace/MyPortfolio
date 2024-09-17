@@ -1,55 +1,54 @@
 {
-    "languages": [
-      "Python",
-      "C",
-      "C++",
-      "Java",
-      "JavaScript",
-      "MATLAB",
-      "Verilog",
-      "VHDL",
-      "Assembly",
-      "SQL"
-    ],
-    "frameworks_and_libraries": [
-      "TensorFlow",
-      "Keras",
-      "OpenCV",
-      "ROS",
-      "Flask",
-      "Django",
-      "ReactJS"
-    ],
-    "tools_and_technologies": [
-      "AWS",
-      "Docker",
-      "Git",
-      "Linux",
-      "Vivado HLS",
-      "Cadence Design Tools",
-      "MATLAB",
-      "HFSS",
-      "Apache",
-      "MySQL"
-    ],
-    "hardware_and_embedded_systems": [
-      "FPGAs",
-      "Microcontrollers (AVR, ARM, ESP, PIC)",
-      "Raspberry Pi",
-      "PCB Designing",
-      "Sensors",
-      "IoT Devices"
-    ],
-    "miscellaneous": [
-      "Cloud Computing",
-      "Embedded Systems Design",
-      "IoT",
-      "Machine Learning",
-      "Cryptography",
-      "Neural Networks",
-      "Signal Processing",
-      "Image Processing",
-      "Autonomous Systems"
-    ]
-  }
-  
+  "languages": [
+    "Python",
+    "C",
+    "C++",
+    "Java",
+    "JavaScript",
+    "MATLAB",
+    "Verilog",
+    "VHDL",
+    "Assembly",
+    "SQL"
+  ],
+  "frameworks_and_libraries": [
+    "TensorFlow",
+    "Keras",
+    "OpenCV",
+    "ROS",
+    "Flask",
+    "Django",
+    "ReactJS"
+  ],
+  "tools_and_technologies": [
+    "AWS",
+    "Docker",
+    "Git",
+    "Linux",
+    "Vivado HLS",
+    "Cadence Design Tools",
+    "MATLAB",
+    "HFSS",
+    "Apache",
+    "MySQL"
+  ],
+  "hardware_and_embedded_systems": [
+    "FPGAs",
+    "Microcontrollers (AVR, ARM, ESP, PIC)",
+    "Raspberry Pi",
+    "PCB Designing",
+    "Sensors",
+    "IoT Devices"
+  ],
+  "miscellaneous": [
+    "Cloud Computing",
+    "Embedded Systems Design",
+    "IoT",
+    "Machine Learning",
+    "Cryptography",
+    "Neural Networks",
+    "Signal Processing",
+    "Image Processing",
+    "Autonomous Systems"
+  ]
+}

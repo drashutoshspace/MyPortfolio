@@ -1,103 +1,65 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ArrowUpRightIcon } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import type { Metadata } from "next";
+import path from 'path';
+import { promises as fs } from 'fs';
 
-export const metadata: Metadata = {
-  title: "Ashutosh Mishra",
-  description: "Frontend Engineer",
+type Project = {
+  id: number;
+  title: string;
+  duration: string;
+  technologies: string[];
+  description: string;
+  project_link?: string;
+  image_url?: string;
 };
 
-const projects = [
-  {
-    title: "Timebrew",
-    description: "A personal time tracker",
-    link: "https://github.com/siddharthroy12/timebrew",
-  },
-  {
-    title: "Agrus",
-    description: "A simple and stupid reddit clone",
-    link: "https://github.com/siddharthroy12/Agrus",
-  },
-  {
-    title: "Recoded",
-    description: "Make recordings of your code",
-    link: "https://github.com/siddharthroy12/recoded",
-  },
-  {
-    title: "Gravity sandbox",
-    description: "2D Newtonian gravity simulator",
-    link: "https://github.com/siddharthroy12/recoded",
-  },
-  {
-    title: "Touch Typer",
-    description: "Touch Typing Test on OpenGL",
-    link: "https://github.com/siddharthroy12/TouchTyper",
-  },
-  {
-    title: "Rockets",
-    description: "Dodge rockets in retro style",
-    link: "https://www.lexaloffle.com/bbs/?pid=111184",
-  },
-  {
-    title: "Big Text Meme generator",
-    description: "Generate FUNNY BIG TEXTS",
-    link: "https://big-text-meme-generator.vercel.app/",
-  },
-  {
-    title: "Raylib CMake Template",
-    description: "Start making games using C/C++ and Raylib in a minute",
-    link: "https://github.com/siddharthroy12/raylib-cmake-template",
-  },
-  {
-    title: "Hypersonic",
-    description: "3D space shooter demo",
-    link: "https://github.com/siddharthroy12/Hypersonic",
-  },
-];
+export default async function ProjectsPage() {
+  const filePath = path.join(process.cwd(), 'database', 'projects.json'); // Fetch from 'database' folder
+  const fileContents = await fs.readFile(filePath, 'utf8');
+  const projects: Project[] = JSON.parse(fileContents);
 
-export default function Home() {
   return (
-    <ScrollArea className="grow w-full h-full">
-      <main className="max-w-[50rem] mx-auto px-8 py-20">
-        <p className="mb-8">
-          A software engineer who builds all kinds of software, including web apps, mobile apps, CLI tools, automation scripts, and even dumb games.
-        </p>
-        <h2 className="mt-8 mb-4 text-xl font-semibold">Projects</h2>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">Title</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className="text-right">Link</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.title}>
-                <TableCell className="font-medium">{project.title}</TableCell>
-                <TableCell>{project.description}</TableCell>
-                <TableCell className="text-right">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    className="flex underline justify-end"
-                  >
-                    Open <ArrowUpRightIcon className="w-[20px]" />
+    <main className="max-w-7xl mx-auto py-20 px-6 text-white">
+      <h1 className="text-5xl font-bold mb-12 text-center">My Projects</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <div key={project.id} className="relative bg-gray-800 rounded-lg shadow-lg p-6 hover:bg-gray-700 transition duration-300 group">
+            {/* Project Image always visible */}
+            {project.project_link && (
+              <a href={project.project_link} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={project.image_url || 'https://via.placeholder.com/400'} // Placeholder image if none
+                  alt={project.title}
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+              </a>
+            )}
+
+            {/* Title and Date */}
+            <h2 className="text-2xl font-semibold text-indigo-400 mb-2">
+              {project.title}
+            </h2>
+            <p className="text-sm text-gray-400 mb-4">{project.duration}</p>
+
+            {/* Expandable Section */}
+            <details className="group">
+              <summary className="cursor-pointer text-indigo-400 hover:underline">
+                More Details
+              </summary>
+              <div className="mt-4">
+                <p className="text-md text-gray-200 mb-2">{project.description}</p>
+                <p className="text-sm text-gray-400 mb-4">
+                  <span className="font-semibold">Technologies:</span> {project.technologies.join(', ')}
+                </p>
+
+                {project.project_link && (
+                  <a href={project.project_link} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">
+                    View Project
                   </a>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </main>
-    </ScrollArea>
+                )}
+              </div>
+            </details>
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
