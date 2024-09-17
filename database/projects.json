@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "title": "Self-Evolving AI Robot System for Lunar Exploration",
+      "duration": "Oct 2023 – Present",
+      "technologies": ["AI", "Autonomous Systems", "Space Robotics"],
+      "description": "Developing autonomous, self-evolving AI robot systems for lunar exploration and outpost construction under Prof. Kazuya Yoshida at the Space Robotics Lab, Tohoku University, as part of the JST’s Moonshot Goal 3 project.",
+      "project_link": "https://your-project-link.com"
+    },
+    {
+      "id": 2,
+      "title": "LIDAR Based Object Mapping and Identification Rover",
+      "duration": "Mar 2022 – Sept 2022",
+      "technologies": ["Python", "CNN", "ROS", "SLAM", "Raspberry Pi", "Keras"],
+      "description": "An autonomous rover for mapping and object identification, for tracking space debris and warehouse management.",
+      "project_link": "https://your-project-link.com"
+    },
+    {
+      "id": 3,
+      "title": "Numerically Controlled Oscillator for ISRO’s SEAMS Project",
+      "duration": "Feb 2022 – May 2022",
+      "technologies": ["Verilog", "Vivado", "Nxys DDR FPGA Board"],
+      "description": "Developed a numerically controlled oscillator for spectrum analyzer calibration on the SEAMS payload.",
+      "project_link": "https://your-project-link.com"
+    },
+    {
+      "id": 4,
+      "title": "8-bit Microcontroller using Verilog",
+      "duration": "Oct 2021 – Mar 2022",
+      "technologies": ["Verilog", "Nxys DDR FPGA Board", "Vivado HLS"],
+      "description": "Developed an 8-bit microcontroller for small automation tasks using Verilog on an Nxys DDR FPGA board.",
+      "project_link": "https://your-project-link.com"
+    },
+    {
+      "id": 5,
+      "title": "Electric Vehicle Charging Management System",
+      "duration": "Jan 2021 – Dec 2021",
+      "technologies": ["Python", "Django", "AWS", "MySQL", "Apache"],
+      "description": "Developed a cloud platform to manage and control a cluster of electric vehicle charging stations.",
+      "project_link": "https://your-project-link.com"
+    }
+  ]
+  

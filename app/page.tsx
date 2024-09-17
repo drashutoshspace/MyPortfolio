@@ -20,13 +20,27 @@ export default function Home() {
   Your browser does not support the video tag.
 </video>
 
+<main className="relative z-10 max-w-[50rem] mx-auto px-8 py-20 text-white">
+  <h1 className="text-4xl font-bold mb-6">Greetings! I'm Ashutosh Mishra.</h1>
+  
+  <div className="mb-8">
+    <iframe
+      width="100%"
+      height="315"
+      src="https://www.youtube.com/embed/D0UnqGm_miA?si=J2WEAqDtRRVkqLga&mute=1 " // Replace 'your-video-id' with your actual YouTube video ID
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>
+  </div>
 
-      <main className="relative z-10 max-w-[50rem] mx-auto px-8 py-20 text-white">
-        <p className="mb-8">
-          A software engineer who builds all kinds of software, including web
-          apps, mobile apps, CLI tools, automation scripts, and even dumb games.
-        </p>
-      </main>
+  <p className="mb-8 center">
+    With a deep passion for space exploration and innovation, I’m currently pursuing my PhD in Space Robotics at Tohoku University under Prof. Kazuya Yoshida. As a Japanse MEXT Scholar and Innovation Ambassador for the Ministry of Education Innovation Cell, I’m committed to bridging the knowledge gap between young international students, fostering global collaboration, and empowering the next generation to lead in space exploration.
+  </p>
+</main>
+
+
     </ScrollArea>
   );
 }

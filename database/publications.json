@@ -1,0 +1,34 @@
+[
+    {
+      "id": 1,
+      "title": "MLP-RF Based Hybrid ML-NN Model for GaN HEMT Parameter Estimation",
+      "year": "2022",
+      "journal": "International Journal of RF and Microwave Computer-Aided Engineering",
+      "doi": "10.1002/mmce.23191",
+      "link": "https://doi.org/10.1002/mmce.23191"
+    },
+    {
+      "id": 2,
+      "title": "Hybrid NN Model to Predict the Radiation Damage in GaN HEMTs",
+      "year": "2021",
+      "conference": "IBM IEEE CAS/EDS – AI Compute Symposium",
+      "link": "https://www.zurich.ibm.com/thinklab/AIcomputesymposium.html"
+    },
+    {
+      "id": 3,
+      "title": "Robust and Secure Digital Image Watermarking Technique",
+      "year": "2021",
+      "journal": "IEEE Access Journal",
+      "doi": "10.1109/access.2021.3079319",
+      "link": "https://doi.org/10.1109/access.2021.3079319"
+    },
+    {
+      "id": 4,
+      "title": "Memristor Based Cryptographic Information Processing for Secured Communication Systems",
+      "year": "2020",
+      "conference": "International Conference on Devices, Circuits and Systems (ICDCS)",
+      "doi": "10.1109/icdcs48716.2020.243573",
+      "link": "https://doi.org/10.1109/icdcs48716.2020.243573"
+    }
+  ]
+  

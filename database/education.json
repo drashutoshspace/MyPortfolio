@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "institution": "Tohoku University",
+      "degree": "Doctoral Researcher [Space Robotics Lab]",
+      "duration": "Oct. 2023 – Present",
+      "location": "Sendai, Japan",
+      "additional_info": "Government MEXT Scholar"
+    },
+    {
+      "id": 2,
+      "institution": "Pune University",
+      "degree": "Master of Science in Electronics",
+      "duration": "Aug. 2021 – July 2023",
+      "location": "Pune, India",
+      "gpa": "9.6 CGPA"
+    },
+    {
+      "id": 3,
+      "institution": "University of Delhi",
+      "degree": "Bachelor of Science in Electronics",
+      "duration": "Aug. 2018 – July 2021",
+      "location": "Delhi, India",
+      "gpa": "8.6 CGPA"
+    }
+  ]
+  

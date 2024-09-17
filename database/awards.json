@@ -1,0 +1,31 @@
+[
+    {
+      "id": 1,
+      "title": "Japanese Government MEXT Research Scholar",
+      "year": "2023 – Present",
+      "organization": "Government of Japan",
+      "description": "Selected as a prestigious MEXT Research Scholar through Embassy Recommendation."
+    },
+    {
+      "id": 2,
+      "title": "Innovation Ambassador",
+      "year": "2020 – Present",
+      "organization": "Ministry of Education, Government of India",
+      "description": "Selected as one of the Innovation Ambassadors at the Ministry of Education’s Innovation Cell. Worked on enhancing mentorship skills and contributing to innovation and entrepreneurship awareness."
+    },
+    {
+      "id": 3,
+      "title": "Finalist, National Innovation Contest 2020",
+      "year": "2020",
+      "organization": "Ministry of Education, Government of India",
+      "description": "Secured a position among the top 10 finalists out of 30,000+ submissions in the NIC 2020 contest."
+    },
+    {
+      "id": 4,
+      "title": "2nd Runner Up, National Level IoT Challenge 2019",
+      "year": "2019",
+      "organization": "Indian Institute of Technology, Bombay",
+      "description": "Developed and demonstrated an IoT-based AgriTech solution for autonomous agricultural monitoring."
+    }
+  ]
+  

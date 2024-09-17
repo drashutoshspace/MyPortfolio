@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "position": "Project Management Team Lead and Lead Editor",
+      "company": "International Space University, Space Studies Program 2024",
+      "duration": "Jun 2024 – Aug 2024",
+      "location": "NASA JSC and Rice University, Houston, USA",
+      "description": "Led the Project Management Team and served as Lead Editor for the International Lunar University project. Worked under Dr. Jacob Cohen, Chief Scientist at NASA Ames. Collaborated with international teams to propose a strategic vision for establishing a Lunar University."
+    },
+    {
+      "id": 2,
+      "position": "Computer Vision Intern",
+      "company": "Wobot Intelligence INC.",
+      "duration": "Jan 2023 – June 2023",
+      "location": "California, USA",
+      "description": "Developed and deployed various neural network models optimized for edge computing. Applied Computer Vision techniques for video intelligence and analytics using Nvidia Jetson. Worked with Python, Nvidia Triton Server, Docker, OpenCV, TensorFlow, and Keras."
+    },
+    {
+      "id": 3,
+      "position": "Cloud Platform Engineer",
+      "company": "EVI Technologies Pvt. Ltd.",
+      "duration": "Jan 2021 – Dec 2021",
+      "location": "New Delhi, India",
+      "description": "Built and deployed a central cloud platform system for controlling and managing electric vehicle charging stations. Managed Linux-based servers and backend infrastructure for EVIT and the Centre for Automotive Research and Tribology (CART) at IIT Delhi. Worked with Python, Django, Apache, AWS, and MySQL."
+    },
+    {
+      "id": 4,
+      "position": "Embedded Engineer Intern",
+      "company": "JNE Smart Technologies Pvt. Ltd.",
+      "duration": "May 2020 – Dec 2020",
+      "location": "Ghaziabad, India",
+      "description": "Developed and deployed a health kiosk machine to monitor government employees’ health status in Meghalaya, India. Worked on AgriTech control systems for autonomous agricultural field monitoring and irrigation. Used Raspberry Pi, Python, Flask, and embedded system design tools."
+    },
+    {
+      "id": 5,
+      "position": "Embedded Engineer Intern",
+      "company": "VHCPL Automation India Pvt. Ltd.",
+      "duration": "July 2019 – Sept 2019",
+      "location": "Delhi, India",
+      "description": "Developed and deployed IoT devices for automation tasks. Worked on real-life problem-solving using embedded systems, Raspberry Pi, Esp32Cam, and ARM controllers."
+    }
+  ]
+  
