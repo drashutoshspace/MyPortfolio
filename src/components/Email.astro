@@ -1,0 +1,36 @@
+---
+/**
+ * The email address, kept readable by machines.
+ *
+ * Cloudflare's Scrape Shield "Email Address Obfuscation" rewrites any plain
+ * mailto: it finds in the response into a /cdn-cgi/l/email-protection link
+ * plus a <span class="__cf_email__"> that only resolves once its injected
+ * script runs. That is actively wrong for this site:
+ *
+ *   - Googlebot, Google Scholar, GPTBot, ClaudeBot and PerplexityBot do not
+ *     execute JavaScript, so all of them would read the obfuscated blob
+ *     rather than the address.
+ *   - It puts a third-party script on pages that otherwise ship zero JS.
+ *   - The research is unambiguous that a visible, copyable address is the
+ *     primary contact channel, and this makes it neither.
+ *
+ * The <!--email_off--> guard is Cloudflare's own documented opt-out and works
+ * without needing a dashboard change. Emitted through set:html so the comment
+ * survives Astro's HTML compression.
+ */
+import { profile } from "~/data/profile";
+
+interface Props {
+  /** Render as a link. Set false for plain text inside prose. */
+  link?: boolean;
+  class?: string;
+}
+
+const { link = true, class: className = "link" } = Astro.props;
+
+const inner = link
+  ? `<a class="${className}" href="mailto:${profile.email}">${profile.email}</a>`
+  : profile.email;
+---
+
+<Fragment set:html={`<!--email_off-->${inner}<!--email_on-->`} />

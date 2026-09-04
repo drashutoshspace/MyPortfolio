@@ -1,5 +1,6 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Email from "~/components/Email.astro";
 import { profile } from "~/data/profile";
 ---
 
@@ -12,7 +13,7 @@ import { profile } from "~/data/profile";
       <a class="link" href="/publications/">publications</a> and
       <a class="link" href="/research/">research</a> pages are the two most likely
       places you were heading. If something is genuinely broken, tell me at
-      <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>.
+      <Email />.
     </p>
   </section>
 </Base>

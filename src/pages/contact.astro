@@ -1,5 +1,6 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Email from "~/components/Email.astro";
 import { profile } from "~/data/profile";
 
 /**
@@ -43,9 +44,7 @@ const intents = [
       <h2>Email</h2>
       <span class="label">the fastest route</span>
     </div>
-    <p class="addr">
-      <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
-    </p>
+    <p class="addr"><Email /></p>
     <p class="prose note">
       If you are writing about a specific paper, a link to it saves us both a round trip.
     </p>

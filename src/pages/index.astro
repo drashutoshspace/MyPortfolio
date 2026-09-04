@@ -1,5 +1,6 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Email from "~/components/Email.astro";
 import PublicationEntry from "~/components/PublicationEntry.astro";
 import { profile } from "~/data/profile";
 import { themes } from "~/data/research";
@@ -63,7 +64,7 @@ const post = appointments[0];
       </p>
 
       <ul class="quicklinks">
-        <li><a class="link" href={`mailto:${profile.email}`}>{profile.email}</a></li>
+        <li><Email /></li>
         <li><a class="link" href="/cv/">CV</a></li>
         <li><a class="link" href={profile.links.scholar} rel="me noopener">Scholar</a></li>
         <li><a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a></li>
@@ -166,8 +167,7 @@ const post = appointments[0];
         <h2>Get in touch</h2>
       </div>
       <p class="prose">
-        I read every message. Write to
-        <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>, or
+        I read every message. Write to <Email />, or
         <a class="link" href="/contact/">use the form</a> if that is easier.
         Collaboration enquiries, talk and panel invitations, and questions about
         the work are all welcome.

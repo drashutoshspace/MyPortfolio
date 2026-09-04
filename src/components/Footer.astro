@@ -1,5 +1,6 @@
 ---
 import { profile } from "~/data/profile";
+import Email from "~/components/Email.astro";
 
 const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
 ---
@@ -12,9 +13,7 @@ const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "num
         {profile.role}, {profile.lab}<br />
         {profile.institutionShort}, {profile.city}
       </p>
-      <p class="mail">
-        <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
-      </p>
+      <p class="mail"><Email /></p>
     </div>
 
     <nav class="col" aria-label="Elsewhere">
