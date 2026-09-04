@@ -1,0 +1,172 @@
+---
+import Base from "~/layouts/Base.astro";
+import { profile } from "~/data/profile";
+import { appointments, education, experience, awards, skills, fieldwork } from "~/data/cv";
+import { peerReviewedCount } from "~/data/publications";
+
+const fmt = (v: string) => {
+  if (v === "Present") return "Present";
+  const [y, m] = v.split("-");
+  if (!m) return y;
+  return new Date(Number(y), Number(m) - 1).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+  });
+};
+
+const sections = [
+  { key: "appointments", title: "Research appointments", entries: appointments },
+  { key: "education", title: "Education", entries: education },
+  { key: "experience", title: "Experience", entries: experience },
+];
+---
+
+<Base
+  title="Curriculum vitae"
+  description={`Curriculum vitae of ${profile.name}: postdoctoral researcher in the Dynamic Legged Systems lab at Istituto Italiano di Tecnologia, previously Tohoku University Space Robotics Lab.`}
+  path="/cv/"
+  breadcrumbs={[{ name: "Home", path: "/" }, { name: "Curriculum vitae", path: "/cv/" }]}
+>
+  <header class="section head">
+    <h1>Curriculum vitae</h1>
+    <p class="prose lede">
+      The full record. A PDF version is available if you need one for a file or a panel.
+    </p>
+    <p class="dl"><a class="link" href={profile.cvPdf}>Download CV (PDF)</a></p>
+  </header>
+
+  {
+    sections.map((s) => (
+      <section class="section">
+        <div class="section-head">
+          <h2>{s.title}</h2>
+        </div>
+        <ul class="entries">
+          {s.entries.map((e) => (
+            <li class="entry">
+              <p class="label dates tnum">
+                {fmt(e.from)} &ndash; {fmt(e.to)}
+                {e.current && <span class="marker" aria-hidden="true" />}
+              </p>
+              <div>
+                <h3>{e.org}</h3>
+                <p class="role">{e.role}</p>
+                {e.detail && <p class="detail">{e.detail}</p>}
+                <p class="place">{e.place}</p>
+                {e.notes && (
+                  <ul class="notes">
+                    {e.notes.map((n) => <li>{n}</li>)}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Field campaigns</h2>
+      <span class="label">hardware in real terrain</span>
+    </div>
+    <ul class="entries">
+      {
+        fieldwork.map((f) => (
+          <li class="entry">
+            <p class="label dates tnum">{f.when}</p>
+            <div>
+              <h3>{f.site}</h3>
+              <p class="place">{f.place}</p>
+              <p class="detail wrap">{f.what}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Awards and honours</h2>
+      <span class="label tnum">{awards.length}</span>
+    </div>
+    <ul class="entries">
+      {
+        awards.map((a) => (
+          <li class="entry">
+            <p class="label dates tnum">{a.year}</p>
+            <div>
+              <h3>{a.title}</h3>
+              <p class="role">{a.body}</p>
+              {a.place && <p class="place">{a.place}</p>}
+              {a.note && <p class="detail wrap">{a.note}</p>}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Publications</h2>
+      <span class="label">{peerReviewedCount} peer reviewed</span>
+    </div>
+    <p class="prose">
+      The full list, with DOIs and per-paper pages, is on the
+      <a class="link" href="/publications/">publications page</a>.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Skills</h2>
+    </div>
+    <dl class="skills">
+      {
+        skills.map((g) => (
+          <div class="grp">
+            <dt class="label">{g.group}</dt>
+            <dd>{g.items.join(" &middot; ")}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .lede { margin-top: 0.9rem; color: var(--ink-2); }
+  .dl { margin-top: 0.9rem; font-family: var(--f-display); font-size: 0.92rem; }
+
+  .entries { list-style: none; margin: 0; padding: 0; }
+  .entry {
+    display: grid;
+    gap: 0.35rem 1.6rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  @media (min-width: 780px) { .entry { grid-template-columns: 11.5rem minmax(0, 1fr); } }
+
+  .dates { display: flex; align-items: center; gap: 0.5rem; padding-top: 0.3rem; }
+  /* Current-position marker: sanctioned accent use #4 of 4. */
+  .marker { width: 6px; height: 6px; background: var(--accent); flex: none; }
+
+  h3 { font-size: 1rem; }
+  .role { font-family: var(--f-display); font-size: 0.9rem; color: var(--ink-2); margin: 0.15rem 0 0; max-width: none; }
+  .detail { font-family: var(--f-display); font-size: 0.86rem; font-style: italic; color: var(--ink-3); margin: 0.15rem 0 0; max-width: none; }
+  .detail.wrap { font-style: normal; font-family: var(--f-body); font-size: 0.94rem; color: var(--ink-2); margin-top: 0.4rem; max-width: var(--measure); }
+  .place { font-family: var(--f-mono); font-size: 0.74rem; color: var(--ink-3); margin: 0.3rem 0 0; max-width: none; }
+
+  .notes { margin: 0.55rem 0 0; padding-left: 1.05rem; max-width: var(--measure); }
+  .notes li { font-size: 0.94rem; color: var(--ink-2); line-height: 1.5; margin-bottom: 0.25rem; }
+
+  .skills { margin: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+  .grp { display: grid; gap: 0.3rem 1.6rem; }
+  @media (min-width: 780px) { .grp { grid-template-columns: 11.5rem minmax(0, 1fr); } }
+  .grp dd { margin: 0; font-family: var(--f-display); font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
+</style>

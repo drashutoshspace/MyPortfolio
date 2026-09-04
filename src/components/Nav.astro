@@ -1,0 +1,98 @@
+---
+import { profile } from "~/data/profile";
+
+const items = [
+  { label: "Research", href: "/research/" },
+  { label: "Publications", href: "/publications/" },
+  { label: "CV", href: "/cv/" },
+  { label: "Contact", href: "/contact/" },
+];
+
+const here = Astro.url.pathname;
+const isActive = (href: string) => here === href || here.startsWith(href);
+---
+
+<header class="bar">
+  <div class="shell inner">
+    <a href="/" class="wordmark" aria-label={`${profile.name}, home`}>
+      <span class="fam">Mishra</span><span class="giv">, Ashutosh</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul>
+        {
+          items.map((i) => (
+            <li>
+              <a href={i.href} class:list={["item", { on: isActive(i.href) }]} aria-current={isActive(i.href) ? "page" : undefined}>
+                {i.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .bar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--ground);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 56px;
+    flex-wrap: wrap;
+    padding-block: 0.5rem;
+  }
+
+  .wordmark {
+    font-family: var(--f-display);
+    font-variation-settings: "wdth" 88;
+    font-size: 0.94rem;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+  }
+  .wordmark .fam { font-weight: 600; }
+  .wordmark .giv { font-weight: 400; color: var(--ink-2); }
+
+  nav { margin-left: auto; }
+
+  ul {
+    display: flex;
+    gap: clamp(0.9rem, 3vw, 1.9rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .item {
+    font-family: var(--f-display);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    padding-block: 0.35rem;
+    border-bottom: 2px solid transparent;
+    transition: color 120ms ease;
+  }
+  .item:hover { color: var(--ink); }
+
+  /* Active state: sanctioned accent use #1 of 4. */
+  .item.on {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  @media (max-width: 460px) {
+    .inner { gap: 0.5rem; }
+    nav { margin-left: 0; width: 100%; }
+    ul { justify-content: space-between; width: 100%; }
+    .item { font-size: 0.84rem; }
+  }
+</style>

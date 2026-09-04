@@ -1,0 +1,74 @@
+---
+import Base from "~/layouts/Base.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { publications } from "~/data/publications";
+import { themes } from "~/data/research";
+
+export function getStaticPaths() {
+  return publications.map((pub) => ({ params: { slug: pub.slug }, props: { pub } }));
+}
+
+const { pub } = Astro.props;
+
+const relatedThemes = themes.filter((t) => t.publications.includes(pub.slug));
+const others = publications
+  .filter((p) => p.slug !== pub.slug && p.topics.some((t) => pub.topics.includes(t)))
+  .slice(0, 3);
+---
+
+<Base
+  title={pub.title}
+  description={pub.summary}
+  path={`/publications/${pub.slug}/`}
+  type="article"
+  citation={{
+    title: pub.title,
+    authors: pub.authors.map((a) => a.name),
+    venue: pub.venue,
+    year: pub.year,
+    doi: pub.doi,
+  }}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Publications", path: "/publications/" },
+    { name: pub.title, path: `/publications/${pub.slug}/` },
+  ]}
+>
+  <article class="section">
+    <p class="label crumb"><a class="link" href="/publications/">Publications</a></p>
+    <PublicationEntry pub={pub} linked={false} />
+
+    {
+      relatedThemes.length > 0 && (
+        <section class="rel">
+          <p class="label">Part of</p>
+          <ul>
+            {relatedThemes.map((t) => (
+              <li><a class="link" href={`/research/${t.slug}/`}>{t.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      others.length > 0 && (
+        <section class="rel">
+          <p class="label">Related work</p>
+          <ul>
+            {others.map((o) => (
+              <li><a class="link" href={`/publications/${o.slug}/`}>{o.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .crumb { margin-bottom: 1.2rem; }
+  .rel { margin-top: 2rem; }
+  .rel ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .rel li { font-family: var(--f-display); font-size: 0.92rem; line-height: 1.4; }
+</style>

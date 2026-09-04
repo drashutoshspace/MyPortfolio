@@ -1,0 +1,216 @@
+---
+import type { Publication } from "~/data/publications";
+
+interface Props {
+  pub: Publication;
+  /** Index pages link the title through; the detail page does not. */
+  linked?: boolean;
+}
+
+const { pub, linked = true } = Astro.props;
+
+const statusLabel: Record<Publication["status"], string> = {
+  published: "",
+  "in-review": "Under review",
+  "in-submission": "In submission",
+};
+---
+
+<article class="entry">
+  <div class="meta">
+    <span class="label venue">{pub.venueShort}</span>
+    <span class="label year tnum">{pub.year}</span>
+  </div>
+
+  <div class="main">
+    <h3 class="title">
+      {
+        linked ? (
+          <a href={`/publications/${pub.slug}/`}>{pub.title}</a>
+        ) : (
+          pub.title
+        )
+      }
+    </h3>
+
+    <p class="authors">
+      {
+        pub.authors.map((a, i) => (
+          <>
+            {i > 0 && <span class="sep">, </span>}
+            <span class:list={["au", { me: a.me }]}>
+              {a.name}
+              {a.equal && <span class="star" aria-hidden="true">*</span>}
+            </span>
+          </>
+        ))
+      }
+    </p>
+
+    <p class="venue-full">{pub.venue}</p>
+
+    {pub.summary && <p class="summary">{pub.summary}</p>}
+
+    <p class="links">
+      {
+        pub.doi && (
+          <a class="ln" href={`https://doi.org/${pub.doi}`} rel="noopener">
+            doi:{pub.doi}
+          </a>
+        )
+      }
+      {
+        pub.urls?.map((u) => (
+          <a class="ln" href={u.href} rel="noopener">
+            {u.label}
+          </a>
+        ))
+      }
+      {
+        statusLabel[pub.status] && (
+          <span class="ln status">{statusLabel[pub.status]}</span>
+        )
+      }
+      {
+        !pub.peerReviewed && pub.status === "published" && (
+          <span class="ln status">Not peer reviewed</span>
+        )
+      }
+    </p>
+
+    {
+      pub.award && (
+        <p class="award">
+          <span class="marker" aria-hidden="true" />
+          {pub.award}
+        </p>
+      )
+    }
+
+    {
+      pub.equalAuthorship && (
+        <p class="fn">* Equal authorship.</p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: grid;
+    gap: 0.35rem 1.6rem;
+    padding-block: 1.35rem;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+
+  @media (min-width: 760px) {
+    .entry { grid-template-columns: 9.5rem minmax(0, 1fr); }
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding-top: 0.28rem;
+  }
+  @media (min-width: 760px) {
+    .meta { flex-direction: column; gap: 0.2rem; }
+  }
+
+  .title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.32;
+    letter-spacing: -0.008em;
+    margin-bottom: 0.3rem;
+  }
+  .title a { text-decoration: none; }
+  .title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .authors {
+    font-family: var(--f-display);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0 0 0.15rem;
+    max-width: none;
+  }
+  .au.me { font-weight: 600; color: var(--ink); }
+  .star { font-size: 0.9em; }
+
+  .venue-full {
+    font-family: var(--f-display);
+    font-size: 0.84rem;
+    font-style: italic;
+    color: var(--ink-3);
+    margin: 0 0 0.45rem;
+    max-width: none;
+  }
+
+  .summary {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0 0 0.5rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin: 0;
+    max-width: none;
+  }
+  .ln {
+    font-family: var(--f-mono);
+    font-size: 0.73rem;
+    color: var(--ink-3);
+  }
+  a.ln {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  a.ln:hover { color: var(--ink); }
+  .status {
+    border: 1px solid var(--rule);
+    padding: 0.08em 0.42em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+  }
+
+  .award {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    font-family: var(--f-display);
+    font-size: 0.83rem;
+    font-weight: 500;
+    margin: 0.6rem 0 0;
+    max-width: none;
+  }
+  /* Current-position marker: sanctioned accent use #4 of 4. */
+  .marker {
+    flex: none;
+    width: 3px;
+    height: 0.95em;
+    background: var(--accent);
+    transform: translateY(0.12em);
+  }
+
+  .fn {
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    color: var(--ink-3);
+    margin: 0.45rem 0 0;
+    max-width: none;
+  }
+</style>

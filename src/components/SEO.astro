@@ -1,0 +1,194 @@
+---
+/**
+ * Everything Next's Metadata API would have given us, written once by hand.
+ *
+ * Three jobs, in order of how much they matter here:
+ *   1. Name disambiguation. "Ashutosh Mishra" collides with at least seven
+ *      other researchers with Scholar profiles, two of them far more cited.
+ *      The Person node with sameAs is what tells Google these are different
+ *      people, so it ships on every page, not just the homepage.
+ *   2. Google Scholar inclusion, via citation_* meta tags on publication
+ *      pages. Scholar's own inclusion guidelines want these in the head of a
+ *      static document, which is exactly what Astro emits.
+ *   3. Ordinary link previews.
+ */
+import { profile } from "~/data/profile";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path with a leading slash. Canonical is built from it. */
+  path: string;
+  /** Omit to fall back to the shared social card. */
+  image?: string;
+  type?: "website" | "article" | "profile";
+  /** Publication pages pass this to emit Scholar's citation_* tags. */
+  citation?: {
+    title: string;
+    authors: string[];
+    venue: string;
+    year: number;
+    doi?: string;
+  };
+  breadcrumbs?: { name: string; path: string }[];
+  /** Set on the homepage only, so the Person node is the primary entity there. */
+  isProfilePage?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  image = "/media/og-default.png",
+  type = "website",
+  citation,
+  breadcrumbs,
+  isProfilePage = false,
+} = Astro.props;
+
+const site = profile.site;
+const canonical = new URL(path, site).href;
+const ogImage = new URL(image, site).href;
+const fullTitle =
+  path === "/" ? `${profile.name} — ${profile.role}, ${profile.lab}` : `${title} — ${profile.name}`;
+
+const person = {
+  "@type": "Person",
+  "@id": `${site}/#person`,
+  name: profile.name,
+  givenName: "Ashutosh",
+  familyName: "Mishra",
+  jobTitle: profile.role,
+  description: profile.positioning,
+  url: site,
+  image: new URL("/media/ashutosh-mishra.png", site).href,
+  email: `mailto:${profile.email}`,
+  affiliation: {
+    "@type": "ResearchOrganization",
+    name: profile.institution,
+    url: "https://www.iit.it/",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: profile.city,
+      addressCountry: profile.country,
+    },
+  },
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Tohoku University", url: "https://www.tohoku.ac.jp/en/" },
+    { "@type": "CollegeOrUniversity", name: "Savitribai Phule Pune University" },
+    { "@type": "CollegeOrUniversity", name: "University of Delhi", url: "https://www.du.ac.in/" },
+  ],
+  knowsAbout: profile.expertise,
+  award: [
+    "Best Research Paper Award, IEEE iSpaRo 2025",
+    "IAF Emerging Space Leader 2025",
+    "Japanese Government MEXT Research Scholarship",
+  ],
+  identifier: {
+    "@type": "PropertyValue",
+    propertyID: "ORCID",
+    value: "0000-0002-8595-9995",
+  },
+  sameAs: [
+    profile.links.orcid,
+    profile.links.scholar,
+    profile.links.linkedin,
+    profile.links.github,
+    profile.links.x,
+  ],
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": `${site}/#website`,
+  url: site,
+  name: `${profile.name} — ${profile.role}`,
+  inLanguage: "en",
+  publisher: { "@id": `${site}/#person` },
+};
+
+const graph: Record<string, unknown>[] = [person, website];
+
+if (isProfilePage) {
+  graph.push({
+    "@type": "ProfilePage",
+    "@id": `${canonical}#page`,
+    url: canonical,
+    name: fullTitle,
+    mainEntity: { "@id": `${site}/#person` },
+    isPartOf: { "@id": `${site}/#website` },
+  });
+}
+
+if (citation) {
+  graph.push({
+    "@type": "ScholarlyArticle",
+    "@id": `${canonical}#article`,
+    headline: citation.title,
+    name: citation.title,
+    author: citation.authors.map((n) => ({ "@type": "Person", name: n })),
+    datePublished: String(citation.year),
+    publication: citation.venue,
+    isPartOf: { "@type": "Periodical", name: citation.venue },
+    ...(citation.doi
+      ? {
+          identifier: { "@type": "PropertyValue", propertyID: "DOI", value: citation.doi },
+          sameAs: `https://doi.org/${citation.doi}`,
+        }
+      : {}),
+    url: canonical,
+    abstract: description,
+  });
+}
+
+if (breadcrumbs?.length) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    "@id": `${canonical}#breadcrumbs`,
+    itemListElement: breadcrumbs.map((b, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: b.name,
+      item: new URL(b.path, site).href,
+    })),
+  });
+}
+
+const jsonLd = { "@context": "https://schema.org", "@graph": graph };
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={profile.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en_GB" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{/* Google Scholar inclusion tags. Scholar does not execute JavaScript, which
+    is the reason every one of these pages is prerendered static HTML. */}
+{
+  citation && (
+    <>
+      <meta name="citation_title" content={citation.title} />
+      {citation.authors.map((a) => (
+        <meta name="citation_author" content={a} />
+      ))}
+      <meta name="citation_publication_date" content={String(citation.year)} />
+      <meta name="citation_journal_title" content={citation.venue} />
+      {citation.doi && <meta name="citation_doi" content={citation.doi} />}
+      <meta name="citation_public_url" content={canonical} />
+    </>
+  )
+}
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

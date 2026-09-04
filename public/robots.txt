@@ -1,0 +1,38 @@
+# https://drmishra.space
+
+User-agent: *
+Allow: /
+
+# Search and AI answer engines. Being quotable in an answer is how a name
+# query resolves to the right Ashutosh Mishra.
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://drmishra.space/sitemap-index.xml

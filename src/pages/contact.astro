@@ -1,0 +1,273 @@
+---
+import Base from "~/layouts/Base.astro";
+import { profile } from "~/data/profile";
+
+/**
+ * Email first, form second, always.
+ *
+ * NN/g is explicit that a form must supplement direct contact rather than
+ * replace it, and that hidden contact details read as a red flag. For this
+ * audience the reason is concrete: an academic who cannot copy the address
+ * cannot cc a co-PI, forward it to an admin, or paste it into a proposal.
+ *
+ * The form only renders once a sending provider is configured, so the page
+ * never ships a control that fails on submit.
+ */
+const formEnabled = Boolean(import.meta.env.RESEND_API_KEY);
+
+const intents = [
+  "Research collaboration",
+  "Talk or panel invitation",
+  "PhD or internship enquiry",
+  "Press",
+  "Something else",
+];
+---
+
+<Base
+  title="Contact"
+  description={`Contact ${profile.name}, postdoctoral researcher in the Dynamic Legged Systems lab at Istituto Italiano di Tecnologia, Genova. Collaboration enquiries, talk invitations and questions about the work are welcome.`}
+  path="/contact/"
+  breadcrumbs={[{ name: "Home", path: "/" }, { name: "Contact", path: "/contact/" }]}
+>
+  <header class="section head">
+    <h1>Contact</h1>
+    <p class="prose lede">
+      Collaboration enquiries, talk and panel invitations, and questions about the work
+      are all welcome. I read every message, and I reply to the ones I can answer.
+    </p>
+  </header>
+
+  <section class="section direct">
+    <div class="section-head">
+      <h2>Email</h2>
+      <span class="label">the fastest route</span>
+    </div>
+    <p class="addr">
+      <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
+    </p>
+    <p class="prose note">
+      If you are writing about a specific paper, a link to it saves us both a round trip.
+    </p>
+  </section>
+
+  {
+    formEnabled ? (
+      <section class="section">
+        <div class="section-head">
+          <h2>Or use the form</h2>
+          <span class="label">four fields</span>
+        </div>
+
+        <form id="contact-form" class="form" method="post" action="/api/contact">
+          {/* Honeypot. Hidden from people, tempting to bots. */}
+          <div class="hp" aria-hidden="true">
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Your email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+
+          <fieldset class="field">
+            <legend>What is this about?</legend>
+            {/* Visible options rather than a dropdown: NN/g advises against
+                dropdowns for small option sets, and seeing "Research
+                collaboration" listed is itself an invitation. */}
+            <div class="chips">
+              {intents.map((i, n) => (
+                <span class="chip">
+                  <input type="radio" id={`intent-${n}`} name="intent" value={i} required={n === 0} checked={n === 0} />
+                  <label for={`intent-${n}`}>{i}</label>
+                </span>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="7" required></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Send</button>
+            <p class="status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+    ) : (
+      <section class="section">
+        <div class="section-head">
+          <h2>Form</h2>
+          <span class="label">not yet enabled</span>
+        </div>
+        <p class="prose note">
+          The contact form is built and waiting on a sending provider. Until it is
+          switched on, email is the route, and it is the one most people prefer anyway.
+        </p>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Elsewhere</h2>
+    </div>
+    <ul class="elsewhere">
+      <li><span class="label">Scholar</span> <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar profile</a></li>
+      <li><span class="label">ORCID</span> <a class="link" href={profile.links.orcid} rel="me noopener">0000-0002-8595-9995</a></li>
+      <li><span class="label">LinkedIn</span> <a class="link" href={profile.links.linkedin} rel="me noopener">drashutoshspace</a></li>
+    </ul>
+  </section>
+</Base>
+
+{
+  formEnabled && (
+    <script>
+      const form = document.getElementById("contact-form");
+      if (form instanceof HTMLFormElement) {
+        const status = form.querySelector(".status");
+        const button = form.querySelector("button");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          if (!(status instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) return;
+          button.disabled = true;
+          status.textContent = "Sending…";
+          status.dataset.state = "busy";
+          try {
+            const response = await fetch("/api/contact", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            });
+            const result = await response.json().catch(() => ({}));
+            if (response.ok) {
+              form.reset();
+              status.textContent = "Sent. I will reply to the address you gave.";
+              status.dataset.state = "ok";
+            } else {
+              status.textContent =
+                result.error ?? "That did not send. Please email contact@drmishra.space instead.";
+              status.dataset.state = "error";
+            }
+          } catch {
+            status.textContent =
+              "That did not send. Please email contact@drmishra.space instead.";
+            status.dataset.state = "error";
+          } finally {
+            button.disabled = false;
+          }
+        });
+      }
+    </script>
+  )
+}
+
+<style>
+  .head { padding-bottom: 0; }
+  .lede { margin-top: 0.9rem; font-size: 1.06rem; color: var(--ink-2); }
+
+  .addr {
+    font-family: var(--f-mono);
+    font-size: clamp(1rem, 2.6vw, 1.35rem);
+    margin: 0 0 0.8rem;
+    word-break: break-word;
+  }
+  .note { font-size: 0.96rem; color: var(--ink-2); }
+
+  .form { display: flex; flex-direction: column; gap: 1.3rem; max-width: 34rem; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .field { display: flex; flex-direction: column; gap: 0.4rem; border: 0; padding: 0; margin: 0; }
+
+  label,
+  legend {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    font-family: var(--f-body);
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 0.6rem 0.7rem;
+    width: 100%;
+  }
+  textarea { resize: vertical; line-height: 1.55; }
+  input:focus-visible,
+  textarea:focus-visible { border-color: var(--accent); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.15rem; }
+  .chip { display: block; }
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .chip label {
+    display: block;
+    font-family: var(--f-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-2);
+    border: 1px solid var(--rule);
+    padding: 0.34rem 0.7rem;
+    cursor: pointer;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+  .chip label:hover { color: var(--ink); }
+  .chip input:checked + label {
+    color: var(--ink);
+    border-color: var(--accent);
+    background: var(--panel);
+  }
+  .chip input:focus-visible + label {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+  button {
+    font-family: var(--f-display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--ground);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+  }
+  button:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  button[disabled] { opacity: 0.55; cursor: progress; }
+
+  .status { font-family: var(--f-mono); font-size: 0.76rem; margin: 0; max-width: none; }
+  .status[data-state="ok"] { color: var(--ink); }
+  .status[data-state="error"] { color: var(--ink); }
+
+  .elsewhere { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .elsewhere li { display: flex; gap: 0.9rem; align-items: baseline; flex-wrap: wrap; font-family: var(--f-display); font-size: 0.92rem; }
+  .elsewhere .label { min-width: 5.5rem; }
+</style>

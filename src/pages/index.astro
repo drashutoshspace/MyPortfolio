@@ -1,0 +1,361 @@
+---
+import Base from "~/layouts/Base.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { profile } from "~/data/profile";
+import { themes } from "~/data/research";
+import { published, peerReviewedCount } from "~/data/publications";
+import { fieldwork, appointments } from "~/data/cv";
+
+/**
+ * HERO MEDIA
+ * Set this to a file in /public/media once the field footage is in the repo,
+ * e.g. { src: "/media/hero-jaxa-field.jpg", alt: "...", caption: "..." }.
+ * The direction wants a full-bleed frame here with the name small beneath it.
+ * Until then the hero renders as a typographic plate, which is a deliberate
+ * state rather than a hole: no stock imagery, no gradient standing in for a
+ * photograph that does not exist yet.
+ */
+const heroMedia: { src: string; alt: string; caption: string } | null = null;
+
+const selected = [
+  "moonbot-modular-reconfigurable-robot-moon-base",
+  "multi-modal-decentralized-rl-modular-lunar-robots",
+  "multi-limb-synchronization-motion-stack-hypersphere",
+  "human-in-loop-manipulator-control-uncertain-assembly",
+];
+const featured = selected
+  .map((s) => published.find((p) => p.slug === s))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const post = appointments[0];
+---
+
+<Base
+  title="Home"
+  description={profile.positioning}
+  path="/"
+  type="profile"
+  isProfilePage
+  wide
+>
+  <!-- ── hero ────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    {
+      heroMedia ? (
+        <figure class="plate">
+          <img src={heroMedia.src} alt={heroMedia.alt} width="2400" height="1000" fetchpriority="high" />
+          <figcaption class="shell">{heroMedia.caption}</figcaption>
+        </figure>
+      ) : (
+        <div class="plate typographic">
+          <div class="shell">
+            <p class="thesis">{profile.positioning}</p>
+          </div>
+        </div>
+      )
+    }
+
+    <div class="shell ident">
+      <h1>{profile.name}</h1>
+      <p class="post">
+        {post.role}, {post.detail}<br />
+        <span class="org">{profile.institutionShort}, {profile.city}</span>
+      </p>
+
+      <ul class="quicklinks">
+        <li><a class="link" href={`mailto:${profile.email}`}>{profile.email}</a></li>
+        <li><a class="link" href="/cv/">CV</a></li>
+        <li><a class="link" href={profile.links.scholar} rel="me noopener">Scholar</a></li>
+        <li><a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="shell">
+    <!-- ── bio ───────────────────────────────────────────────────────── -->
+    <section class="section bio">
+      <div class="prose bio-text">
+        {profile.bio.map((para) => <p>{para}</p>)}
+      </div>
+      {/* A real photograph of a real person. Stanford's credibility work puts
+          this above affiliation badges, which ranked last at 3.4%. */}
+      <figure class="portrait">
+        <img
+          src="/media/ashutosh-mishra.png"
+          alt={`${profile.name}, ${profile.role} at ${profile.institutionShort}`}
+          width="558"
+          height="582"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>{profile.city}, {profile.country}</figcaption>
+      </figure>
+    </section>
+
+    <!-- ── research ──────────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Research</h2>
+        <span class="label">three directions</span>
+      </div>
+
+      <ul class="themes">
+        {
+          themes.map((t) => (
+            <li class="theme">
+              <a href={`/research/${t.slug}/`}>
+                <h3>
+                  {t.title}
+                  {t.current && <span class="now" aria-label="Current work" />}
+                </h3>
+                <p class="q">{t.question}</p>
+                <p class="k">{t.kicker}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- ── selected publications ─────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Selected publications</h2>
+        <span class="label">
+          {peerReviewedCount} peer reviewed &middot; <a class="link" href="/publications/">all</a>
+        </span>
+      </div>
+
+      {featured.map((p) => <PublicationEntry pub={p} />)}
+
+      <p class="more">
+        <a class="link" href="/publications/">All publications, including work under review &rarr;</a>
+      </p>
+    </section>
+
+    <!-- ── field record ──────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Field record</h2>
+        <span class="label">hardware, not simulation</span>
+      </div>
+      <p class="prose intro">
+        A policy that works in simulation and fails on hardware has told you about your
+        simulator. These are the campaigns where the work met real terrain.
+      </p>
+
+      <ul class="field">
+        {
+          fieldwork.map((f) => (
+            <li>
+              <div class="site">
+                <span class="label tnum">{f.when}</span>
+                <h3>{f.site}</h3>
+                <p class="place">{f.place}</p>
+              </div>
+              <p class="what">{f.what}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- ── contact ───────────────────────────────────────────────────── -->
+    <section class="section contact-cta">
+      <div class="section-head">
+        <h2>Get in touch</h2>
+      </div>
+      <p class="prose">
+        I read every message. Write to
+        <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>, or
+        <a class="link" href="/contact/">use the form</a> if that is easier.
+        Collaboration enquiries, talk and panel invitations, and questions about
+        the work are all welcome.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  /* ── hero ─────────────────────────────────────────────────────────── */
+
+  .hero { border-bottom: 1px solid var(--rule); }
+
+  .plate {
+    border-bottom: 1px solid var(--rule);
+    background: var(--sunk);
+  }
+  .plate img {
+    width: 100%;
+    height: clamp(280px, 46vh, 520px);
+    object-fit: cover;
+  }
+  .plate figcaption {
+    border-top: 0;
+    margin-top: 0;
+    padding-block: 0.6rem;
+  }
+
+  /* Typographic state, used until the field frame lands. */
+  .typographic {
+    display: flex;
+    align-items: center;
+    min-height: clamp(200px, 30vh, 300px);
+    padding-block: clamp(2rem, 5vw, 3.4rem);
+    background:
+      repeating-linear-gradient(
+        90deg,
+        var(--rule-soft) 0 1px,
+        transparent 1px 96px
+      ),
+      var(--sunk);
+  }
+  /* Without this the shell shrink-wraps as a flex item and the thesis stops
+     aligning with the name below it. */
+  .typographic > .shell { width: 100%; }
+  .thesis {
+    font-family: var(--f-display);
+    font-variation-settings: "wdth" 94;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 2.9vw, 1.85rem);
+    line-height: 1.28;
+    letter-spacing: -0.014em;
+    max-width: 30ch;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .ident { padding-block: clamp(1.4rem, 3vw, 2.1rem); }
+
+  .post {
+    font-family: var(--f-display);
+    font-size: 0.96rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0.55rem 0 0;
+    max-width: none;
+  }
+  .post .org { color: var(--ink-3); }
+
+  .quicklinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.3rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    font-family: var(--f-mono);
+    font-size: 0.78rem;
+  }
+
+  /* ── bio ──────────────────────────────────────────────────────────── */
+
+  .bio {
+    display: grid;
+    gap: 2rem clamp(2rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .bio { grid-template-columns: minmax(0, 1fr) 15rem; }
+  }
+  .bio-text p { font-size: 1.06rem; }
+
+  .portrait { max-width: 15rem; }
+  .portrait img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    background: var(--sunk);
+    filter: grayscale(1) contrast(1.04);
+  }
+  .portrait figcaption { font-size: 0.7rem; }
+
+  /* ── themes ───────────────────────────────────────────────────────── */
+
+  .themes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  @media (min-width: 880px) {
+    .themes { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .theme { background: var(--ground); }
+  .theme a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    height: 100%;
+    padding: 1.25rem 1.3rem 1.45rem;
+    transition: background 120ms ease;
+  }
+  .theme a:hover { background: var(--panel); }
+
+  .theme h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.02rem;
+  }
+  /* Current-position marker: sanctioned accent use #4 of 4. */
+  .now {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+  }
+
+  .theme .q {
+    font-family: var(--f-body);
+    font-size: 0.98rem;
+    line-height: 1.48;
+    margin: 0;
+    max-width: none;
+  }
+  .theme .k {
+    font-family: var(--f-display);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-3);
+    margin: auto 0 0;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--rule);
+    max-width: none;
+  }
+
+  .more { margin-top: 1.3rem; font-family: var(--f-display); font-size: 0.9rem; }
+
+  /* ── field ────────────────────────────────────────────────────────── */
+
+  .intro { margin-bottom: 1.4rem; }
+
+  .field { list-style: none; margin: 0; padding: 0; }
+  .field li {
+    display: grid;
+    gap: 0.4rem 1.6rem;
+    padding-block: 1.15rem;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  @media (min-width: 760px) {
+    .field li { grid-template-columns: 17rem minmax(0, 1fr); }
+  }
+  .field .site { display: flex; flex-direction: column; gap: 0.2rem; }
+  .field h3 { font-size: 0.98rem; }
+  .field .place {
+    font-family: var(--f-display);
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--ink-3);
+    margin: 0;
+    max-width: none;
+  }
+  .field .what { font-size: 0.95rem; color: var(--ink-2); margin: 0; }
+
+  .contact-cta .prose { font-size: 1.02rem; }
+</style>

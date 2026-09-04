@@ -1,0 +1,88 @@
+---
+import Base from "~/layouts/Base.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { themes } from "~/data/research";
+import { getPublication } from "~/data/publications";
+
+export function getStaticPaths() {
+  return themes.map((theme) => ({ params: { slug: theme.slug }, props: { theme } }));
+}
+
+const { theme } = Astro.props;
+const pubs = theme.publications
+  .map((s) => getPublication(s))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+---
+
+<Base
+  title={theme.title}
+  description={theme.kicker}
+  path={`/research/${theme.slug}/`}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Research", path: "/research/" },
+    { name: theme.title, path: `/research/${theme.slug}/` },
+  ]}
+>
+  <article class="section">
+    <p class="label crumb"><a class="link" href="/research/">Research</a></p>
+
+    <h1>{theme.title}</h1>
+    {theme.current && <p class="label now-label"><span class="now" aria-hidden="true" />Current work</p>}
+
+    <h2 class="question">{theme.question}</h2>
+
+    <div class="prose body">
+      {theme.body.map((para) => <p>{para}</p>)}
+    </div>
+
+    {
+      theme.fieldwork && theme.fieldwork.length > 0 && (
+        <section class="fieldbox">
+          <p class="label">Field tested at</p>
+          <ul>
+            {theme.fieldwork.map((f) => <li>{f}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      pubs.length > 0 && (
+        <section class="pubs">
+          <div class="section-head">
+            <h2>Publications in this direction</h2>
+            <span class="label tnum">{pubs.length}</span>
+          </div>
+          {pubs.map((p) => <PublicationEntry pub={p} />)}
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .crumb { margin-bottom: 1.2rem; }
+  .now-label { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.8rem; color: var(--ink-2); }
+  .now { width: 6px; height: 6px; background: var(--accent); flex: none; }
+  .question {
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+    line-height: 1.4;
+    color: var(--ink-2);
+    max-width: 34ch;
+    margin-top: 1.3rem;
+    letter-spacing: 0;
+  }
+  .body { margin-top: 1.6rem; font-size: 1.05rem; }
+  .fieldbox {
+    margin-top: 2.2rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+  }
+  .fieldbox ul { list-style: none; margin: 0.55rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .fieldbox li { font-family: var(--f-display); font-size: 0.9rem; }
+  .pubs { margin-top: 3rem; }
+</style>

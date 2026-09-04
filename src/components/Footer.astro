@@ -1,0 +1,66 @@
+---
+import { profile } from "~/data/profile";
+
+const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+---
+
+<footer class="foot">
+  <div class="shell inner">
+    <div class="col">
+      <p class="who">
+        <strong>{profile.name}</strong><br />
+        {profile.role}, {profile.lab}<br />
+        {profile.institutionShort}, {profile.city}
+      </p>
+      <p class="mail">
+        <a class="link" href={`mailto:${profile.email}`}>{profile.email}</a>
+      </p>
+    </div>
+
+    <nav class="col" aria-label="Elsewhere">
+      <p class="label">Elsewhere</p>
+      <ul>
+        <li><a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar</a></li>
+        <li><a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a></li>
+        <li><a class="link" href={profile.links.linkedin} rel="me noopener">LinkedIn</a></li>
+        <li><a class="link" href={profile.links.github} rel="me noopener">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <div class="col">
+      <p class="label">This site</p>
+      <ul>
+        <li><a class="link" href="/cv/">Curriculum vitae</a></li>
+        <li><a class="link" href={profile.cvPdf}>CV (PDF)</a></li>
+        <li><a class="link" href="/contact/">Contact</a></li>
+      </ul>
+      <p class="stamp label">Last reviewed {built}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--rule);
+    margin-top: clamp(3rem, 8vw, 6rem);
+    padding-block: clamp(2rem, 4vw, 3rem) 3rem;
+    background: var(--panel);
+  }
+
+  .inner {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    align-items: start;
+  }
+
+  .col { display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .who { font-size: 0.9rem; line-height: 1.55; margin: 0; }
+  .mail { margin: 0; font-family: var(--f-mono); font-size: 0.8rem; }
+
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  li { font-family: var(--f-display); font-size: 0.88rem; }
+
+  .stamp { margin-top: 0.6rem; }
+</style>
