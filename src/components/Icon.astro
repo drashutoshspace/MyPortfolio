@@ -1,0 +1,57 @@
+---
+/**
+ * Brand and UI marks, inlined at build time.
+ *
+ * Brand logos come from simple-icons, which carries the official paths.
+ * LinkedIn is the exception: simple-icons removed it at the brand's request,
+ * so it comes from Tabler's filled set, which matches the solid-fill weight of
+ * the others. UI marks (mail, download) also use Tabler filled, so everything
+ * on the page is solid rather than a mix of solid logos and outline strokes.
+ */
+import * as si from "simple-icons";
+import { readFileSync } from "node:fs";
+
+interface Props {
+  name: "email" | "cv" | "scholar" | "orcid" | "linkedin" | "github";
+  size?: number;
+}
+const { name, size = 17 } = Astro.props;
+
+const SIMPLE: Partial<Record<Props["name"], string>> = {
+  scholar: "siGooglescholar",
+  orcid: "siOrcid",
+  github: "siGithub",
+};
+
+const TABLER: Partial<Record<Props["name"], string>> = {
+  linkedin: "brand-linkedin",
+  email: "mail",
+  cv: "file-text",
+};
+
+let path = "";
+const key = SIMPLE[name];
+if (key) {
+  path = (si as Record<string, { path: string }>)[key].path;
+} else {
+  const file = readFileSync(
+    `node_modules/@tabler/icons/icons/filled/${TABLER[name]}.svg`,
+    "utf8",
+  );
+  // Tabler ships a transparent 24x24 bounding path first; drop it.
+  path = [...file.matchAll(/<path[^>]*\sd="([^"]+)"/g)]
+    .map((m) => m[1])
+    .filter((d) => !d.startsWith("M0 0h24v24H0z"))
+    .join(" ");
+}
+---
+
+<svg
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+  set:html={`<path d="${path}"/>`}
+/>

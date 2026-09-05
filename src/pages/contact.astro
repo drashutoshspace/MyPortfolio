@@ -1,6 +1,7 @@
 ---
 import Base from "~/layouts/Base.astro";
 import Email from "~/components/Email.astro";
+import Icon from "~/components/Icon.astro";
 import { profile } from "~/data/profile";
 
 /**
@@ -119,9 +120,10 @@ const intents = [
       <h2>Elsewhere</h2>
     </div>
     <ul class="elsewhere">
-      <li><span class="key">Scholar</span> <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar profile</a></li>
-      <li><span class="key">ORCID</span> <a class="link" href={profile.links.orcid} rel="me noopener">0000-0002-8595-9995</a></li>
-      <li><span class="key">LinkedIn</span> <a class="link" href={profile.links.linkedin} rel="me noopener">drashutoshspace</a></li>
+      <li><a class="ico" href={profile.links.scholar} rel="me noopener"><Icon name="scholar" size={18} /><span><strong>Google Scholar</strong><span class="sub">Publications and citations</span></span></a></li>
+      <li><a class="ico" href={profile.links.orcid} rel="me noopener"><Icon name="orcid" size={18} /><span><strong>ORCID</strong><span class="sub">0000-0002-8595-9995</span></span></a></li>
+      <li><a class="ico" href={profile.links.linkedin} rel="me noopener"><Icon name="linkedin" size={18} /><span><strong>LinkedIn</strong><span class="sub">drashutoshspace</span></span></a></li>
+      <li><a class="ico" href={profile.links.github} rel="me noopener"><Icon name="github" size={18} /><span><strong>GitHub</strong><span class="sub">drashutoshspace</span></span></a></li>
     </ul>
   </section>
 </Base>
@@ -266,6 +268,21 @@ const intents = [
   .status[data-state="error"] { color: var(--ink); }
 
   .elsewhere { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-  .elsewhere li { display: flex; gap: 0.9rem; align-items: baseline; flex-wrap: wrap; font-family: var(--sans); font-size: 0.92rem; }
-  .elsewhere .key { min-width: 5.5rem; }
+  .elsewhere li { font-size: 0.92rem; }
+  .ico {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 160ms ease;
+    min-width: 15rem;
+  }
+  .ico:hover { border-color: var(--accent); }
+  .ico svg { flex: none; color: var(--accent); }
+  .ico strong { display: block; font-weight: 600; }
+  .ico .sub { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-3); margin-top: 0.1rem; }
 </style>

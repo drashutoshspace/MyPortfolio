@@ -8,7 +8,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://drmishra.space",
   output: "static",
-  adapter: vercel({ webAnalytics: { enabled: false } }),
+  adapter: vercel(),
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
   build: { inlineStylesheets: "auto" },

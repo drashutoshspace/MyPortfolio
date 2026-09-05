@@ -76,5 +76,13 @@ const { wide = false, ...seo } = Astro.props;
       }
     </main>
     <Footer />
+    {/* Vercel Web Analytics. Cookieless and no visitor identifiers, so it needs
+        no consent banner under GDPR, which matters for an EU-hosted site. It
+        reports page views, referrers and countries in aggregate. It cannot and
+        will not tell you which individual visited: that would need cookies or
+        fingerprinting, and consent. Served from the site's own origin, so no
+        third-party request. Requires Web Analytics to be switched on for the
+        project in the Vercel dashboard. */}
+    <script defer src="/_vercel/insights/script.js" is:inline></script>
   </body>
 </html>

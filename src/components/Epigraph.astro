@@ -1,0 +1,61 @@
+---
+/**
+ * Bhagavad Gita 2.47, set as a closing epigraph rather than a section
+ * subtitle: a shloka under a "Selected projects" heading would read as a
+ * non-sequitur, but standing alone at the foot of the page it reads as a
+ * signature. Devanagari with transliteration and a plain translation, so it
+ * is legible to readers of all three.
+ */
+---
+
+<aside class="epigraph" aria-label="Personal epigraph">
+  <p class="deva" lang="sa">कर्मण्येवाधिकारस्ते मा फलेषु कदाचन</p>
+  <p class="translit" lang="sa-Latn">karmaṇy-evādhikāras te mā phaleṣu kadācana</p>
+  <p class="gloss">
+    To the work alone you have a right, never to its fruits.
+    <span class="src">Bhagavad Gita 2.47</span>
+  </p>
+</aside>
+
+<style>
+  .epigraph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    text-align: center;
+    padding-block: clamp(2.2rem, 5vw, 3.4rem);
+    border-top: 1px solid var(--rule);
+  }
+
+  .deva {
+    font-family: "Noto Serif Devanagari", var(--serif);
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    line-height: 1.75;
+    color: var(--ink);
+    margin: 0;
+    max-width: none;
+  }
+
+  .translit {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: none;
+  }
+
+  .gloss {
+    font-size: 0.86rem;
+    color: var(--ink-3);
+    margin: 0.3rem 0 0;
+    max-width: 46ch;
+  }
+  .gloss .src {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    margin-top: 0.4rem;
+  }
+</style>
