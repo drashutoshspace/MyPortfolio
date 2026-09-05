@@ -8,7 +8,10 @@
  * be written for its own sake; and the list is seeded from the CV so it is
  * never thin.
  *
- * Every entry below is a fact from the CV. Nothing is invented.
+ * Every entry is drawn from the CV. Where the CV gives only a year, the entry
+ * carries monthUnconfirmed and renders without a month, because writing a
+ * plausible month would be invented precision on a dated record. Seven entries
+ * are in that state and are waiting on the real dates.
  */
 
 export type NewsKind = "appointment" | "paper" | "award" | "talk" | "field" | "programme";
@@ -21,6 +24,10 @@ export interface NewsItem {
   detail?: string;
   /** Internal or external link, when there is somewhere real to go. */
   href?: string;
+  /** True where only the year is on record and the month is not yet confirmed.
+   *  These render as the year alone rather than showing a month nobody
+   *  verified. Clear the flag once the real date is supplied. */
+  monthUnconfirmed?: boolean;
 }
 
 export const kindLabel: Record<NewsKind, string> = {
@@ -67,6 +74,7 @@ export const news: NewsItem[] = [
     date: "2025-10",
     kind: "paper",
     title: "MoonBot published in IEEE Transactions on Field Robotics",
+    monthUnconfirmed: true,
     detail: "The full modular platform for lunar base construction, with equal authorship.",
     href: "/publications/moonbot-modular-reconfigurable-robot-moon-base/",
   },
@@ -74,23 +82,27 @@ export const news: NewsItem[] = [
     date: "2025-10",
     kind: "talk",
     title: "Invited panelist at the IAF Next Generation Plenary, IAC 2025, Sydney",
+    monthUnconfirmed: true,
   },
   {
     date: "2025-10",
     kind: "award",
     title: "Recognised as an IAF Emerging Space Leader",
+    monthUnconfirmed: true,
     detail: "Awarded by the International Astronautical Federation, with a grant for IAC 2025.",
   },
   {
     date: "2025-10",
     kind: "paper",
     title: "Motion Stack limb synchronization presented at IEEE/RSJ IROS 2025",
+    monthUnconfirmed: true,
     href: "/publications/multi-limb-synchronization-motion-stack-hypersphere/",
   },
   {
     date: "2025-08",
     kind: "paper",
     title: "Human-in-the-loop manipulator control presented at IEEE CASE 2025",
+    monthUnconfirmed: true,
     href: "/publications/human-in-loop-manipulator-control-uncertain-assembly/",
   },
   {
@@ -126,6 +138,7 @@ export const news: NewsItem[] = [
     date: "2024-06",
     kind: "award",
     title: "Received the I-CON Award from the Indian Society of Remote Sensing and ISRO",
+    monthUnconfirmed: true,
     detail:
       "For an AI-enabled satellite-based air pollution monitoring and alert system, developed with NRSC-ISRO scientists.",
   },
@@ -133,6 +146,7 @@ export const news: NewsItem[] = [
     date: "2024-05",
     kind: "award",
     title: "Awarded a Tohoku University Dispatch Program Grant of EUR 20,000",
+    monthUnconfirmed: true,
     detail: "To attend the International Space University Space Studies Program 2024.",
   },
   {

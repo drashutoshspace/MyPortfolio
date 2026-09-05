@@ -4,7 +4,10 @@ import { newsByYear, kindLabel } from "~/data/news";
 import { profile } from "~/data/profile";
 
 const years = newsByYear();
-const fmt = (d: string) => {
+/* Entries whose month is not on record show nothing rather than a month
+   nobody verified. The year heading already places them. */
+const fmt = (d: string, unconfirmed?: boolean) => {
+  if (unconfirmed) return "";
   const [y, m] = d.split("-");
   return new Date(Number(y), Number(m) - 1).toLocaleDateString("en-GB", { month: "short" });
 };
@@ -32,7 +35,7 @@ const fmt = (d: string) => {
             {items.map((n) => (
               <li>
                 <div class="meta">
-                  <span class="key tnum">{fmt(n.date)}</span>
+                  {fmt(n.date, n.monthUnconfirmed) && <span class="key tnum">{fmt(n.date, n.monthUnconfirmed)}</span>}
                   <span class="key kind">{kindLabel[n.kind]}</span>
                 </div>
                 <div class="body">
