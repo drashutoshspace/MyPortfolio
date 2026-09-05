@@ -3,7 +3,6 @@ import "~/styles/global.css";
 import SEO from "~/components/SEO.astro";
 import Nav from "~/components/Nav.astro";
 import Footer from "~/components/Footer.astro";
-import Epigraph from "~/components/Epigraph.astro";
 
 interface Props {
   title: string;
@@ -65,7 +64,6 @@ const { wide = false, ...seo } = Astro.props;
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <Nav />
-    <Epigraph />
     <main id="main">
       {
         wide ? (
