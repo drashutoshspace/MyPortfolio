@@ -17,7 +17,7 @@ const bib = bibtex(pub);
   <div class="block">
     <div class="head">
       <span class="key">IEEE</span>
-      <button class="copy" type="button" data-copy="ieee" aria-label="Copy the IEEE reference">Copy</button>
+      <button class="copy" type="button" data-copy="ieee" aria-label="Copy the IEEE reference" aria-live="polite">Copy</button>
     </div>
     <p class="ref" id="ref-ieee">{reference}</p>
   </div>
@@ -25,7 +25,7 @@ const bib = bibtex(pub);
   <div class="block">
     <div class="head">
       <span class="key">BibTeX</span>
-      <button class="copy" type="button" data-copy="bibtex" aria-label="Copy the BibTeX entry">Copy</button>
+      <button class="copy" type="button" data-copy="bibtex" aria-label="Copy the BibTeX entry" aria-live="polite">Copy</button>
     </div>
     <pre class="bib" id="ref-bibtex"><code>{bib}</code></pre>
   </div>
@@ -54,7 +54,7 @@ const bib = bibtex(pub);
   .copy {
     margin-left: auto;
     font-family: var(--sans);
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     font-weight: 600;
     color: var(--accent);
     background: transparent;
@@ -70,7 +70,7 @@ const bib = bibtex(pub);
   .ref {
     margin: 0;
     padding: 0.9rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     color: var(--ink-2);
     max-width: none;
@@ -81,7 +81,7 @@ const bib = bibtex(pub);
     padding: 0.9rem;
     overflow-x: auto;
     font-family: var(--mono);
-    font-size: 0.76rem;
+    font-size: 0.82rem;
     line-height: 1.65;
     color: var(--ink-2);
   }

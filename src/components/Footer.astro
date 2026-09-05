@@ -3,7 +3,7 @@ import { profile } from "~/data/profile";
 import Email from "~/components/Email.astro";
 import Icon from "~/components/Icon.astro";
 
-const reviewed = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+const updated = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" }).format(new Date());
 ---
 
 <footer class="foot">
@@ -36,7 +36,7 @@ const reviewed = new Date().toLocaleDateString("en-GB", { month: "long", year: "
         <li><a class="link" href="/news/">News</a></li>
         <li><a class="link" href="/cv/">Curriculum vitae</a></li>
       </ul>
-      <p class="key stamp">Last reviewed {reviewed}</p>
+      <p class="key stamp">Updated {updated}</p>
     </div>
   </div>
 </footer>
@@ -55,10 +55,10 @@ const reviewed = new Date().toLocaleDateString("en-GB", { month: "long", year: "
     align-items: start;
   }
   .col { display: flex; flex-direction: column; gap: 0.6rem; }
-  .who { font-size: 0.9rem; line-height: 1.55; margin: 0; color: var(--ink-2); }
-  .mail { margin: 0; font-family: var(--mono); font-size: 0.8rem; }
+  .who { font-size: 0.94rem; line-height: 1.55; margin: 0; color: var(--ink-2); }
+  .mail { margin: 0; font-family: var(--mono); font-size: 0.88rem; }
   ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
-  li { font-size: 0.9rem; }
+  li { font-size: 0.94rem; }
   .ico {
     display: inline-flex;
     align-items: center;

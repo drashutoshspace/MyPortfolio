@@ -16,6 +16,10 @@ interface Props {
   eager?: boolean;
 }
 const { caption, src, alt, ratio = "4 / 3", eager = false } = Astro.props;
+// Intrinsic dimensions from the ratio, so the img reserves its box even before
+// the container's aspect-ratio applies. 1600 wide is a sane upper bound.
+const [rw, rh] = ratio.split("/").map((n) => Number(n.trim()));
+const w = 1600, h = Math.round((1600 * rh) / rw);
 ---
 
 <figure>
@@ -25,6 +29,8 @@ const { caption, src, alt, ratio = "4 / 3", eager = false } = Astro.props;
         <img
           src={src}
           alt={alt ?? caption}
+          width={w}
+          height={h}
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           fetchpriority={eager ? "high" : undefined}

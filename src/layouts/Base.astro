@@ -42,12 +42,11 @@ const { wide = false, ...seo } = Astro.props;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="alternate" type="application/rss+xml" href="/sitemap-index.xml" />
-    {/* Follows the reader's system setting. No toggle: it would be the only
-        client JavaScript on the site, and the one component able to break
-        rendering for everyone. */}
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f1317" media="(prefers-color-scheme: dark)" />
+    {/* Light is the default regardless of system setting, so a single
+        theme-color is correct; the toggle script updates it when dark is
+        chosen. Two media-gated values would paint the browser chrome dark for
+        a dark-system visitor looking at a light page. */}
+    <meta name="theme-color" content="#ffffff" />
     <SEO {...seo} />
     {/* The site's only blocking script, ~200 bytes. It applies a stored theme
         choice before first paint; without it a visitor who chose dark would
@@ -56,7 +55,11 @@ const { wide = false, ...seo } = Astro.props;
     <script is:inline>
       try {
         var t = localStorage.getItem("theme");
-        if (t === "dark" || t === "auto") document.documentElement.dataset.theme = t;
+        if (t === "dark" || t === "auto") {
+          document.documentElement.dataset.theme = t;
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m && t === "dark") m.setAttribute("content", "#0f1317");
+        }
       } catch (e) {}
     </script>
   </head>

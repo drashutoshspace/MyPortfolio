@@ -17,7 +17,7 @@ const { items, label } = Astro.props;
         <figure>
           <div class:list={["plate", { "plate--pending": !t.src }]} style="aspect-ratio: 4 / 3">
             {t.src ? (
-              <img src={t.src} alt={t.caption} loading="lazy" decoding="async" />
+              <img src={t.src} alt={t.caption} width="1200" height="900" loading="lazy" decoding="async" />
             ) : (
               <p class="plate__note">Photograph to place</p>
             )}

@@ -158,6 +158,16 @@ body {
 }
 :focus:not(:focus-visible) { outline: none; }
 
+/* Removes the 300ms double-tap-to-zoom delay on touch without disabling zoom,
+   and replaces the grey tap flash with the focus ring the site already has. */
+a, button, input, textarea, label, summary {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Anchored headings clear the masthead when jumped to. */
+h1, h2, h3, h4, [id] { scroll-margin-top: 4.5rem; }
+
 .skip {
   position: absolute;
   border-radius: var(--r-md);
@@ -211,7 +221,7 @@ code, .mono { font-family: var(--mono); font-size: 0.855em; }
 /* Sentence-case key label. Deliberately NOT an all-caps tracked eyebrow. */
 .key {
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--ink-3);
   letter-spacing: 0.01em;
 }
@@ -245,7 +255,7 @@ code, .mono { font-family: var(--mono); font-size: 0.855em; }
   color: var(--ink-3);
   max-width: 42ch;
 }
-.section-head > .key { font-size: 0.72rem; }
+.section-head > .key { font-size: 0.8rem; }
 
 .rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
@@ -290,14 +300,14 @@ figure { margin: 0; }
 
 .plate__note {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--plate-ink);
   padding: 1rem;
   text-align: center;
 }
 
 figcaption {
-  font-size: 0.83rem;
+  font-size: 0.88rem;
   line-height: 1.5;
   color: var(--ink-3);
   margin-top: 0.55rem;
@@ -327,7 +337,7 @@ img, video { display: block; max-width: 100%; height: auto; }
 @media (min-width: 560px) {
   .facts > div { grid-template-columns: 7.5rem minmax(0, 1fr); }
 }
-.facts dt { color: var(--ink-3); font-family: var(--mono); font-size: 0.72rem; padding-top: 0.15rem; }
+.facts dt { color: var(--ink-3); font-family: var(--mono); font-size: 0.8rem; padding-top: 0.15rem; }
 .facts dd { margin: 0; font-size: 0.94rem; line-height: 1.5; }
 
 /* --------------------------------------------------------------------------
@@ -365,12 +375,12 @@ img, video { display: block; max-width: 100%; height: auto; }
   color: var(--chip-ink);
 }
 
-.btn__sub { font-family: var(--mono); font-size: 0.68rem; font-weight: 400; opacity: 0.75; }
+.btn__sub { font-family: var(--mono); font-size: 0.8rem; font-weight: 400; opacity: 0.75; }
 
 /* Award marker. Sentence case, not a tracked-out eyebrow. */
 .badge {
   display: inline-block;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--accent);
   background: var(--accent-soft);
@@ -511,7 +521,7 @@ a:hover .plate img { transform: scale(1.03); }
 }
 .gallery .g-where {
   display: block;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--ink-3);
   margin-top: 0.15rem;
 }

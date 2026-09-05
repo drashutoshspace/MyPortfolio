@@ -80,6 +80,7 @@ const isActive = (href: string) => here === href || here.startsWith(href);
        WCAG 2.2 AA minimum of 24px. */
     padding-block: 0.35rem;
   }
+  .wordmark:hover { color: var(--accent); }
 
   nav { margin-left: auto; order: 2; }
 
@@ -149,6 +150,9 @@ const isActive = (href: string) => here === href || here.startsWith(href);
     const dark = root.dataset.theme === "dark";
     if (dark) delete root.dataset.theme;
     else root.dataset.theme = "dark";
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", dark ? "#ffffff" : "#0f1317");
     try {
       localStorage.setItem("theme", dark ? "light" : "dark");
     } catch (e) {}
