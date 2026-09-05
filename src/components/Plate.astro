@@ -13,10 +13,9 @@ interface Props {
   alt?: string;
   /** CSS aspect-ratio, e.g. "4 / 3". */
   ratio?: string;
-  fig?: number;
   eager?: boolean;
 }
-const { caption, src, alt, ratio = "4 / 3", fig, eager = false } = Astro.props;
+const { caption, src, alt, ratio = "4 / 3", eager = false } = Astro.props;
 ---
 
 <figure>
@@ -35,7 +34,5 @@ const { caption, src, alt, ratio = "4 / 3", fig, eager = false } = Astro.props;
       )
     }
   </div>
-  <figcaption>
-    {fig && <span class="fig">Fig. {fig}.</span>}{fig ? " " : ""}{caption}
-  </figcaption>
+  <figcaption>{caption}</figcaption>
 </figure>

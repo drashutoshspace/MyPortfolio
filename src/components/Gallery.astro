@@ -1,0 +1,33 @@
+---
+import type { Talk } from "~/data/talks";
+
+interface Props {
+  items: Talk[];
+  label: string;
+}
+const { items, label } = Astro.props;
+---
+
+{/* A real list, so a screen reader announces how many items there are and the
+    strip is navigable by keyboard once focus enters it. */}
+<ul class="gallery" role="list" aria-label={label} tabindex="0">
+  {
+    items.map((t) => (
+      <li>
+        <figure>
+          <div class:list={["plate", { "plate--pending": !t.src }]} style="aspect-ratio: 4 / 3">
+            {t.src ? (
+              <img src={t.src} alt={t.caption} loading="lazy" decoding="async" />
+            ) : (
+              <p class="plate__note">Photograph to place</p>
+            )}
+          </div>
+          <figcaption>
+            <span class="g-title">{t.title}</span>
+            <span class="g-where">{t.where}, {t.year}</span>
+          </figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</ul>

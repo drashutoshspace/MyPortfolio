@@ -7,6 +7,8 @@ import { profile } from "~/data/profile";
 import { themes } from "~/data/research";
 import { spaceProjects } from "~/data/projects";
 import { peerReviewedCount, getPublication } from "~/data/publications";
+import Gallery from "~/components/Gallery.astro";
+import { talks } from "~/data/talks";
 
 const featured = [
   "moonbot-modular-reconfigurable-robot-moon-base",
@@ -99,7 +101,7 @@ const recentProjects = spaceProjects.slice(0, 4);
 
   <section class="section plates no-print">
     <div class="plate-row">
-      {openingPlates.map((p, i) => <Plate caption={p.caption} ratio={p.ratio} fig={i + 1} />)}
+      {openingPlates.map((p, i) => <Plate caption={p.caption} ratio={p.ratio} />)}
     </div>
   </section>
 
@@ -124,6 +126,14 @@ const recentProjects = spaceProjects.slice(0, 4);
         ))
       }
     </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Speaking and outreach</h2>
+      <p class="aside">Conferences, panels and recognition. Scroll or swipe for more.</p>
+    </div>
+    <Gallery items={talks} label="Speaking, panels and recognition" />
   </section>
 
   <section class="section">
