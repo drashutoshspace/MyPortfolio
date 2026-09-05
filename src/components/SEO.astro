@@ -33,6 +33,16 @@ interface Props {
   breadcrumbs?: { name: string; path: string }[];
   /** Set on the homepage only, so the Person node is the primary entity there. */
   isProfilePage?: boolean;
+  /** Project pages emit a CreativeWork so the system is a named entity in its
+   *  own right, not just a paragraph on a person's site. */
+  creativeWork?: {
+    name: string;
+    description: string;
+    from: string;
+    to: string;
+    keywords: string[];
+    location?: string;
+  };
 }
 
 const {
@@ -44,13 +54,14 @@ const {
   citation,
   breadcrumbs,
   isProfilePage = false,
+  creativeWork,
 } = Astro.props;
 
 const site = profile.site;
 const canonical = new URL(path, site).href;
 const ogImage = new URL(image, site).href;
 const fullTitle =
-  path === "/" ? `${profile.name} — ${profile.role}, ${profile.lab}` : `${title} — ${profile.name}`;
+  path === "/" ? `${profile.name}, ${profile.role}, ${profile.lab}` : `${title} | ${profile.name}`;
 
 const person = {
   "@type": "Person",
@@ -102,7 +113,7 @@ const website = {
   "@type": "WebSite",
   "@id": `${site}/#website`,
   url: site,
-  name: `${profile.name} — ${profile.role}`,
+  name: `${profile.name}, ${profile.role}`,
   inLanguage: "en",
   publisher: { "@id": `${site}/#person` },
 };
@@ -138,6 +149,25 @@ if (citation) {
       : {}),
     url: canonical,
     abstract: description,
+  });
+}
+
+if (creativeWork) {
+  graph.push({
+    "@type": "CreativeWork",
+    "@id": `${canonical}#work`,
+    name: creativeWork.name,
+    description: creativeWork.description,
+    url: canonical,
+    creator: { "@id": `${site}/#person` },
+    author: { "@id": `${site}/#person` },
+    keywords: creativeWork.keywords.join(", "),
+    dateCreated: creativeWork.from,
+    ...(creativeWork.to !== "Present" ? { temporalCoverage: `${creativeWork.from}/${creativeWork.to}` } : {}),
+    ...(creativeWork.location
+      ? { locationCreated: { "@type": "Place", name: creativeWork.location } }
+      : {}),
+    isPartOf: { "@id": `${site}/#website` },
   });
 }
 

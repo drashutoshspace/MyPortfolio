@@ -19,6 +19,14 @@ interface Props {
   };
   breadcrumbs?: { name: string; path: string }[];
   isProfilePage?: boolean;
+  creativeWork?: {
+    name: string;
+    description: string;
+    from: string;
+    to: string;
+    keywords: string[];
+    location?: string;
+  };
   /** The homepage runs its hero full-bleed under the bar. */
   wide?: boolean;
 }
@@ -36,8 +44,8 @@ const { wide = false, ...seo } = Astro.props;
     {/* Follows the reader's system setting. No toggle: it would be the only
         client JavaScript on the site, and the one component able to break
         rendering for everyone. */}
-    <meta name="theme-color" content="#edeeec" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#101214" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1317" media="(prefers-color-scheme: dark)" />
     <SEO {...seo} />
   </head>
 

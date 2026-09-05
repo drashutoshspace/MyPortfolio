@@ -1,0 +1,142 @@
+---
+import Base from "~/layouts/Base.astro";
+import Plate from "~/components/Plate.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { projects } from "~/data/projects";
+import { getPublication } from "~/data/publications";
+import { getTheme } from "~/data/research";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+
+const pubs = (project.publications ?? [])
+  .map(getPublication)
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+const relatedThemes = (project.themes ?? [])
+  .map(getTheme)
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
+
+const fmt = (v: string) => {
+  if (v === "Present") return "Present";
+  const [y, m] = v.split("-");
+  if (!m) return y;
+  return new Date(Number(y), Number(m) - 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+};
+---
+
+<Base
+  title={project.title}
+  description={project.kicker}
+  path={`/projects/${project.slug}/`}
+  type="article"
+  creativeWork={{
+    name: project.title,
+    description: project.kicker,
+    from: project.from,
+    to: project.to,
+    keywords: project.stack,
+    location: project.site,
+  }}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects/" },
+    { name: project.title, path: `/projects/${project.slug}/` },
+  ]}
+>
+  <article>
+    <header class="section head">
+      <p class="crumb no-print"><a class="link" href="/projects/">Projects</a></p>
+      <h1>{project.title}</h1>
+      <p class="kick">{project.kicker}</p>
+
+      <dl class="facts">
+        <div>
+          <dt>Dates</dt>
+          <dd>{fmt(project.from)} to {fmt(project.to)}</dd>
+        </div>
+        {project.site && (
+          <div>
+            <dt>Field site</dt>
+            <dd>{project.site}</dd>
+          </div>
+        )}
+        {project.context && (
+          <div>
+            <dt>Context</dt>
+            <dd>{project.context}</dd>
+          </div>
+        )}
+        <div>
+          <dt>Stack</dt>
+          <dd>{project.stack.join(", ")}</dd>
+        </div>
+      </dl>
+    </header>
+
+    {
+      project.image && (
+        <section class="section no-print">
+          <Plate caption={project.image.caption} src={project.image.src} ratio="16 / 9" fig={1} />
+        </section>
+      )
+    }
+
+    <section class="section">
+      <div class="prose body">
+        {project.body.map((para) => <p>{para}</p>)}
+      </div>
+
+      {
+        project.links && project.links.length > 0 && (
+          <p class="links">
+            {project.links.map((l) => (
+              <a class="btn" href={l.href} rel="noopener">{l.label}</a>
+            ))}
+          </p>
+        )
+      }
+    </section>
+
+    {
+      pubs.length > 0 && (
+        <section class="section">
+          <div class="section-head">
+            <h2>Publications from this work</h2>
+          </div>
+          {pubs.map((p) => <PublicationEntry pub={p} compact />)}
+        </section>
+      )
+    }
+
+    {
+      relatedThemes.length > 0 && (
+        <section class="section">
+          <div class="section-head"><h2>Research direction</h2></div>
+          <ul class="rel">
+            {relatedThemes.map((t) => (
+              <li>
+                <h3><a class="head-link" href={`/research/${t.slug}/`}>{t.title}</a></h3>
+                <p class="relk">{t.kicker}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .crumb { margin-bottom: 1rem; font-size: 0.9rem; }
+  .kick { font-size: 1.1rem; line-height: 1.5; color: var(--ink-2); margin: 0.9rem 0 1.6rem; max-width: 60ch; }
+  .body { font-size: 1.03rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.5rem 0 0; max-width: none; }
+  .rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .relk { font-size: 0.93rem; color: var(--ink-2); margin: 0.3rem 0 0; }
+</style>

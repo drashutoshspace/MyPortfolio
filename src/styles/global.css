@@ -1,138 +1,145 @@
 @import "tailwindcss";
 
-/* Self-hosted. No Google Fonts CDN request, which keeps an EU-hosted site
-   clear of the Google-Fonts-as-personal-data problem entirely. */
-@import "@fontsource-variable/archivo/wdth.css";
+/* Self-hosted. No Google Fonts CDN request, which also keeps an EU-hosted
+   site clear of the Google-Fonts-as-personal-data question.
+
+   Source Sans 3 + Source Serif 4 are a designed superfamily: the serif carries
+   the name and section headings (justified here because this is a genuine
+   publication brief), the sans carries everything read at length, and IBM Plex
+   Mono is restricted to real metadata (venues, DOIs, figure numbers, labels).
+   Deliberately not Inter, which is the default-reach tell. */
+@import "@fontsource-variable/source-sans-3/index.css";
 @import "@fontsource-variable/source-serif-4/index.css";
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 
 /* ==========================================================================
-   INSTRUMENT DECK
-   Made of space materials rather than depicting space. Regolith grey,
-   hard-edged shadow, no glow, no haze: there is no atmosphere on the Moon
-   and the light there is directional and brutal.
-
-   One accent, appearing in exactly four places -- active nav, link underline,
-   focus ring, current-position marker. Nowhere else, ever.
+   ACADEMIC CLASSIC
+   The form a search committee already knows how to read, executed properly.
+   White ground, one deep engineering blue, real figure plates with captions.
+   Light is the default: dark exists only inside the media query below.
    ========================================================================== */
 
 :root {
-  /* surfaces */
-  --ground:     #edeeec;
-  --panel:      #f6f7f5;
-  --sunk:       #e3e5e1;
+  --bg:           #ffffff;
+  --bg-alt:       #f5f8fb;
+  --plate:        #edf1f5;
+  --plate-line:   #d4dbe3;
+  --plate-tick:   #b3bfcb;
+  --plate-ink:    #5e6a77;
 
-  /* ink */
-  --ink:        #141618;
-  --ink-2:      #4a4f52;
-  --ink-3:      #767b7d;
+  --ink:          #12161b;
+  --ink-2:        #39414c;
+  --ink-3:        #5b6572;
 
-  /* structure */
-  --rule:       #cfd2cd;
-  --rule-soft:  #dfe1dd;
+  --rule:         #e4e8ed;
+  --rule-strong:  #c9d1d9;
 
-  /* accent: MLI thermal-blanket gold.
-     --accent is for marks and rules; --accent-ink is the text-safe variant
-     (5.7:1 on --ground, where --accent alone measures only 3.0:1). */
-  --accent:     #c9761a;
-  --accent-ink: #8a4d0e;
+  --accent:       #12468f;
+  --accent-hover: #0c3268;
+  --accent-soft:  #e8f0fa;
+  --accent-line:  #bed3ee;
 
-  --selection:  #f3d9b3;
+  --chip-bg:      #12468f;
+  --chip-ink:     #ffffff;
 
-  /* type */
-  --f-display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --f-body:    "Source Serif 4 Variable", "Source Serif 4", Georgia, "Times New Roman", serif;
-  --f-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow:       0 1px 2px rgb(18 22 27 / 0.05);
 
-  /* measure and rhythm */
-  --measure:   66ch;
-  --gutter:    clamp(1.15rem, 4vw, 3.5rem);
-  --shell:     1180px;
+  --sans:  "Source Sans 3 Variable", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Source Serif 4 Variable", "Source Serif 4", "Iowan Old Style", Charter, Georgia, "Times New Roman", serif;
+  --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --shell:   1080px;
+  --measure: 68ch;
+  --gutter:  clamp(1.15rem, 4vw, 2.5rem);
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground:     #101214;
-    --panel:      #171a1c;
-    --sunk:       #0b0d0e;
-    --ink:        #e8e9e6;
-    --ink-2:      #a8adae;
-    --ink-3:      #7a8081;
-    --rule:       #2c3033;
-    --rule-soft:  #222628;
-    --accent:     #e39a45;
-    --accent-ink: #f0b268;
-    --selection:  #4a3418;
+    --bg:           #0f1317;
+    --bg-alt:       #141a21;
+    --plate:        #1a222b;
+    --plate-line:   #2c3641;
+    --plate-tick:   #48545f;
+    --plate-ink:    #8a96a2;
+    --ink:          #eaeef2;
+    --ink-2:        #c3cbd4;
+    --ink-3:        #98a3ae;
+    --rule:         #232b34;
+    --rule-strong:  #333d48;
+    --accent:       #8cbaf5;
+    --accent-hover: #b4d2fa;
+    --accent-soft:  #18232f;
+    --accent-line:  #2e4257;
+    --chip-bg:      #8cbaf5;
+    --chip-ink:     #0f1317;
+    --shadow:       0 1px 2px rgb(0 0 0 / 0.4);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --ground:     #101214;
-  --panel:      #171a1c;
-  --sunk:       #0b0d0e;
-  --ink:        #e8e9e6;
-  --ink-2:      #a8adae;
-  --ink-3:      #7a8081;
-  --rule:       #2c3033;
-  --rule-soft:  #222628;
-  --accent:     #e39a45;
-  --accent-ink: #f0b268;
-  --selection:  #4a3418;
+  --bg:           #0f1317;
+  --bg-alt:       #141a21;
+  --plate:        #1a222b;
+  --plate-line:   #2c3641;
+  --plate-tick:   #48545f;
+  --plate-ink:    #8a96a2;
+  --ink:          #eaeef2;
+  --ink-2:        #c3cbd4;
+  --ink-3:        #98a3ae;
+  --rule:         #232b34;
+  --rule-strong:  #333d48;
+  --accent:       #8cbaf5;
+  --accent-hover: #b4d2fa;
+  --accent-soft:  #18232f;
+  --accent-line:  #2e4257;
+  --chip-bg:      #8cbaf5;
+  --chip-ink:     #0f1317;
+  --shadow:       0 1px 2px rgb(0 0 0 / 0.4);
   color-scheme: dark;
 }
 
-/* --------------------------------------------------------------------------
-   base
-   -------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
+html { -webkit-text-size-adjust: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
   margin: 0;
-  background: var(--ground);
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--f-body);
+  font-family: var(--sans);
   font-size: 17px;
   line-height: 1.62;
-  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-::selection { background: var(--selection); color: var(--ink); }
+::selection { background: var(--accent-soft); color: var(--ink); }
 
-/* Focus: one of the four sanctioned uses of the accent. */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 :focus:not(:focus-visible) { outline: none; }
 
 .skip {
   position: absolute;
   left: -9999px;
-  top: 0;
   background: var(--ink);
-  color: var(--ground);
+  color: var(--bg);
   padding: 0.7rem 1.1rem;
-  font-family: var(--f-display);
   font-size: 0.9rem;
   z-index: 100;
 }
@@ -143,61 +150,51 @@ body {
    -------------------------------------------------------------------------- */
 
 h1, h2, h3, h4 {
-  font-family: var(--f-display);
-  font-variation-settings: "wdth" 96;
+  font-family: var(--serif);
   font-weight: 600;
-  letter-spacing: -0.018em;
-  line-height: 1.1;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
   text-wrap: balance;
   margin: 0;
 }
 
-h1 { font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: -0.025em; }
-h2 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
-h3 { font-size: 1.08rem; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.25rem); letter-spacing: -0.022em; }
+h2 { font-size: clamp(1.35rem, 2.5vw, 1.7rem); }
+h3 { font-size: 1.05rem; }
 
 p { margin: 0 0 1.05em; max-width: var(--measure); }
 p:last-child { margin-bottom: 0; }
 
-a { color: inherit; text-decoration: none; }
+a { color: inherit; }
 
-/* Link underline: sanctioned accent use #2. */
-.prose a,
-a.link {
+.link {
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  transition: text-decoration-thickness 120ms ease;
 }
-.prose a:hover,
-a.link:hover { text-decoration-thickness: 2px; }
+.link:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
 
 .prose { max-width: var(--measure); }
-.prose > * + * { margin-top: 1.05em; }
+.prose p { color: var(--ink-2); }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
 strong { font-weight: 600; }
 
-code, .mono {
-  font-family: var(--f-mono);
-  font-size: 0.855em;
-  font-feature-settings: "zero" 1;
-}
+code, .mono { font-family: var(--mono); font-size: 0.855em; }
 
-/* Metadata label. Small caps-height mono, never as body copy. */
-.label {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+/* Sentence-case key label. Deliberately NOT an all-caps tracked eyebrow. */
+.key {
+  font-family: var(--mono);
+  font-size: 0.7rem;
   color: var(--ink-3);
+  letter-spacing: 0.01em;
 }
 
 .tnum { font-variant-numeric: tabular-nums; }
 
 /* --------------------------------------------------------------------------
-   layout primitives
+   layout
    -------------------------------------------------------------------------- */
 
 .shell {
@@ -206,40 +203,152 @@ code, .mono {
   padding-inline: var(--gutter);
 }
 
-.bleed { width: 100%; }
-
-.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
-
-.section { padding-block: clamp(2.6rem, 6vw, 4.5rem); }
+.section { padding-block: clamp(2.4rem, 5vw, 3.6rem); }
+.section + .section { border-top: 1px solid var(--rule); }
 
 .section-head {
   display: flex;
   align-items: baseline;
-  gap: 1rem;
+  gap: 1rem 1.5rem;
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 0.55rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.5rem;
 }
-.section-head .label { margin-left: auto; }
+.section-head .aside,
+.section-head > .key {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--ink-3);
+  max-width: 42ch;
+}
+.section-head > .key { font-size: 0.72rem; }
+
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
 /* --------------------------------------------------------------------------
-   figures
+   figure plates
+   The layout is image-led, and every plate that has no photograph yet renders
+   a quiet corner-ticked panel naming exactly which photograph belongs there.
+   A considered layout awaiting a plate, never a broken image.
    -------------------------------------------------------------------------- */
 
 figure { margin: 0; }
 
-figcaption {
-  font-family: var(--f-mono);
+.plate {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: var(--plate);
+  border: 1px solid var(--plate-line);
+  min-height: 180px;
+  overflow: hidden;
+}
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.plate--pending::before,
+.plate--pending::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--plate-tick);
+  pointer-events: none;
+}
+.plate--pending::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.plate--pending::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+.plate__note {
+  font-family: var(--mono);
   font-size: 0.72rem;
+  color: var(--plate-ink);
+  padding: 1rem;
+  text-align: center;
+}
+
+figcaption {
+  font-size: 0.83rem;
   line-height: 1.5;
   color: var(--ink-3);
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--rule-soft);
-  margin-top: 0.6rem;
+  margin-top: 0.55rem;
+}
+figcaption .fig {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
 img, video { display: block; max-width: 100%; height: auto; }
 
-/* Wide content never makes the page scroll sideways. */
 .scroll-x { overflow-x: auto; }
+
+/* --------------------------------------------------------------------------
+   fact table
+   -------------------------------------------------------------------------- */
+
+.facts { margin: 0; display: grid; }
+.facts > div {
+  display: grid;
+  gap: 0.15rem 1.2rem;
+  padding-block: 0.65rem;
+  border-top: 1px solid var(--rule);
+}
+.facts > div:last-child { border-bottom: 1px solid var(--rule); }
+@media (min-width: 560px) {
+  .facts > div { grid-template-columns: 7.5rem minmax(0, 1fr); }
+}
+.facts dt { color: var(--ink-3); font-family: var(--mono); font-size: 0.72rem; padding-top: 0.15rem; }
+.facts dd { margin: 0; font-size: 0.94rem; line-height: 1.5; }
+
+/* --------------------------------------------------------------------------
+   chips and buttons
+   One radius scale: 2px on everything.
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn--primary {
+  background: var(--chip-bg);
+  border-color: var(--chip-bg);
+  color: var(--chip-ink);
+}
+.btn--primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--chip-ink);
+}
+
+.btn__sub { font-family: var(--mono); font-size: 0.68rem; font-weight: 400; opacity: 0.75; }
+
+/* Award marker. Sentence case, not a tracked-out eyebrow. */
+.badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: 2px;
+  padding: 0.12rem 0.45rem;
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { font-size: 11pt; background: #fff; color: #000; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }
+  .plate { display: none; }
+}

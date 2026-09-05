@@ -42,7 +42,7 @@ const intents = [
   <section class="section direct">
     <div class="section-head">
       <h2>Email</h2>
-      <span class="label">the fastest route</span>
+      <span class="key">the fastest route</span>
     </div>
     <p class="addr"><Email /></p>
     <p class="prose note">
@@ -55,7 +55,7 @@ const intents = [
       <section class="section">
         <div class="section-head">
           <h2>Or use the form</h2>
-          <span class="label">four fields</span>
+          <span class="key">four fields</span>
         </div>
 
         <form id="contact-form" class="form" method="post" action="/api/contact">
@@ -105,7 +105,7 @@ const intents = [
       <section class="section">
         <div class="section-head">
           <h2>Form</h2>
-          <span class="label">not yet enabled</span>
+          <span class="key">not yet enabled</span>
         </div>
         <p class="prose note">
           The contact form is built and waiting on a sending provider. Until it is
@@ -120,9 +120,9 @@ const intents = [
       <h2>Elsewhere</h2>
     </div>
     <ul class="elsewhere">
-      <li><span class="label">Scholar</span> <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar profile</a></li>
-      <li><span class="label">ORCID</span> <a class="link" href={profile.links.orcid} rel="me noopener">0000-0002-8595-9995</a></li>
-      <li><span class="label">LinkedIn</span> <a class="link" href={profile.links.linkedin} rel="me noopener">drashutoshspace</a></li>
+      <li><span class="key">Scholar</span> <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar profile</a></li>
+      <li><span class="key">ORCID</span> <a class="link" href={profile.links.orcid} rel="me noopener">0000-0002-8595-9995</a></li>
+      <li><span class="key">LinkedIn</span> <a class="link" href={profile.links.linkedin} rel="me noopener">drashutoshspace</a></li>
     </ul>
   </section>
 </Base>
@@ -174,7 +174,7 @@ const intents = [
   .lede { margin-top: 0.9rem; font-size: 1.06rem; color: var(--ink-2); }
 
   .addr {
-    font-family: var(--f-mono);
+    font-family: var(--mono);
     font-size: clamp(1rem, 2.6vw, 1.35rem);
     margin: 0 0 0.8rem;
     word-break: break-word;
@@ -189,7 +189,7 @@ const intents = [
 
   label,
   legend {
-    font-family: var(--f-mono);
+    font-family: var(--mono);
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.13em;
@@ -201,10 +201,10 @@ const intents = [
   input[type="text"],
   input[type="email"],
   textarea {
-    font-family: var(--f-body);
+    font-family: var(--serif);
     font-size: 1rem;
     color: var(--ink);
-    background: var(--panel);
+    background: var(--bg-alt);
     border: 1px solid var(--rule);
     border-radius: 0;
     padding: 0.6rem 0.7rem;
@@ -224,7 +224,7 @@ const intents = [
   }
   .chip label {
     display: block;
-    font-family: var(--f-display);
+    font-family: var(--sans);
     font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0;
@@ -239,7 +239,7 @@ const intents = [
   .chip input:checked + label {
     color: var(--ink);
     border-color: var(--accent);
-    background: var(--panel);
+    background: var(--bg-alt);
   }
   .chip input:focus-visible + label {
     outline: 2px solid var(--accent);
@@ -249,10 +249,10 @@ const intents = [
   .actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 
   button {
-    font-family: var(--f-display);
+    font-family: var(--sans);
     font-size: 0.92rem;
     font-weight: 600;
-    color: var(--ground);
+    color: var(--bg);
     background: var(--ink);
     border: 1px solid var(--ink);
     border-radius: 0;
@@ -262,11 +262,11 @@ const intents = [
   button:hover { background: var(--ink-2); border-color: var(--ink-2); }
   button[disabled] { opacity: 0.55; cursor: progress; }
 
-  .status { font-family: var(--f-mono); font-size: 0.76rem; margin: 0; max-width: none; }
+  .status { font-family: var(--mono); font-size: 0.76rem; margin: 0; max-width: none; }
   .status[data-state="ok"] { color: var(--ink); }
   .status[data-state="error"] { color: var(--ink); }
 
   .elsewhere { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-  .elsewhere li { display: flex; gap: 0.9rem; align-items: baseline; flex-wrap: wrap; font-family: var(--f-display); font-size: 0.92rem; }
-  .elsewhere .label { min-width: 5.5rem; }
+  .elsewhere li { display: flex; gap: 0.9rem; align-items: baseline; flex-wrap: wrap; font-family: var(--sans); font-size: 0.92rem; }
+  .elsewhere .key { min-width: 5.5rem; }
 </style>

@@ -1,0 +1,41 @@
+---
+/**
+ * A figure plate. If `src` exists it renders the photograph; otherwise it
+ * renders a quiet corner-ticked panel naming exactly which photograph belongs
+ * there, with the real caption underneath either way.
+ *
+ * The point is that the layout is finished and only the plate is outstanding.
+ * No stock imagery, no gradient standing in for a photograph.
+ */
+interface Props {
+  caption: string;
+  src?: string;
+  alt?: string;
+  /** CSS aspect-ratio, e.g. "4 / 3". */
+  ratio?: string;
+  fig?: number;
+  eager?: boolean;
+}
+const { caption, src, alt, ratio = "4 / 3", fig, eager = false } = Astro.props;
+---
+
+<figure>
+  <div class:list={["plate", { "plate--pending": !src }]} style={`aspect-ratio:${ratio}`}>
+    {
+      src ? (
+        <img
+          src={src}
+          alt={alt ?? caption}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          fetchpriority={eager ? "high" : undefined}
+        />
+      ) : (
+        <p class="plate__note">Photograph to place</p>
+      )
+    }
+  </div>
+  <figcaption>
+    {fig && <span class="fig">Fig. {fig}.</span>}{fig ? " " : ""}{caption}
+  </figcaption>
+</figure>

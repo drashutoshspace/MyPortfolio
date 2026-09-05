@@ -2,7 +2,7 @@
 import { profile } from "~/data/profile";
 import Email from "~/components/Email.astro";
 
-const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+const reviewed = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
 ---
 
 <footer class="foot">
@@ -11,13 +11,13 @@ const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "num
       <p class="who">
         <strong>{profile.name}</strong><br />
         {profile.role}, {profile.lab}<br />
-        {profile.institutionShort}, {profile.city}
+        {profile.institutionShort}, {profile.city}, {profile.country}
       </p>
       <p class="mail"><Email /></p>
     </div>
 
-    <nav class="col" aria-label="Elsewhere">
-      <p class="label">Elsewhere</p>
+    <nav class="col no-print" aria-label="Profiles elsewhere">
+      <p class="key">Elsewhere</p>
       <ul>
         <li><a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar</a></li>
         <li><a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a></li>
@@ -26,14 +26,15 @@ const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "num
       </ul>
     </nav>
 
-    <div class="col">
-      <p class="label">This site</p>
+    <div class="col no-print">
+      <p class="key">This site</p>
       <ul>
+        <li><a class="link" href="/research/">Research</a></li>
+        <li><a class="link" href="/projects/">Projects</a></li>
+        <li><a class="link" href="/publications/">Publications</a></li>
         <li><a class="link" href="/cv/">Curriculum vitae</a></li>
-        <li><a class="link" href={profile.cvPdf}>CV (PDF)</a></li>
-        <li><a class="link" href="/contact/">Contact</a></li>
       </ul>
-      <p class="stamp label">Last reviewed {built}</p>
+      <p class="key stamp">Last reviewed {reviewed}</p>
     </div>
   </div>
 </footer>
@@ -41,25 +42,20 @@ const built = new Date().toLocaleDateString("en-GB", { month: "long", year: "num
 <style>
   .foot {
     border-top: 1px solid var(--rule);
-    margin-top: clamp(3rem, 8vw, 6rem);
-    padding-block: clamp(2rem, 4vw, 3rem) 3rem;
-    background: var(--panel);
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    padding-block: clamp(2rem, 4vw, 2.8rem) 2.6rem;
+    background: var(--bg-alt);
   }
-
   .inner {
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     align-items: start;
   }
-
-  .col { display: flex; flex-direction: column; gap: 0.7rem; }
-
-  .who { font-size: 0.9rem; line-height: 1.55; margin: 0; }
-  .mail { margin: 0; font-family: var(--f-mono); font-size: 0.8rem; }
-
-  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
-  li { font-family: var(--f-display); font-size: 0.88rem; }
-
-  .stamp { margin-top: 0.6rem; }
+  .col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .who { font-size: 0.9rem; line-height: 1.55; margin: 0; color: var(--ink-2); }
+  .mail { margin: 0; font-family: var(--mono); font-size: 0.8rem; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  li { font-size: 0.9rem; }
+  .stamp { margin-top: 0.5rem; }
 </style>

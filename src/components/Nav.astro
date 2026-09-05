@@ -3,6 +3,7 @@ import { profile } from "~/data/profile";
 
 const items = [
   { label: "Research", href: "/research/" },
+  { label: "Projects", href: "/projects/" },
   { label: "Publications", href: "/publications/" },
   { label: "CV", href: "/cv/" },
   { label: "Contact", href: "/contact/" },
@@ -12,12 +13,9 @@ const here = Astro.url.pathname;
 const isActive = (href: string) => here === href || here.startsWith(href);
 ---
 
-<header class="bar">
+<header class="masthead no-print">
   <div class="shell inner">
-    <a href="/" class="wordmark" aria-label={`${profile.name}, home`}>
-      <span class="fam">Mishra</span><span class="giv">, Ashutosh</span>
-    </a>
-
+    <a href="/" class="wordmark">{profile.name}</a>
     <nav aria-label="Primary">
       <ul>
         {
@@ -35,64 +33,55 @@ const isActive = (href: string) => here === href || here.startsWith(href);
 </header>
 
 <style>
-  .bar {
-    border-bottom: 1px solid var(--rule);
-    background: var(--ground);
-    position: sticky;
-    top: 0;
-    z-index: 20;
-  }
+  .masthead { border-bottom: 1px solid var(--rule); background: var(--bg); }
 
   .inner {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    min-height: 56px;
+    gap: 1rem 1.5rem;
     flex-wrap: wrap;
-    padding-block: 0.5rem;
+    min-height: 60px;
+    padding-block: 0.45rem;
   }
 
   .wordmark {
-    font-family: var(--f-display);
-    font-variation-settings: "wdth" 88;
-    font-size: 0.94rem;
-    letter-spacing: 0.005em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
     white-space: nowrap;
+    /* Tap target: the critic measured C's masthead links at 17px, below the
+       WCAG 2.2 AA minimum of 24px. */
+    padding-block: 0.35rem;
   }
-  .wordmark .fam { font-weight: 600; }
-  .wordmark .giv { font-weight: 400; color: var(--ink-2); }
 
   nav { margin-left: auto; }
 
   ul {
     display: flex;
-    gap: clamp(0.9rem, 3vw, 1.9rem);
+    flex-wrap: wrap;
+    gap: 0.15rem clamp(0.8rem, 2.4vw, 1.6rem);
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
   .item {
-    font-family: var(--f-display);
-    font-size: 0.88rem;
-    font-weight: 500;
+    display: block;
+    font-size: 0.92rem;
     color: var(--ink-2);
-    padding-block: 0.35rem;
+    text-decoration: none;
+    /* 24px minimum tap target, plus the row gap keeps the spacing exception. */
+    padding-block: 0.42rem;
     border-bottom: 2px solid transparent;
-    transition: color 120ms ease;
   }
-  .item:hover { color: var(--ink); }
+  .item:hover { color: var(--accent); }
+  .item.on { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
 
-  /* Active state: sanctioned accent use #1 of 4. */
-  .item.on {
-    color: var(--ink);
-    border-bottom-color: var(--accent);
-  }
-
-  @media (max-width: 460px) {
-    .inner { gap: 0.5rem; }
+  @media (max-width: 620px) {
     nav { margin-left: 0; width: 100%; }
-    ul { justify-content: space-between; width: 100%; }
-    .item { font-size: 0.84rem; }
+    ul { gap: 0.15rem 1.1rem; }
+    .item { font-size: 0.88rem; }
   }
 </style>

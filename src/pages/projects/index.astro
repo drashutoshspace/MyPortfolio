@@ -1,0 +1,93 @@
+---
+import Base from "~/layouts/Base.astro";
+import { spaceProjects, earlierProjects } from "~/data/projects";
+import { profile } from "~/data/profile";
+
+const groups = [
+  {
+    title: "Space robotics",
+    note: "Field campaigns and systems from the doctoral work at Tohoku and the current post in Genova.",
+    items: spaceProjects,
+  },
+  {
+    title: "Earlier engineering work",
+    note: "Electronics, embedded systems and cloud infrastructure, from before the doctorate.",
+    items: earlierProjects,
+  },
+];
+
+const fmt = (v: string) => {
+  if (v === "Present") return "Present";
+  const [y, m] = v.split("-");
+  if (!m) return y;
+  return new Date(Number(y), Number(m) - 1).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+};
+---
+
+<Base
+  title="Projects"
+  description={`Robotics and engineering projects by ${profile.name}, including MoonBot APEX field validation at the JAXA Space Exploration Test Field, modular sensor systems tested in Abukuma Cave, and reinforcement learning on reconfigurable lunar robots.`}
+  path="/projects/"
+  breadcrumbs={[{ name: "Home", path: "/" }, { name: "Projects", path: "/projects/" }]}
+>
+  <header class="section head">
+    <h1>Projects</h1>
+    <p class="prose lede">
+      Systems and field campaigns, each with its own page. The space robotics work is
+      listed first; the earlier electronics and embedded projects are kept below it
+      because they are part of the record rather than part of the current programme.
+    </p>
+  </header>
+
+  {
+    groups.map((g) => (
+      <section class="section">
+        <div class="section-head">
+          <h2>{g.title}</h2>
+          <p class="aside">{g.note}</p>
+        </div>
+
+        <ul class="list">
+          {g.items.map((p) => (
+            <li>
+              <div class="meta">
+                <span class="key tnum">{fmt(p.from)} to {fmt(p.to)}</span>
+                {p.current && <span class="key now">Ongoing</span>}
+              </div>
+              <div>
+                <h3><a class="head-link" href={`/projects/${p.slug}/`}>{p.title}</a></h3>
+                {p.site && <p class="site">{p.site}</p>}
+                {!p.site && p.context && <p class="site">{p.context}</p>}
+                <p class="kick">{p.kicker}</p>
+                <p class="stack">{p.stack.join(", ")}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .lede { margin-top: 0.9rem; font-size: 1.02rem; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li {
+    display: grid;
+    gap: 0.3rem 1.5rem;
+    padding-block: 1.3rem;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .list li:first-child { border-top: 1px solid var(--rule); }
+  @media (min-width: 780px) { .list li { grid-template-columns: 11rem minmax(0, 1fr); } }
+  .meta { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: baseline; padding-top: 0.25rem; }
+  @media (min-width: 780px) { .meta { flex-direction: column; gap: 0.15rem; } }
+  .now { color: var(--accent); }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .site { font-family: var(--serif); font-size: 0.86rem; font-style: italic; color: var(--ink-3); margin: 0.2rem 0 0; max-width: none; }
+  .kick { font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); margin: 0.4rem 0 0; }
+  .stack { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-3); margin: 0.45rem 0 0; max-width: none; }
+</style>

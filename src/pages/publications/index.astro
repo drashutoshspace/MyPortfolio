@@ -20,7 +20,7 @@ const groups = byYear();
       order is as published; my name is set in bold. Where a paper carries an equal-authorship
       note, it is marked with an asterisk.
     </p>
-    <p class="label">
+    <p class="key">
       Also on <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar</a>{" "}
       and <a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a>
     </p>
@@ -31,7 +31,7 @@ const groups = byYear();
       <section class="section yr">
         <div class="section-head">
           <h2 class="tnum">{year}</h2>
-          <span class="label">{items.length} {items.length === 1 ? "item" : "items"}</span>
+          <span class="key">{items.length} {items.length === 1 ? "item" : "items"}</span>
         </div>
         {items.map((p) => <PublicationEntry pub={p} />)}
       </section>
@@ -43,7 +43,7 @@ const groups = byYear();
       <section class="section">
         <div class="section-head">
           <h2>Under review and in submission</h2>
-          <span class="label">not yet peer reviewed</span>
+          <span class="key">not yet peer reviewed</span>
         </div>
         <p class="prose lede">
           Listed for completeness. None of these has completed peer review, and they should
@@ -58,6 +58,6 @@ const groups = byYear();
 <style>
   .head { padding-bottom: 0; }
   .lede { margin-top: 0.9rem; font-size: 1.02rem; color: var(--ink-2); }
-  .head .label { margin-top: 0.9rem; }
+  .head .key { margin-top: 0.9rem; }
   .yr:first-of-type { padding-top: 2rem; }
 </style>

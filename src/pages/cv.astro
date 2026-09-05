@@ -44,7 +44,7 @@ const sections = [
         <ul class="entries">
           {s.entries.map((e) => (
             <li class="entry">
-              <p class="label dates tnum">
+              <p class="key dates tnum">
                 {fmt(e.from)} &ndash; {fmt(e.to)}
                 {e.current && <span class="marker" aria-hidden="true" />}
               </p>
@@ -69,13 +69,13 @@ const sections = [
   <section class="section">
     <div class="section-head">
       <h2>Field campaigns</h2>
-      <span class="label">hardware in real terrain</span>
+      <span class="key">hardware in real terrain</span>
     </div>
     <ul class="entries">
       {
         fieldwork.map((f) => (
           <li class="entry">
-            <p class="label dates tnum">{f.when}</p>
+            <p class="key dates tnum">{f.when}</p>
             <div>
               <h3>{f.site}</h3>
               <p class="place">{f.place}</p>
@@ -90,13 +90,13 @@ const sections = [
   <section class="section">
     <div class="section-head">
       <h2>Awards and honours</h2>
-      <span class="label tnum">{awards.length}</span>
+      <span class="key tnum">{awards.length}</span>
     </div>
     <ul class="entries">
       {
         awards.map((a) => (
           <li class="entry">
-            <p class="label dates tnum">{a.year}</p>
+            <p class="key dates tnum">{a.year}</p>
             <div>
               <h3>{a.title}</h3>
               <p class="role">{a.body}</p>
@@ -112,7 +112,7 @@ const sections = [
   <section class="section">
     <div class="section-head">
       <h2>Publications</h2>
-      <span class="label">{peerReviewedCount} peer reviewed</span>
+      <span class="key">{peerReviewedCount} peer reviewed</span>
     </div>
     <p class="prose">
       The full list, with DOIs and per-paper pages, is on the
@@ -128,7 +128,7 @@ const sections = [
       {
         skills.map((g) => (
           <div class="grp">
-            <dt class="label">{g.group}</dt>
+            <dt class="key">{g.group}</dt>
             <dd>{g.items.join(" &middot; ")}</dd>
           </div>
         ))
@@ -140,14 +140,14 @@ const sections = [
 <style>
   .head { padding-bottom: 0; }
   .lede { margin-top: 0.9rem; color: var(--ink-2); }
-  .dl { margin-top: 0.9rem; font-family: var(--f-display); font-size: 0.92rem; }
+  .dl { margin-top: 0.9rem; font-family: var(--sans); font-size: 0.92rem; }
 
   .entries { list-style: none; margin: 0; padding: 0; }
   .entry {
     display: grid;
     gap: 0.35rem 1.6rem;
     padding-block: 1.25rem;
-    border-bottom: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule);
     align-items: start;
   }
   @media (min-width: 780px) { .entry { grid-template-columns: 11.5rem minmax(0, 1fr); } }
@@ -157,10 +157,10 @@ const sections = [
   .marker { width: 6px; height: 6px; background: var(--accent); flex: none; }
 
   h3 { font-size: 1rem; }
-  .role { font-family: var(--f-display); font-size: 0.9rem; color: var(--ink-2); margin: 0.15rem 0 0; max-width: none; }
-  .detail { font-family: var(--f-display); font-size: 0.86rem; font-style: italic; color: var(--ink-3); margin: 0.15rem 0 0; max-width: none; }
-  .detail.wrap { font-style: normal; font-family: var(--f-body); font-size: 0.94rem; color: var(--ink-2); margin-top: 0.4rem; max-width: var(--measure); }
-  .place { font-family: var(--f-mono); font-size: 0.74rem; color: var(--ink-3); margin: 0.3rem 0 0; max-width: none; }
+  .role { font-family: var(--sans); font-size: 0.9rem; color: var(--ink-2); margin: 0.15rem 0 0; max-width: none; }
+  .detail { font-family: var(--sans); font-size: 0.86rem; font-style: italic; color: var(--ink-3); margin: 0.15rem 0 0; max-width: none; }
+  .detail.wrap { font-style: normal; font-family: var(--serif); font-size: 0.94rem; color: var(--ink-2); margin-top: 0.4rem; max-width: var(--measure); }
+  .place { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-3); margin: 0.3rem 0 0; max-width: none; }
 
   .notes { margin: 0.55rem 0 0; padding-left: 1.05rem; max-width: var(--measure); }
   .notes li { font-size: 0.94rem; color: var(--ink-2); line-height: 1.5; margin-bottom: 0.25rem; }
@@ -168,5 +168,5 @@ const sections = [
   .skills { margin: 0; display: flex; flex-direction: column; gap: 1.1rem; }
   .grp { display: grid; gap: 0.3rem 1.6rem; }
   @media (min-width: 780px) { .grp { grid-template-columns: 11.5rem minmax(0, 1fr); } }
-  .grp dd { margin: 0; font-family: var(--f-display); font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
+  .grp dd { margin: 0; font-family: var(--sans); font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
 </style>

@@ -1,34 +1,39 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Plate from "~/components/Plate.astro";
 import Email from "~/components/Email.astro";
 import PublicationEntry from "~/components/PublicationEntry.astro";
 import { profile } from "~/data/profile";
 import { themes } from "~/data/research";
-import { published, peerReviewedCount } from "~/data/publications";
-import { fieldwork, appointments } from "~/data/cv";
+import { spaceProjects } from "~/data/projects";
+import { peerReviewedCount, getPublication } from "~/data/publications";
 
-/**
- * HERO MEDIA
- * Set this to a file in /public/media once the field footage is in the repo,
- * e.g. { src: "/media/hero-jaxa-field.jpg", alt: "...", caption: "..." }.
- * The direction wants a full-bleed frame here with the name small beneath it.
- * Until then the hero renders as a typographic plate, which is a deliberate
- * state rather than a hole: no stock imagery, no gradient standing in for a
- * photograph that does not exist yet.
- */
-const heroMedia: { src: string; alt: string; caption: string } | null = null;
-
-const selected = [
+const featured = [
   "moonbot-modular-reconfigurable-robot-moon-base",
   "multi-modal-decentralized-rl-modular-lunar-robots",
   "multi-limb-synchronization-motion-stack-hypersphere",
   "human-in-loop-manipulator-control-uncertain-assembly",
-];
-const featured = selected
-  .map((s) => published.find((p) => p.slug === s))
+]
+  .map(getPublication)
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-const post = appointments[0];
+/* Captions name the exact photograph wanted, so dropping files into
+   /public/media and adding `src` finishes them with no layout change. */
+const openingPlates = [
+  {
+    caption:
+      "MoonBot modules reconfiguring on the regolith bed, JAXA Space Exploration Test Field, Sagamihara.",
+    ratio: "3 / 2",
+  },
+  { caption: "Field test inside Abukuma Cave, a lunar cave analogue.", ratio: "3 / 2" },
+  {
+    caption:
+      "Quadruped locomotion trial under the ALTEC project, Dynamic Legged Systems lab, Genova.",
+    ratio: "3 / 2",
+  },
+];
+
+const recentProjects = spaceProjects.slice(0, 4);
 ---
 
 <Base
@@ -37,325 +42,194 @@ const post = appointments[0];
   path="/"
   type="profile"
   isProfilePage
-  wide
 >
-  <!-- ── hero ────────────────────────────────────────────────────────── -->
-  <section class="hero">
-    {
-      heroMedia ? (
-        <figure class="plate">
-          <img src={heroMedia.src} alt={heroMedia.alt} width="2400" height="1000" fetchpriority="high" />
-          <figcaption class="shell">{heroMedia.caption}</figcaption>
-        </figure>
-      ) : (
-        <div class="plate typographic">
-          <div class="shell">
-            <p class="thesis">{profile.positioning}</p>
-          </div>
-        </div>
-      )
-    }
-
-    <div class="shell ident">
+  <section class="section intro">
+    <div class="lead">
       <h1>{profile.name}</h1>
-      <p class="post">
-        {post.role}, {post.detail}<br />
-        <span class="org">{profile.institutionShort}, {profile.city}</span>
+      <p class="role">
+        <strong>{profile.role}</strong>, {profile.lab} lab,<br />
+        {profile.institutionShort}, {profile.city}, {profile.country}
       </p>
 
-      <ul class="quicklinks">
-        <li><Email /></li>
-        <li><a class="link" href="/cv/">CV</a></li>
-        <li><a class="link" href={profile.links.scholar} rel="me noopener">Scholar</a></li>
-        <li><a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a></li>
-      </ul>
-    </div>
-  </section>
+      <blockquote class="thesis">{profile.positioning}</blockquote>
 
-  <div class="shell">
-    <!-- ── bio ───────────────────────────────────────────────────────── -->
-    <section class="section bio">
-      <div class="prose bio-text">
+      <div class="prose bio">
         {profile.bio.map((para) => <p>{para}</p>)}
       </div>
-      {/* A real photograph of a real person. Stanford's credibility work puts
-          this above affiliation badges, which ranked last at 3.4%. */}
-      <figure class="portrait">
+
+      <p class="actions no-print">
+        <Email class="btn btn--primary" />
+        <a class="btn" href={profile.cvPdf}>Curriculum vitae <span class="btn__sub">PDF</span></a>
+        <a class="btn" href={profile.links.scholar} rel="me noopener">Google Scholar</a>
+        <a class="btn" href={profile.links.orcid} rel="me noopener">ORCID</a>
+      </p>
+    </div>
+
+    <aside class="side">
+      <div class="portrait plate">
         <img
           src="/media/ashutosh-mishra.png"
           alt={`${profile.name}, ${profile.role} at ${profile.institutionShort}`}
           width="558"
           height="582"
-          loading="lazy"
-          decoding="async"
+          fetchpriority="high"
         />
-        <figcaption>{profile.city}, {profile.country}</figcaption>
-      </figure>
-    </section>
-
-    <!-- ── research ──────────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Research</h2>
-        <span class="label">three directions</span>
       </div>
 
-      <ul class="themes">
-        {
-          themes.map((t) => (
-            <li class="theme">
-              <a href={`/research/${t.slug}/`}>
-                <h3>
-                  {t.title}
-                  {t.current && <span class="now" aria-label="Current work" />}
-                </h3>
-                <p class="q">{t.question}</p>
-                <p class="k">{t.kicker}</p>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+      <dl class="facts">
+        <div>
+          <dt>Position</dt>
+          <dd>{profile.role}, {profile.lab}, {profile.institutionShort}</dd>
+        </div>
+        <div>
+          <dt>Previously</dt>
+          <dd>PhD, Space Robotics Lab, Tohoku University</dd>
+        </div>
+        <div>
+          <dt>Programmes</dt>
+          <dd>ALTEC; JST Moonshot Goal 3</dd>
+        </div>
+        <div>
+          <dt>Publications</dt>
+          <dd>{peerReviewedCount} peer reviewed, <a class="link" href="/publications/">listed here</a></dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
 
-    <!-- ── selected publications ─────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Selected publications</h2>
-        <span class="label">
-          {peerReviewedCount} peer reviewed &middot; <a class="link" href="/publications/">all</a>
-        </span>
-      </div>
+  <section class="section plates no-print">
+    <div class="plate-row">
+      {openingPlates.map((p, i) => <Plate caption={p.caption} ratio={p.ratio} fig={i + 1} />)}
+    </div>
+  </section>
 
-      {featured.map((p) => <PublicationEntry pub={p} />)}
-
-      <p class="more">
-        <a class="link" href="/publications/">All publications, including work under review &rarr;</a>
+  <section class="section">
+    <div class="section-head">
+      <h2>Research</h2>
+      <p class="aside">
+        Three directions, one problem: getting robots to do useful physical work on a
+        surface where nobody can come and help them.
       </p>
-    </section>
+    </div>
 
-    <!-- ── field record ──────────────────────────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Field record</h2>
-        <span class="label">hardware, not simulation</span>
-      </div>
-      <p class="prose intro">
-        A policy that works in simulation and fails on hardware has told you about your
-        simulator. These are the campaigns where the work met real terrain.
-      </p>
+    <ul class="themes">
+      {
+        themes.map((t) => (
+          <li>
+            <h3><a class="head-link" href={`/research/${t.slug}/`}>{t.title}</a></h3>
+            {t.current && <p class="now">Current work</p>}
+            <p class="q">{t.question}</p>
+            <p class="k">{t.kicker}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 
-      <ul class="field">
-        {
-          fieldwork.map((f) => (
-            <li>
-              <div class="site">
-                <span class="label tnum">{f.when}</span>
-                <h3>{f.site}</h3>
-                <p class="place">{f.place}</p>
-              </div>
-              <p class="what">{f.what}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+  <section class="section">
+    <div class="section-head">
+      <h2>Selected projects</h2>
+      <p class="aside">Field campaigns and systems, each with its own page.</p>
+    </div>
 
-    <!-- ── contact ───────────────────────────────────────────────────── -->
-    <section class="section contact-cta">
-      <div class="section-head">
-        <h2>Get in touch</h2>
-      </div>
-      <p class="prose">
-        I read every message. Write to <Email />, or
-        <a class="link" href="/contact/">use the form</a> if that is easier.
-        Collaboration enquiries, talk and panel invitations, and questions about
-        the work are all welcome.
-      </p>
-    </section>
-  </div>
+    <ul class="projects">
+      {
+        recentProjects.map((p) => (
+          <li>
+            <div class="pmeta">
+              <span class="key tnum">{p.from.slice(0, 4)}</span>
+              {p.current && <span class="key">Ongoing</span>}
+            </div>
+            <div>
+              <h3><a class="head-link" href={`/projects/${p.slug}/`}>{p.title}</a></h3>
+              {p.site && <p class="site">{p.site}</p>}
+              <p class="pk">{p.kicker}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="more no-print"><a class="link" href="/projects/">All projects</a></p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Selected publications</h2>
+      <p class="aside">{peerReviewedCount} peer-reviewed items in total, plus work under review.</p>
+    </div>
+
+    {featured.map((p) => <PublicationEntry pub={p} />)}
+
+    <p class="more no-print"><a class="link" href="/publications/">All publications</a></p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Get in touch</h2></div>
+    <p class="prose">
+      Collaboration enquiries, talk and panel invitations, and questions about the work
+      are all welcome. I read every message. Write to <Email /> or
+      <a class="link" href="/contact/">use the contact page</a>.
+    </p>
+  </section>
 </Base>
 
 <style>
-  /* ── hero ─────────────────────────────────────────────────────────── */
+  .intro { display: grid; gap: 2rem clamp(2rem, 5vw, 3.5rem); align-items: start; }
+  @media (min-width: 900px) { .intro { grid-template-columns: minmax(0, 1fr) 21rem; } }
 
-  .hero { border-bottom: 1px solid var(--rule); }
+  .role { font-size: 1rem; color: var(--ink-2); margin: 0.7rem 0 0; line-height: 1.5; max-width: none; }
 
-  .plate {
-    border-bottom: 1px solid var(--rule);
-    background: var(--sunk);
-  }
-  .plate img {
-    width: 100%;
-    height: clamp(280px, 46vh, 520px);
-    object-fit: cover;
-  }
-  .plate figcaption {
-    border-top: 0;
-    margin-top: 0;
-    padding-block: 0.6rem;
-  }
-
-  /* Typographic state, used until the field frame lands. */
-  .typographic {
-    display: flex;
-    align-items: center;
-    min-height: clamp(200px, 30vh, 300px);
-    padding-block: clamp(2rem, 5vw, 3.4rem);
-    background:
-      repeating-linear-gradient(
-        90deg,
-        var(--rule-soft) 0 1px,
-        transparent 1px 96px
-      ),
-      var(--sunk);
-  }
-  /* Without this the shell shrink-wraps as a flex item and the thesis stops
-     aligning with the name below it. */
-  .typographic > .shell { width: 100%; }
   .thesis {
-    font-family: var(--f-display);
-    font-variation-settings: "wdth" 94;
-    font-weight: 500;
-    font-size: clamp(1.15rem, 2.9vw, 1.85rem);
-    line-height: 1.28;
-    letter-spacing: -0.014em;
-    max-width: 30ch;
-    text-wrap: balance;
-    margin: 0;
+    margin: 1.3rem 0 0;
+    padding: 0.1rem 0 0.1rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+    line-height: 1.4;
+    color: var(--ink);
+    max-width: 40ch;
   }
 
-  .ident { padding-block: clamp(1.4rem, 3vw, 2.1rem); }
+  .bio { margin-top: 1.4rem; }
 
-  .post {
-    font-family: var(--f-display);
-    font-size: 0.96rem;
-    line-height: 1.5;
-    color: var(--ink-2);
-    margin: 0.55rem 0 0;
-    max-width: none;
-  }
-  .post .org { color: var(--ink-3); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.5rem 0 0; max-width: none; }
 
-  .quicklinks {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.3rem;
-    list-style: none;
-    margin: 1rem 0 0;
-    padding: 0;
-    font-family: var(--f-mono);
-    font-size: 0.78rem;
-  }
+  .side { display: flex; flex-direction: column; gap: 1.2rem; }
+  .portrait { aspect-ratio: 558 / 582; }
 
-  /* ── bio ──────────────────────────────────────────────────────────── */
+  .plates { padding-top: 0; border-top: 0 !important; }
+  .plate-row { display: grid; gap: 1.2rem; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .plate-row { grid-template-columns: repeat(3, 1fr); } }
 
-  .bio {
-    display: grid;
-    gap: 2rem clamp(2rem, 5vw, 3.5rem);
-    align-items: start;
-  }
+  .themes, .projects { list-style: none; margin: 0; padding: 0; }
+  .themes { display: grid; gap: 0; }
+  .themes li { padding-block: 1.2rem; border-top: 1px solid var(--rule); }
+  .themes li:last-child { border-bottom: 1px solid var(--rule); }
   @media (min-width: 900px) {
-    .bio { grid-template-columns: minmax(0, 1fr) 15rem; }
+    .themes { grid-template-columns: repeat(3, 1fr); gap: 0 2rem; }
+    .themes li { border-bottom: 1px solid var(--rule); }
   }
-  .bio-text p { font-size: 1.06rem; }
 
-  .portrait { max-width: 15rem; }
-  .portrait img {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--rule);
-    background: var(--sunk);
-    filter: grayscale(1) contrast(1.04);
-  }
-  .portrait figcaption { font-size: 0.7rem; }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ── themes ───────────────────────────────────────────────────────── */
+  .now { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); margin: 0.3rem 0 0; max-width: none; }
+  .q { font-size: 0.97rem; line-height: 1.5; color: var(--ink-2); margin: 0.45rem 0 0; }
+  .k { font-size: 0.85rem; line-height: 1.5; color: var(--ink-3); margin: 0.45rem 0 0; }
 
-  .themes {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .projects li {
     display: grid;
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-  }
-  @media (min-width: 880px) {
-    .themes { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  .theme { background: var(--ground); }
-  .theme a {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    height: 100%;
-    padding: 1.25rem 1.3rem 1.45rem;
-    transition: background 120ms ease;
-  }
-  .theme a:hover { background: var(--panel); }
-
-  .theme h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.02rem;
-  }
-  /* Current-position marker: sanctioned accent use #4 of 4. */
-  .now {
-    flex: none;
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-  }
-
-  .theme .q {
-    font-family: var(--f-body);
-    font-size: 0.98rem;
-    line-height: 1.48;
-    margin: 0;
-    max-width: none;
-  }
-  .theme .k {
-    font-family: var(--f-display);
-    font-size: 0.82rem;
-    line-height: 1.45;
-    color: var(--ink-3);
-    margin: auto 0 0;
-    padding-top: 0.6rem;
-    border-top: 1px dashed var(--rule);
-    max-width: none;
-  }
-
-  .more { margin-top: 1.3rem; font-family: var(--f-display); font-size: 0.9rem; }
-
-  /* ── field ────────────────────────────────────────────────────────── */
-
-  .intro { margin-bottom: 1.4rem; }
-
-  .field { list-style: none; margin: 0; padding: 0; }
-  .field li {
-    display: grid;
-    gap: 0.4rem 1.6rem;
+    gap: 0.25rem 1.5rem;
     padding-block: 1.15rem;
-    border-bottom: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule);
     align-items: start;
   }
-  @media (min-width: 760px) {
-    .field li { grid-template-columns: 17rem minmax(0, 1fr); }
-  }
-  .field .site { display: flex; flex-direction: column; gap: 0.2rem; }
-  .field h3 { font-size: 0.98rem; }
-  .field .place {
-    font-family: var(--f-display);
-    font-size: 0.82rem;
-    font-style: italic;
-    color: var(--ink-3);
-    margin: 0;
-    max-width: none;
-  }
-  .field .what { font-size: 0.95rem; color: var(--ink-2); margin: 0; }
+  .projects li:first-child { border-top: 1px solid var(--rule); }
+  @media (min-width: 760px) { .projects li { grid-template-columns: 9rem minmax(0, 1fr); } }
+  .pmeta { display: flex; gap: 0.6rem; align-items: baseline; padding-top: 0.25rem; }
+  @media (min-width: 760px) { .pmeta { flex-direction: column; gap: 0.15rem; } }
+  .site { font-family: var(--serif); font-size: 0.86rem; font-style: italic; color: var(--ink-3); margin: 0.2rem 0 0; max-width: none; }
+  .pk { font-size: 0.94rem; line-height: 1.55; color: var(--ink-2); margin: 0.35rem 0 0; }
 
-  .contact-cta .prose { font-size: 1.02rem; }
+  .more { margin-top: 1.2rem; font-size: 0.92rem; }
 </style>
