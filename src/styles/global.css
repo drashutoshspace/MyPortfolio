@@ -56,6 +56,13 @@
   --r-md: 9px;
   --r-sm: 6px;
 
+  /* Background motif. Plotting-paper grid plus a faint trace, tuned per
+     theme. Kept this low on purpose: it should read as the paper the work is
+     drawn on, never as a pattern competing with the text. */
+  --grid-minor:  rgb(18 70 143 / 0.045);
+  --grid-major:  rgb(18 70 143 / 0.075);
+  --trace:       rgb(18 70 143 / 0.09);
+
   --shell:   1080px;
   --measure: 68ch;
   --gutter:  clamp(1.15rem, 4vw, 2.5rem);
@@ -63,8 +70,12 @@
   color-scheme: light;
 }
 
+/* Deliberately NOT switched by prefers-color-scheme. Dark is opt-in through
+   the toggle in the masthead, so a visitor with a dark desktop still gets the
+   light page unless they ask for otherwise. The block below is kept only so a
+   viewer who has explicitly chosen dark and cleared storage still resolves. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root[data-theme="auto"] {
     --bg:           #0f1317;
     --bg-alt:       #141a21;
     --plate:        #1a222b;
@@ -83,6 +94,9 @@
     --chip-bg:      #8cbaf5;
     --chip-ink:     #0f1317;
     --shadow:       0 1px 2px rgb(0 0 0 / 0.4);
+    --grid-minor:  rgb(140 186 245 / 0.055);
+    --grid-major:  rgb(140 186 245 / 0.09);
+    --trace:       rgb(140 186 245 / 0.11);
     color-scheme: dark;
   }
 }
@@ -106,6 +120,9 @@
   --chip-bg:      #8cbaf5;
   --chip-ink:     #0f1317;
   --shadow:       0 1px 2px rgb(0 0 0 / 0.4);
+  --grid-minor:  rgb(140 186 245 / 0.055);
+  --grid-major:  rgb(140 186 245 / 0.09);
+  --trace:       rgb(140 186 245 / 0.11);
   color-scheme: dark;
 }
 
@@ -361,6 +378,63 @@ img, video { display: block; max-width: 100%; height: auto; }
   border-radius: var(--r-sm);
   padding: 0.12rem 0.45rem;
 }
+
+/* --------------------------------------------------------------------------
+   background motif
+   Plotting paper: a 24px minor grid with a major line every fifth, which is
+   the convention of the graph paper and drawing sheets the work is actually
+   plotted on. Drawn with gradients rather than an image, so it costs no
+   request and no DOM. Fixed and pointer-events:none so it never repaints on
+   scroll and never intercepts a click.
+   -------------------------------------------------------------------------- */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right,  var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to right,  var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  /* Fades out down the page so long text sections sit on clean paper. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 42%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 42%, transparent 78%);
+}
+
+/* A damped oscillation: the step response of a system settling, which is what
+   a control result actually looks like. Abstract, not plotted from data, so it
+   claims nothing. */
+body::after {
+  content: "";
+  position: fixed;
+  right: -4vw;
+  top: 8vh;
+  width: min(52vw, 720px);
+  height: min(30vh, 320px);
+  z-index: -1;
+  pointer-events: none;
+  /* Masked rather than used as a background image, so the stroke colour comes
+     from the theme token instead of being baked into the data URI. */
+  background: var(--trace);
+  --trace-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 320'%3E%3Cpath d='M0 240 C40 240 60 40 100 40 C140 40 150 300 190 300 C230 300 240 90 280 90 C320 90 330 250 370 250 C410 250 420 130 460 130 C500 130 510 215 550 215 C590 215 600 155 640 155 C680 155 690 190 720 190' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--trace-svg);
+  mask-image: var(--trace-svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: right top;
+  mask-position: right top;
+}
+
+/* The trace is decoration on a page whose first screen is the identity block,
+   so it steps aside on small viewports where it would crowd the text. */
+@media (max-width: 900px) { body::after { display: none; } }
+@media print { body::before, body::after { display: none; } }
 
 /* --------------------------------------------------------------------------
    motion

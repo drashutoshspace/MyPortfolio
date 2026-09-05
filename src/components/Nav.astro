@@ -16,6 +16,28 @@ const isActive = (href: string) => here === href || here.startsWith(href);
 <header class="masthead no-print">
   <div class="shell inner">
     <a href="/" class="wordmark">{profile.name}</a>
+    <button
+      id="theme-toggle"
+      class="toggle"
+      type="button"
+      aria-label="Switch to dark theme"
+      aria-pressed="false"
+      title="Switch theme"
+    >
+      <svg class="i-sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7" />
+        <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" />
+        </g>
+      </svg>
+      <svg class="i-moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+        <path
+          d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"
+          fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
     <nav aria-label="Primary">
       <ul>
         {
@@ -56,7 +78,33 @@ const isActive = (href: string) => here === href || here.startsWith(href);
     padding-block: 0.35rem;
   }
 
-  nav { margin-left: auto; }
+  nav { margin-left: auto; order: 2; }
+
+  .toggle {
+    order: 3;
+    margin-left: 0;
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: border-color 160ms ease, color 160ms ease;
+  }
+  .toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle svg { grid-area: 1 / 1; }
+  .i-moon { display: none; }
+  :global(:root[data-theme="dark"]) .i-sun { display: none; }
+  :global(:root[data-theme="dark"]) .i-moon { display: block; }
+
+  @media (max-width: 620px) {
+    nav { order: 3; margin-left: 0; width: 100%; }
+    .toggle { order: 2; margin-left: auto; }
+  }
 
   ul {
     display: flex;
@@ -80,8 +128,27 @@ const isActive = (href: string) => here === href || here.startsWith(href);
   .item.on { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
 
   @media (max-width: 620px) {
-    nav { margin-left: 0; width: 100%; }
     ul { gap: 0.15rem 1.1rem; }
     .item { font-size: 0.88rem; }
   }
 </style>
+
+<script>
+  const btn = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+  const sync = () => {
+    const dark = root.dataset.theme === "dark";
+    btn?.setAttribute("aria-pressed", String(dark));
+    btn?.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+  };
+  sync();
+  btn?.addEventListener("click", () => {
+    const dark = root.dataset.theme === "dark";
+    if (dark) delete root.dataset.theme;
+    else root.dataset.theme = "dark";
+    try {
+      localStorage.setItem("theme", dark ? "light" : "dark");
+    } catch (e) {}
+    sync();
+  });
+</script>
