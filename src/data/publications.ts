@@ -209,7 +209,7 @@ export const publications: Publication[] = [
     status: "published",
     peerReviewed: true,
     summary:
-      "A hybrid multilayer-perceptron and random-forest model for estimating GaN HEMT device parameters. From his earlier semiconductor device modelling work at the University of Delhi.",
+      "A hybrid multilayer-perceptron and random-forest model for estimating GaN HEMT device parameters. From my earlier semiconductor device modelling work at the University of Delhi.",
     topics: ["Machine learning", "Semiconductor devices"],
   },
   {
@@ -233,7 +233,7 @@ export const publications: Publication[] = [
     status: "published",
     peerReviewed: true,
     summary:
-      "An image watermarking scheme combining the Arnold transform with memristive chaotic oscillators. Earlier work, and currently his most-cited paper.",
+      "An image watermarking scheme combining the Arnold transform with memristive chaotic oscillators, from my earlier work on secure signal processing.",
     topics: ["Signal processing", "Security"],
   },
   {

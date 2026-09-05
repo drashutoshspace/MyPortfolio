@@ -30,7 +30,7 @@ const sections = [
   <header class="section head">
     <h1>Curriculum vitae</h1>
     <p class="prose lede">
-      The full record. A PDF version is available if you need one for a file or a panel.
+      Appointments, education, field campaigns, awards and skills. Also available as a PDF.
     </p>
     <p class="dl"><a class="link" href={profile.cvPdf}>Download CV (PDF)</a></p>
   </header>
@@ -45,7 +45,7 @@ const sections = [
           {s.entries.map((e) => (
             <li class="entry">
               <p class="key dates tnum">
-                {fmt(e.from)} &ndash; {fmt(e.to)}
+                {fmt(e.from)} to {fmt(e.to)}
                 {e.current && <span class="marker" aria-hidden="true" />}
               </p>
               <div>
@@ -129,7 +129,7 @@ const sections = [
         skills.map((g) => (
           <div class="grp">
             <dt class="key">{g.group}</dt>
-            <dd>{g.items.join(" &middot; ")}</dd>
+            <dd>{g.items.join(", ")}</dd>
           </div>
         ))
       }
