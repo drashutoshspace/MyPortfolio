@@ -48,6 +48,32 @@ ships a control that fails on submit. To switch it on:
 
 `CONTACT_TO` and `CONTACT_FROM` are optional overrides.
 
+## The email address, and bots
+
+The address is deliberately **plain text and crawler-readable**. `src/components/Email.astro`
+wraps every instance in Cloudflare's `<!--email_off-->` guard so Scrape Shield cannot rewrite
+it into a JavaScript-decoded `__cf_email__` span.
+
+That is a considered trade, not an oversight. Any obfuscation that defeats a text-parsing
+harvester defeats a text-parsing crawler too, because it is the same operation: Googlebot,
+Google Scholar, GPTBot and ClaudeBot would all read the blob instead of the address. Since
+a visible, copyable address is the site's primary contact channel, the address stays readable
+and spam is handled where filters are actually good, at the mailbox.
+
+**Defence in depth, in order of how much work each does:**
+
+1. **Destination mailbox filtering.** `contact@drmishra.space` is forwarded by Cloudflare Email
+   Routing to a real mailbox. That mailbox's spam filter is the main defence and is far better
+   than any page-level trick.
+2. **The contact form** as an alternative route, with a honeypot field and server-side length
+   and header-injection guards in `src/pages/api/contact.ts`.
+3. **A Cloudflare rate-limit rule on `/api/contact`.** Free tier includes one rule. Set it in the
+   Cloudflare dashboard under Security, Rate limiting rules: match path `/api/contact`, method
+   POST, and cap at roughly 5 requests per minute per IP.
+
+Do NOT re-enable Cloudflare Scrape Shield email obfuscation. It will silently break the address
+for every crawler that matters.
+
 ## Commands
 
 ```

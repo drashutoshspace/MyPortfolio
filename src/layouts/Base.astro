@@ -40,6 +40,8 @@ const { wide = false, ...seo } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" href="/sitemap-index.xml" />
     {/* Follows the reader's system setting. No toggle: it would be the only
         client JavaScript on the site, and the one component able to break
