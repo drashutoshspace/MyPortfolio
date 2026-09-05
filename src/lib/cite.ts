@@ -108,7 +108,7 @@ export function bibtex(pub: Publication): string {
 export function bibliography(pubs: Publication[]): string {
   const header = [
     "% Publications of Ashutosh Mishra",
-    "% https://drmishra.space/publications/",
+    "% https://drmishra.space/research/",
     `% Generated ${new Date().toISOString().slice(0, 10)}`,
     "",
   ].join("\n");

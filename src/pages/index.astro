@@ -11,6 +11,7 @@ import Gallery from "~/components/Gallery.astro";
 import Icon from "~/components/Icon.astro";
 import Epigraph from "~/components/Epigraph.astro";
 import { talks } from "~/data/talks";
+import { latestNews, kindLabel } from "~/data/news";
 
 const featured = [
   "moonbot-modular-reconfigurable-robot-moon-base",
@@ -47,6 +48,8 @@ const recentProjects = spaceProjects.slice(0, 4);
   type="profile"
   isProfilePage
 >
+  <Epigraph />
+
   <section class="section intro">
     <div class="lead">
       <h1>{profile.name}</h1>
@@ -96,7 +99,7 @@ const recentProjects = spaceProjects.slice(0, 4);
         </div>
         <div>
           <dt>Publications</dt>
-          <dd>{peerReviewedCount} peer reviewed, <a class="link" href="/publications/">listed here</a></dd>
+          <dd>{peerReviewedCount} peer reviewed, <a class="link" href="/research/">listed here</a></dd>
         </div>
       </dl>
     </aside>
@@ -111,10 +114,7 @@ const recentProjects = spaceProjects.slice(0, 4);
   <section class="section">
     <div class="section-head">
       <h2>Research</h2>
-      <p class="aside">
-        Three directions, one problem: getting robots to do useful physical work on a
-        surface where nobody can come and help them.
-      </p>
+      <p class="aside">{profile.interests}</p>
     </div>
 
     <ul class="themes">
@@ -172,10 +172,27 @@ const recentProjects = spaceProjects.slice(0, 4);
 
     {featured.map((p) => <PublicationEntry pub={p} />)}
 
-    <p class="more no-print"><a class="link" href="/publications/">All publications</a></p>
+    <p class="more no-print"><a class="link" href="/research/">All research and publications</a></p>
   </section>
 
-  <Epigraph />
+  <section class="section">
+    <div class="section-head">
+      <h2>Recently</h2>
+      <p class="aside"><a class="link" href="/news/">Full timeline</a></p>
+    </div>
+    <ol class="recent">
+      {
+        latestNews(4).map((n) => (
+          <li>
+            <span class="key kindtag">{kindLabel[n.kind]}</span>
+            <span class="rt">
+              {n.href ? <a class="head-link" href={n.href}>{n.title}</a> : n.title}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
 
   <section class="section">
     <div class="section-head"><h2>Get in touch</h2></div>
@@ -246,4 +263,17 @@ const recentProjects = spaceProjects.slice(0, 4);
   .pk { font-size: 0.94rem; line-height: 1.55; color: var(--ink-2); margin: 0.35rem 0 0; }
 
   .more { margin-top: 1.2rem; font-size: 0.92rem; }
+
+  .recent { list-style: none; margin: 0; padding: 0; }
+  .recent li {
+    display: grid;
+    gap: 0.2rem 1.5rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .recent li:first-child { border-top: 1px solid var(--rule); }
+  @media (min-width: 760px) { .recent li { grid-template-columns: 9rem minmax(0, 1fr); } }
+  .kindtag { color: var(--ink-3); }
+  .rt { font-size: 0.97rem; line-height: 1.45; }
 </style>

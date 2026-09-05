@@ -1,62 +1,118 @@
 ---
 import Base from "~/layouts/Base.astro";
-import { themes } from "~/data/research";
+import PublicationEntry from "~/components/PublicationEntry.astro";
 import { profile } from "~/data/profile";
+import { themes } from "~/data/research";
+import { byYear, pending, peerReviewedCount } from "~/data/publications";
+
+const groups = byYear();
 ---
 
 <Base
   title="Research"
-  description="Three research directions: legged locomotion for space, modular reconfigurable lunar robots, and learning and autonomy for field robots."
+  description={`${profile.interests} Peer-reviewed publications on modular reconfigurable lunar robots, legged locomotion for space, reinforcement learning and sim-to-real transfer, in IEEE Transactions on Field Robotics, IROS, CASE and iSpaRo.`}
   path="/research/"
   breadcrumbs={[{ name: "Home", path: "/" }, { name: "Research", path: "/research/" }]}
 >
   <header class="section head">
     <h1>Research</h1>
+    <p class="statement">{profile.interests}</p>
     <p class="prose lede">
-      Three directions, one problem: getting robots to do useful physical work on a
-      surface where nobody can come and help them.
+      Space is where the constraints bite: terrain nobody has surveyed, lighting with almost
+      no usable shadow gradient, and no chance of a person walking over to help. The
+      publications below are the record of that work.
+    </p>
+
+    <p class="actions no-print">
+      <a class="btn" href="/publications.bib">Download all citations <span class="btn__sub">BibTeX</span></a>
+      <a class="btn" href={profile.links.scholar} rel="me noopener">Google Scholar</a>
+      <a class="btn" href={profile.links.orcid} rel="me noopener">ORCID</a>
     </p>
   </header>
 
-  <div class="list">
-    {
-      themes.map((t) => (
-        <article class="item">
-          <div class="side">
-            {t.current && <p class="key now-label"><span class="now" aria-hidden="true" />Current</p>}
-            {t.publications.length > 0 && (
-              <p class="key tnum">{t.publications.length} papers</p>
-            )}
-          </div>
-          <div class="body">
-            <h2><a href={`/research/${t.slug}/`}>{t.title}</a></h2>
-            <p class="q">{t.question}</p>
+  <section class="section">
+    <div class="section-head">
+      <h2>Topics</h2>
+      <p class="aside">Where the work clusters at the moment, not a closed list.</p>
+    </div>
+    <ul class="topics">
+      {
+        themes.map((t) => (
+          <li>
+            <h3><a class="head-link" href={`/research/${t.slug}/`}>{t.title}</a></h3>
+            {t.current && <p class="now">Current work</p>}
             <p class="k">{t.kicker}</p>
-            <p><a class="link go" href={`/research/${t.slug}/`}>Read more &rarr;</a></p>
-          </div>
-        </article>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Publications</h2>
+      <p class="aside">
+        {peerReviewedCount} peer-reviewed items. Author order is as published, my name in bold.
+        An asterisk marks equal authorship.
+      </p>
+    </div>
+
+    {
+      groups.map(([year, items]) => (
+        <div class="yr">
+          <h3 class="yrhead tnum">{year}</h3>
+          {items.map((p) => <PublicationEntry pub={p} />)}
+        </div>
       ))
     }
-  </div>
+  </section>
+
+  {
+    pending.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Under review and in submission</h2>
+          <p class="aside">
+            Listed for completeness. None has completed peer review, and they should not be
+            cited as though they had.
+          </p>
+        </div>
+        {pending.map((p) => <PublicationEntry pub={p} />)}
+      </section>
+    )
+  }
 </Base>
 
 <style>
   .head { padding-bottom: 0; }
-  .lede { margin-top: 0.9rem; font-size: 1.06rem; color: var(--ink-2); }
-  .list { padding-top: 2rem; padding-bottom: 2rem; }
-  .item {
-    display: grid;
-    gap: 0.5rem 1.6rem;
-    padding-block: 1.8rem;
-    border-bottom: 1px solid var(--rule);
-    align-items: start;
+  .statement {
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 2.3vw, 1.45rem);
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 1rem 0 0;
+    max-width: 34ch;
   }
-  @media (min-width: 780px) { .item { grid-template-columns: 9.5rem minmax(0, 1fr); } }
-  .side { display: flex; flex-direction: column; gap: 0.3rem; padding-top: 0.4rem; }
-  .now-label { display: flex; align-items: center; gap: 0.45rem; color: var(--ink-2); }
-  .now { width: 6px; height: 6px; background: var(--accent); flex: none; }
-  .body h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .q { font-size: 1.02rem; line-height: 1.5; margin-bottom: 0.5rem; }
-  .k { font-family: var(--sans); font-size: 0.88rem; color: var(--ink-3); margin-bottom: 0.7rem; }
-  .go { font-family: var(--sans); font-size: 0.88rem; }
+  .lede { margin-top: 1rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.4rem 0 0; max-width: none; }
+
+  .topics { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .topics li { padding-block: 1.1rem; border-top: 1px solid var(--rule); }
+  .topics li:last-child { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) {
+    .topics { grid-template-columns: repeat(3, 1fr); gap: 0 2rem; }
+    .topics li { border-bottom: 1px solid var(--rule); }
+  }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .now { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); margin: 0.3rem 0 0; max-width: none; }
+  .k { font-size: 0.9rem; line-height: 1.5; color: var(--ink-2); margin: 0.4rem 0 0; }
+
+  .yr + .yr { margin-top: 2rem; }
+  .yrhead {
+    font-size: 1.1rem;
+    color: var(--ink-3);
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
 </style>

@@ -31,12 +31,12 @@ const others = publications
   }}
   breadcrumbs={[
     { name: "Home", path: "/" },
-    { name: "Publications", path: "/publications/" },
+    { name: "Publications", path: "/research/" },
     { name: pub.title, path: `/publications/${pub.slug}/` },
   ]}
 >
   <article class="section">
-    <p class="key crumb"><a class="link" href="/publications/">Publications</a></p>
+    <p class="key crumb"><a class="link" href="/research/">Publications</a></p>
     <PublicationEntry pub={pub} linked={false} />
 
     <CiteBlock pub={pub} />

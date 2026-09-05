@@ -25,6 +25,12 @@ export const profile = {
   positioning:
     "I build legged and modular robots that can work on the lunar surface, and the learning-based control that lets them keep working when the terrain does not cooperate.",
 
+  /** The broad statement, deliberately not a closed taxonomy. An early-career
+   *  researcher whose direction is still widening should not publish a list
+   *  that reads as "these are the only things I do". */
+  interests:
+    "My research lies at the intersection of space robotics and artificial intelligence.",
+
   /** Two paragraphs. Read after the positioning line by anyone still there. */
   bio: [
     "I am a postdoctoral researcher in the Dynamic Legged Systems lab at Istituto Italiano di Tecnologia (IIT) in Genova, working with Claudio Semini on learning-based locomotion controllers for quadrupedal robots in space exploration, under the ALTEC project. Most of my time goes into GPU-accelerated reinforcement learning and the sim-to-real transfer pipelines that decide whether a policy trained in Isaac Lab survives contact with real hardware.",
