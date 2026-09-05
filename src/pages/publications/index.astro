@@ -20,9 +20,12 @@ const groups = byYear();
       order is as published; my name is set in bold. Where a paper carries an equal-authorship
       note, it is marked with an asterisk.
     </p>
-    <p class="key">
-      Also on <a class="link" href={profile.links.scholar} rel="me noopener">Google Scholar</a>{" "}
-      and <a class="link" href={profile.links.orcid} rel="me noopener">ORCID</a>
+    <p class="actions no-print">
+      <a class="btn" href="/publications.bib">
+        Download all citations <span class="btn__sub">BibTeX</span>
+      </a>
+      <a class="btn" href={profile.links.scholar} rel="me noopener">Google Scholar</a>
+      <a class="btn" href={profile.links.orcid} rel="me noopener">ORCID</a>
     </p>
   </header>
 
@@ -58,6 +61,6 @@ const groups = byYear();
 <style>
   .head { padding-bottom: 0; }
   .lede { margin-top: 0.9rem; font-size: 1.02rem; color: var(--ink-2); }
-  .head .key { margin-top: 0.9rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.3rem 0 0; max-width: none; }
   .yr:first-of-type { padding-top: 2rem; }
 </style>

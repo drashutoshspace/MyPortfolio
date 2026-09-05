@@ -1,0 +1,113 @@
+---
+import type { Publication } from "~/data/publications";
+import { ieee, bibtex } from "~/lib/cite";
+
+interface Props { pub: Publication }
+const { pub } = Astro.props;
+
+const reference = ieee(pub);
+const bib = bibtex(pub);
+---
+
+<section class="cite">
+  <div class="section-head">
+    <h2>Cite this</h2>
+    <p class="aside">IEEE reference and a BibTeX entry. No volume or page numbers are shown because none are on record.</p>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <span class="key">IEEE</span>
+      <button class="copy" type="button" data-copy="ieee" aria-label="Copy the IEEE reference">Copy</button>
+    </div>
+    <p class="ref" id="ref-ieee">{reference}</p>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <span class="key">BibTeX</span>
+      <button class="copy" type="button" data-copy="bibtex" aria-label="Copy the BibTeX entry">Copy</button>
+    </div>
+    <pre class="bib" id="ref-bibtex"><code>{bib}</code></pre>
+  </div>
+</section>
+
+<style>
+  .cite { margin-top: 2.4rem; }
+  .block {
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    background: var(--bg-alt);
+    overflow: hidden;
+  }
+  .block + .block { margin-top: 0.9rem; }
+
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .head .key { letter-spacing: 0.06em; }
+
+  .copy {
+    margin-left: auto;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-sm);
+    padding: 0.22rem 0.6rem;
+    cursor: pointer;
+    transition: border-color 160ms ease, color 160ms ease;
+  }
+  .copy:hover { border-color: var(--accent); }
+  .copy[data-done="1"] { color: var(--ink-3); }
+
+  .ref {
+    margin: 0;
+    padding: 0.9rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: none;
+  }
+
+  .bib {
+    margin: 0;
+    padding: 0.9rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .bib code { font-size: inherit; background: none; padding: 0; }
+</style>
+
+<script>
+  document.querySelectorAll("button.copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const which = btn.getAttribute("data-copy");
+      const src = document.getElementById(`ref-${which}`);
+      if (!src?.textContent) return;
+      try {
+        await navigator.clipboard.writeText(src.textContent.trim());
+        const original = btn.textContent;
+        btn.textContent = "Copied";
+        btn.setAttribute("data-done", "1");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.removeAttribute("data-done");
+        }, 1600);
+      } catch (e) {
+        // Clipboard blocked. The text is selectable, so this is not a dead end.
+        btn.textContent = "Select and copy";
+      }
+    });
+  });
+</script>

@@ -13,6 +13,10 @@
 
 export type PubStatus = "published" | "in-review" | "in-submission";
 
+/** Drives whether the citation renders as @article or @inproceedings, and
+ *  whether the IEEE string says "in <venue>". */
+export type PubKind = "journal" | "conference";
+
 export interface Publication {
   slug: string;
   title: string;
@@ -20,8 +24,11 @@ export interface Publication {
   /** Short code for the dense list. Kept in tabular mono. */
   venueShort: string;
   year: number;
-  /** Author list in publication order. `me: true` marks him for bolding. */
-  authors: { name: string; me?: boolean; equal?: boolean }[];
+  /** Author list in publication order. `me: true` marks him for bolding.
+   *  `surname` is only needed where the family name is more than one word and
+   *  the last-token heuristic would split it. */
+  authors: { name: string; me?: boolean; equal?: boolean; surname?: string }[];
+  kind: PubKind;
   doi?: string;
   /** Used when there is no DOI. */
   urls?: { label: string; href: string }[];
@@ -41,6 +48,7 @@ export const publications: Publication[] = [
       "MoonBot: Modular and On-demand Reconfigurable Robot towards Moon Base Construction",
     venue: "IEEE Transactions on Field Robotics (T-FR)",
     venueShort: "IEEE T-FR",
+    kind: "journal",
     year: 2025,
     authors: [
       { name: "Kentaro Uno", equal: true },
@@ -69,6 +77,7 @@ export const publications: Publication[] = [
       "Enhancing Autonomous Manipulator Control with Human-in-loop for Uncertain Assembly Environments",
     venue: "IEEE International Conference on Automation Science and Engineering (CASE)",
     venueShort: "IEEE CASE",
+    kind: "conference",
     year: 2025,
     authors: [
       { name: "Ashutosh Mishra", me: true },
@@ -90,12 +99,13 @@ export const publications: Publication[] = [
       "Multi-Modal Decentralized Reinforcement Learning for Modular Reconfigurable Lunar Robots",
     venue: "IEEE International Conference on Space Robotics (iSpaRo)",
     venueShort: "IEEE iSpaRo",
+    kind: "conference",
     year: 2025,
     authors: [
       { name: "Ashutosh Mishra", me: true },
       { name: "Shreya Santra" },
       { name: "Elian Neppel" },
-      { name: "Edoardo M. Rossi Lombardi" },
+      { name: "Edoardo M. Rossi Lombardi", surname: "Rossi Lombardi" },
       { name: "Shamistan Karimov" },
       { name: "Kentaro Uno" },
       { name: "Kazuya Yoshida" },
@@ -114,6 +124,7 @@ export const publications: Publication[] = [
       "Robust and Modular Multi-Limb Synchronization in Motion Stack for Space Robots with Trajectory Clamping via Hypersphere",
     venue: "IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
     venueShort: "IEEE/RSJ IROS",
+    kind: "conference",
     year: 2025,
     authors: [
       { name: "Elian Neppel" },
@@ -136,12 +147,13 @@ export const publications: Publication[] = [
       "Designing for Distributed Heterogeneous Modularity: On Software Architecture and Deployment of MoonBots",
     venue: "IEEE International Conference on Space Robotics (iSpaRo)",
     venueShort: "IEEE iSpaRo",
+    kind: "conference",
     year: 2025,
     authors: [
       { name: "Elian Neppel" },
       { name: "Shamistan Karimov" },
       { name: "Ashutosh Mishra", me: true },
-      { name: "Gustavo Hernan Diaz Huenupan" },
+      { name: "Gustavo Hernan Diaz Huenupan", surname: "Diaz Huenupan" },
       { name: "Hazal Gozbasi" },
       { name: "Kentaro Uno" },
       { name: "Shreya Santra" },
@@ -159,6 +171,7 @@ export const publications: Publication[] = [
     title: "Design and Development of a Modular Bucket Drum Excavator for Lunar ISRU",
     venue: "IEEE International Conference on Space Robotics (iSpaRo)",
     venueShort: "IEEE iSpaRo",
+    kind: "conference",
     year: 2025,
     authors: [
       { name: "Simon Giel" },
@@ -180,6 +193,7 @@ export const publications: Publication[] = [
     title: "MLP-RF Based Hybrid ML-NN Model for GaN HEMT Parameter Estimation",
     venue: "International Journal of RF and Microwave Computer-Aided Engineering",
     venueShort: "IJRFMCAE",
+    kind: "journal",
     year: 2022,
     authors: [
       { name: "Ashutosh Mishra", me: true },
@@ -204,6 +218,7 @@ export const publications: Publication[] = [
       "Robust and Secure Digital Image Watermarking Technique Using Arnold Transform and Memristive Chaotic Oscillators",
     venue: "IEEE Access",
     venueShort: "IEEE Access",
+    kind: "journal",
     year: 2021,
     authors: [
       { name: "Khushwant Sehra" },
@@ -226,6 +241,7 @@ export const publications: Publication[] = [
     title: "Hybrid NN Model to Predict the Radiation Damage in GaN HEMTs",
     venue: "IBM IEEE CAS/EDS AI Compute Symposium",
     venueShort: "IBM IEEE CAS/EDS",
+    kind: "conference",
     year: 2021,
     authors: [
       { name: "Samriddhi Raut" },
@@ -261,6 +277,7 @@ export const publications: Publication[] = [
       "Memristor Based Cryptographic Information Processing for Secured Communication Systems",
     venue: "International Conference on Devices, Circuits and Systems (ICDCS)",
     venueShort: "ICDCS",
+    kind: "conference",
     year: 2020,
     authors: [{ name: "Ashutosh Mishra", me: true }],
     doi: "10.1109/icdcs48716.2020.243573",
@@ -275,6 +292,7 @@ export const publications: Publication[] = [
     title: "International Lunar University",
     venue: "International Astronautical Congress (IAC) 2024",
     venueShort: "IAC",
+    kind: "conference",
     year: 2024,
     authors: [{ name: "Ashutosh Mishra", me: true }],
     doi: "10.52202/078357-0031",
@@ -293,6 +311,7 @@ export const publications: Publication[] = [
       "Distributed Multi Robot Lunar Cargo Transportation via Phase Decomposed Reinforcement Learning",
     venue: "IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
     venueShort: "IEEE/RSJ IROS",
+    kind: "conference",
     year: 2026,
     authors: [{ name: "Ashutosh Mishra", me: true }],
     status: "in-review",
@@ -306,6 +325,7 @@ export const publications: Publication[] = [
     title: "RoboGene: Modular DRL Framework for Reconfigurable Lunar Robots",
     venue: "IEEE Access",
     venueShort: "IEEE Access",
+    kind: "journal",
     year: 2026,
     authors: [{ name: "Ashutosh Mishra", me: true }],
     status: "in-submission",
@@ -319,6 +339,7 @@ export const publications: Publication[] = [
     title: "MoonBot APEX: Agentic Planning and Execution for Modular Lunar Robots",
     venue: "IEEE Robotics and Automation Letters (RA-L)",
     venueShort: "IEEE RA-L",
+    kind: "journal",
     year: 2026,
     authors: [{ name: "Ashutosh Mishra", me: true }],
     urls: [{ label: "Demo video", href: "https://youtu.be/wrkr4xLJ7zM" }],
