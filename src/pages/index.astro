@@ -9,7 +9,6 @@ import { spaceProjects } from "~/data/projects";
 import { peerReviewedCount, getPublication } from "~/data/publications";
 import Gallery from "~/components/Gallery.astro";
 import Icon from "~/components/Icon.astro";
-import Epigraph from "~/components/Epigraph.astro";
 import { talks } from "~/data/talks";
 import { latestNews, kindLabel } from "~/data/news";
 
@@ -48,8 +47,6 @@ const recentProjects = spaceProjects.slice(0, 4);
   type="profile"
   isProfilePage
 >
-  <Epigraph />
-
   <section class="section intro">
     <div class="lead">
       <h1>{profile.name}</h1>
