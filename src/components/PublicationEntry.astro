@@ -10,6 +10,7 @@ const { pub, linked = true, compact = false } = Astro.props;
 
 const statusLabel: Record<Publication["status"], string> = {
   published: "",
+  accepted: "Accepted, to appear",
   "in-review": "Under review",
   "in-submission": "In submission",
 };
@@ -17,6 +18,19 @@ const statusLabel: Record<Publication["status"], string> = {
 /* Only links that actually resolve are rendered. The reviewed mockup shipped
    13 dead href="#" links labelled paper / video / bibtex; a panel clicking
    "paper" and landing back at the top reads as a broken site. */
+/* A 32-author team report prints as its first six names, mine kept in place
+   if it falls later, then a count. A submission under double-blind review
+   prints my name and "et al." */
+const shown = (() => {
+  const all = pub.authors;
+  if (!pub.manyAuthors || all.length <= 8) return { names: all, more: 0 };
+  const head = all.slice(0, 6);
+  const meIdx = all.findIndex((a) => a.me);
+  if (meIdx >= 6) head.push(all[meIdx]);
+  return { names: head, more: all.length - head.length };
+})();
+const etAl = pub.manyAuthors && shown.more === 0;
+
 const links: { label: string; href: string }[] = [];
 if (pub.doi) links.push({ label: "DOI", href: `https://doi.org/${pub.doi}` });
 for (const u of pub.urls ?? []) links.push(u);
@@ -35,7 +49,7 @@ for (const u of pub.urls ?? []) links.push(u);
 
     <p class="authors">
       {
-        pub.authors.map((a, i) => (
+        shown.names.map((a, i) => (
           <>
             {i > 0 && ", "}
             <span class:list={["au", { me: a.me }]}>
@@ -45,6 +59,8 @@ for (const u of pub.urls ?? []) links.push(u);
           </>
         ))
       }
+      {shown.more > 0 && <>, and {shown.more} others</>}
+      {etAl && <>, et al.</>}
     </p>
 
     <p class="venue-full">{pub.venue}</p>

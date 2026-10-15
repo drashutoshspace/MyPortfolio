@@ -53,6 +53,7 @@ export function ieee(pub: Publication): string {
   out += `${venue}, ${pub.year}.`;
 
   if (pub.doi) out += ` doi: ${pub.doi}.`;
+  if (pub.status === "accepted") out += " (Accepted, to appear.)";
   if (pub.status === "in-review") out += " (Under review.)";
   if (pub.status === "in-submission") out += " (In submission.)";
   return out;
@@ -93,6 +94,7 @@ export function bibtex(pub: Publication): string {
   // than emitted as two fields, which most parsers would silently drop.
   const notes: string[] = [];
   if (pub.award) notes.push(pub.award);
+  if (pub.status === "accepted") notes.push("Accepted, to appear");
   if (pub.status === "in-review") notes.push("Under review");
   if (pub.status === "in-submission") notes.push("In submission");
   if (!pub.peerReviewed && pub.status === "published") notes.push("Not peer reviewed");
@@ -108,7 +110,7 @@ export function bibtex(pub: Publication): string {
 export function bibliography(pubs: Publication[]): string {
   const header = [
     "% Publications of Ashutosh Mishra",
-    "% https://drmishra.space/research/",
+    "% https://drmishra.space/publications/",
     `% Generated ${new Date().toISOString().slice(0, 10)}`,
     "",
   ].join("\n");

@@ -1,6 +1,6 @@
 /**
- * Speaking, panels and recognition. Rendered as a horizontal scroll-snap strip
- * on the homepage.
+ * Speaking and recognition. Rendered as a horizontal scroll-snap strip on the
+ * homepage.
  *
  * Deliberately not an auto-playing carousel: auto-advance moves content while
  * people are reading it, hides most of the set behind a timer, and anything
@@ -8,7 +8,10 @@
  * A scroll-snap strip is reachable by swipe, wheel, keyboard and screen reader,
  * and needs no JavaScript at all.
  *
- * Every entry is a fact from the CV. Add `src` once the photographs land.
+ * Every entry is a fact from the CV. Where a real photograph exists it is
+ * used; a paper's own figure stands in for the paper; otherwise the card
+ * carries a labelled illustration, and its caption says what it depicts
+ * rather than claiming a moment nobody photographed.
  */
 
 export interface Talk {
@@ -16,9 +19,15 @@ export interface Talk {
   title: string;
   where: string;
   year: string;
-  /** What the photograph should show. Doubles as alt text once `src` is set. */
+  /** Doubles as alt text. Describes what the image actually shows. */
   caption: string;
-  src?: string;
+  src: string;
+  kind?: "photo" | "figure" | "illustration";
+  focus?: string;
+  /** Where the card leads, when there is somewhere real to go. */
+  href?: string;
+  /** Photo credit and licence, where the photograph is someone else's. */
+  credit?: { text: string; href: string };
 }
 
 export const talks: Talk[] = [
@@ -27,41 +36,58 @@ export const talks: Talk[] = [
     where: "IAC 2025, Sydney",
     year: "2025",
     caption:
-      "Speaking as an invited panelist at the IAF Next Generation Plenary, International Astronautical Congress 2025, Sydney.",
+      'Speaking at Plenary 6, "Designing the Future of Human Spaceflight", International Astronautical Congress 2025, Sydney, 1 October 2025.',
+    src: "/media/talks/iac2025-plenary6-lectern.webp",
+    focus: "38% 50%",
+    href: "https://www.youtube.com/watch?v=ArTSq-hJdfg",
+    credit: {
+      text: "Photo: IAF, CC BY-NC-SA 4.0",
+      href: "https://www.flickr.com/photos/iafastro/54826281298/",
+    },
   },
   {
     title: "Emerging Space Leader",
     where: "International Astronautical Federation",
     year: "2025",
-    caption:
-      "Recognised by the International Astronautical Federation as an Emerging Space Leader, Sydney.",
+    caption: "Sydney Harbour, host city of the International Astronautical Congress 2025.",
+    src: "/media/illustrations/talk-sydney-iac.webp",
+    kind: "illustration",
   },
   {
-    title: "Best Research Paper",
+    title: "Best Paper Award",
     where: "IEEE iSpaRo 2025, Sendai",
     year: "2025",
     caption:
-      "Presenting the Best Research Paper on multi-modal decentralized reinforcement learning at IEEE iSpaRo 2025, Sendai.",
+      "From the award-winning paper's field trial: MoonBot driving to its target under learned locomotion and steering policies, JAXA Space Exploration Test Field.",
+    src: "/media/robotics/jaxa-decrl-phase1.webp",
+    focus: "50% 10%",
+    href: "/publications/multi-modal-decentralized-rl-modular-lunar-robots/",
   },
   {
     title: "Space Studies Program",
-    where: "NASA Johnson Space Center, Houston",
+    where: "International Space University, Houston",
     year: "2024",
     caption:
-      "With the International Space University Space Studies Program 2024 team at NASA Johnson Space Center, Houston.",
+      "The Space Studies Program 2024 Indian delegation, hosted by the Consul General of India in Houston, 1 July 2024.",
+    src: "/media/talks/ssp24-houston-delegation.webp",
+    href: "/projects/international-lunar-university-ssp24/",
   },
   {
     title: "I-CON Award",
-    where: "Indian Society of Remote Sensing, ISRO",
+    where: "Indian Society of Remote Sensing",
     year: "2024",
     caption:
-      "Receiving the I-CON Award from the Indian Society of Remote Sensing and ISRO, for satellite-based air pollution monitoring.",
+      "An Earth-observation satellite above a city: the setting of the satellite-based air pollution monitoring system the award recognised.",
+    src: "/media/illustrations/talk-icon-satellite.webp",
+    kind: "illustration",
   },
   {
     title: "Innovation Ambassador",
-    where: "Ministry of Education, Government of India",
-    year: "2020",
-    caption:
-      "Mentoring as an Innovation Ambassador for the Ministry of Education's Innovation Cell, India.",
+    where: "Ministry of Education, India",
+    year: "2020 to present",
+    caption: "A student mentoring session around an electronics prototype.",
+    src: "/media/illustrations/talk-mentoring.webp",
+    kind: "illustration",
+    href: "/society/",
   },
 ];

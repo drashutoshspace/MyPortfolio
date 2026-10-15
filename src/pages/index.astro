@@ -13,7 +13,8 @@ import { talks } from "~/data/talks";
 import { latestNews, kindLabel } from "~/data/news";
 import VideoEmbed from "~/components/VideoEmbed.astro";
 import PaperFeature from "~/components/PaperFeature.astro";
-import { moonbotVideo } from "~/data/featured";
+import { moonbot, moonbotVideo } from "~/data/featured";
+import { helpingHut } from "~/data/society";
 
 /* The MoonBot T-FR article and the iSpaRo 2025 paper already lead the page
    under Featured research, so they are not repeated here. */
@@ -24,19 +25,29 @@ const featured = [
   .map(getPublication)
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-/* Captions name the exact photograph wanted, so dropping files into
-   /public/media and adding `src` finishes them with no layout change. */
-const openingPlates = [
+/* Three plates, one per chapter of the work: MoonBot in the field, the cave
+   campaign, and the legged locomotion now under way in Genova. */
+const openingPlates: {
+  caption: string;
+  src: string;
+  alt?: string;
+  kind?: "photo" | "figure" | "illustration";
+  focus?: string;
+}[] = [
   {
-    caption:
-      "MoonBot modules reconfiguring on the regolith bed, JAXA Space Exploration Test Field, Sagamihara.",
-    ratio: "3 / 2",
+    caption: "MoonBot in Dragon configuration on a crater rim in regolith simulant, DLR-ESA LUNA facility, Cologne.",
+    src: "/media/robotics/luna-dragon-crater-rim.webp",
+    focus: "45% 50%",
   },
-  { caption: "Field test inside Abukuma Cave, a lunar cave analogue.", ratio: "3 / 2" },
   {
-    caption:
-      "Quadruped locomotion trial under the ALTEC project, Dynamic Legged Systems lab, Genova.",
-    ratio: "3 / 2",
+    caption: "The modular sensor box in Abukuma Cave, a stand-in for lunar caves.",
+    src: "/media/robotics/sensorbox-abukuma-cave.webp",
+    focus: "50% 100%",
+  },
+  {
+    caption: "Quadrupeds for terrain nobody has surveyed: the problem the work in Genova addresses.",
+    src: "/media/illustrations/legged-quadruped-regolith.webp",
+    kind: "illustration",
   },
 ];
 
@@ -76,7 +87,7 @@ const recentProjects = spaceProjects.slice(0, 4);
     <aside class="side">
       <div class="portrait plate">
         <img
-          src="/media/ashutosh-mishra.png"
+          src="/media/ashutosh-mishra.webp"
           alt={`${profile.name}, ${profile.role} at ${profile.institutionShort}`}
           width="558"
           height="582"
@@ -99,7 +110,7 @@ const recentProjects = spaceProjects.slice(0, 4);
         </div>
         <div>
           <dt>Publications</dt>
-          <dd>{peerReviewedCount} peer reviewed, <a class="link" href="/research/">listed here</a></dd>
+          <dd>{peerReviewedCount} peer reviewed, <a class="link" href="/publications/">listed here</a></dd>
         </div>
       </dl>
     </aside>
@@ -115,10 +126,7 @@ const recentProjects = spaceProjects.slice(0, 4);
       <div class="feature__text">
         <p class="key">IEEE Transactions on Field Robotics, 2025</p>
         <h3><a class="head-link" href="/research/moonbot/">MoonBot: a modular robot for building a Moon base</a></h3>
-        <p class="fk">
-          One set of limbs, wheels and tools that reconfigures on demand into whichever machine
-          a lunar construction task needs.
-        </p>
+        <p class="fk">{moonbot.oneLine}</p>
         <p class="no-print"><a class="btn btn--primary" href="/research/moonbot/">About MoonBot</a></p>
       </div>
     </div>
@@ -130,7 +138,7 @@ const recentProjects = spaceProjects.slice(0, 4);
 
   <section class="section plates no-print">
     <div class="plate-row">
-      {openingPlates.map((p, i) => <Plate caption={p.caption} ratio={p.ratio} />)}
+      {openingPlates.map((p) => <Plate caption={p.caption} src={p.src} alt={p.alt} kind={p.kind} focus={p.focus} ratio="3 / 2" />)}
     </div>
   </section>
 
@@ -156,8 +164,8 @@ const recentProjects = spaceProjects.slice(0, 4);
 
   <section class="section">
     <div class="section-head">
-      <h2>Speaking and outreach</h2>
-      <p class="aside">IAC, iSpaRo, and the Space Studies Program at NASA Johnson Space Center.</p>
+      <h2>Speaking and recognition</h2>
+      <p class="aside">IAC 2025 in Sydney, a best paper award at iSpaRo 2025, and the Space Studies Program in Houston.</p>
     </div>
     <Gallery items={talks} label="Speaking, panels and recognition" />
   </section>
@@ -195,7 +203,24 @@ const recentProjects = spaceProjects.slice(0, 4);
 
     {featured.map((p) => <PublicationEntry pub={p} />)}
 
-    <p class="more no-print"><a class="link" href="/research/">All research and publications</a></p>
+    <p class="more no-print"><a class="link" href="/publications/">All publications</a></p>
+  </section>
+
+  <section class="section">
+    <div class="society">
+      <a class="plate society__fig" href="/society/" style="aspect-ratio: 3 / 2">
+        <img src="/media/society/gyankutir-opening-day.webp" alt="Villagers walking in under the GyanKutir banner on the library's opening day." width="1280" height="853" loading="lazy" decoding="async" />
+      </a>
+      <div>
+        <h2>Society</h2>
+        <p class="fk">
+          Outside the lab I am {helpingHut.role} at Helping Hut, a student-founded NGO running free
+          street schooling, a village library and relief drives in India, and I built the platform
+          it runs on.
+        </p>
+        <p class="no-print"><a class="btn" href="/society/">Society work</a></p>
+      </div>
+    </div>
   </section>
 
   <section class="section">
@@ -221,7 +246,7 @@ const recentProjects = spaceProjects.slice(0, 4);
     <div class="section-head"><h2>Get in touch</h2></div>
     <p class="prose">
       Collaboration enquiries, talk and panel invitations, and questions about the work
-      are all welcome. I read every message. Write to <Email /> or
+      are all welcome. I read every message. Write to <Email />{" "}or{" "}
       <a class="link" href="/contact/">use the contact page</a>.
     </p>
   </section>
@@ -258,6 +283,9 @@ const recentProjects = spaceProjects.slice(0, 4);
   .feature-paper { margin-top: clamp(2rem, 5vw, 3rem); padding-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--rule); }
 
   .plates { padding-top: 0; border-top: 0 !important; }
+
+  .society { display: grid; gap: 1.2rem clamp(1.5rem, 4vw, 2.5rem); align-items: center; }
+  @media (min-width: 760px) { .society { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
   .plate-row { display: grid; gap: 1.2rem; grid-template-columns: 1fr; }
   @media (min-width: 700px) { .plate-row { grid-template-columns: repeat(3, 1fr); } }
 

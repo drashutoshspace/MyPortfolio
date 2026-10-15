@@ -54,8 +54,28 @@
   ],
   "redirects": [
     {
-      "source": "/publications",
-      "destination": "/research/",
+      "source": "/awards",
+      "destination": "/cv/#awards",
+      "permanent": true
+    },
+    {
+      "source": "/education",
+      "destination": "/cv/#education",
+      "permanent": true
+    },
+    {
+      "source": "/experiences",
+      "destination": "/cv/",
+      "permanent": true
+    },
+    {
+      "source": "/skills",
+      "destination": "/cv/#skills",
+      "permanent": true
+    },
+    {
+      "source": "/posts",
+      "destination": "/news/",
       "permanent": true
     }
   ]

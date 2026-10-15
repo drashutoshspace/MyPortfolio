@@ -37,7 +37,7 @@ const sections = [
 
   {
     sections.map((s) => (
-      <section class="section">
+      <section class="section" id={s.key}>
         <div class="section-head">
           <h2>{s.title}</h2>
         </div>
@@ -66,7 +66,7 @@ const sections = [
     ))
   }
 
-  <section class="section">
+  <section class="section" id="fieldwork">
     <div class="section-head">
       <h2>Field campaigns</h2>
       <span class="key">hardware in real terrain</span>
@@ -87,7 +87,7 @@ const sections = [
     </ul>
   </section>
 
-  <section class="section">
+  <section class="section" id="awards">
     <div class="section-head">
       <h2>Awards and honours</h2>
       <span class="key tnum">{awards.length}</span>
@@ -109,18 +109,34 @@ const sections = [
     </ul>
   </section>
 
-  <section class="section">
+  <section class="section" id="society">
+    <div class="section-head">
+      <h2>Service to society</h2>
+    </div>
+    <ul class="entries">
+      <li class="entry">
+        <p class="key dates tnum">2024 to present</p>
+        <div>
+          <h3>Helping Hut (NGO)</h3>
+          <p class="role">Technical Lead and Advisor</p>
+          <p class="detail wrap">Built and maintains the platform behind the NGO's volunteer network and donations: volunteer check-in, verifiable certificates, donations with receipts. <a class="link" href="/society/">More on the Society page</a>.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section" id="publications">
     <div class="section-head">
       <h2>Publications</h2>
       <span class="key">{peerReviewedCount} peer reviewed</span>
     </div>
     <p class="prose">
       The full list, with DOIs and per-paper pages, is on the
-      <a class="link" href="/research/">publications page</a>.
+      <a class="link" href="/publications/">publications page</a>.
     </p>
   </section>
 
-  <section class="section">
+  <section class="section" id="skills">
     <div class="section-head">
       <h2>Skills</h2>
     </div>

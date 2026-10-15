@@ -24,6 +24,8 @@ export interface Theme {
   current?: boolean;
   /** A dedicated page that goes deeper than the theme, linked from it. */
   spotlight?: { href: string; label: string };
+  /** Lead image for the theme page and its card on /research/. */
+  image?: { src: string; caption: string; alt?: string; kind?: "photo" | "figure" | "illustration"; focus?: string };
 }
 
 export const themes: Theme[] = [
@@ -36,24 +38,30 @@ export const themes: Theme[] = [
       "How does a legged robot keep walking on terrain that no one has surveyed, with no chance of rescue?",
     body: [
       "Wheels are a reasonable choice on graded terrain. Most of the lunar surface is not graded. Legs can step over and around what wheels have to drive through, but that flexibility only helps if the controller can decide where to put a foot on ground it has never seen, under lighting that gives almost no usable shadow gradient.",
-      "This is the work I do now in the Dynamic Legged Systems lab at Istituto Italiano di Tecnologia (IIT) in Genova, with Claudio Semini, under the ALTEC project. It is mostly reinforcement learning trained on GPU at scale, and then the harder half: the sim-to-real transfer pipeline that determines whether a policy which looks excellent in Isaac Lab still works when it is driving real actuators against real regolith simulant.",
+      "This is the work I do now in the Dynamic Legged Systems lab at Istituto Italiano di Tecnologia (IIT) in Genova, with Claudio Semini, under the ALTEC project. It is mostly reinforcement learning trained on GPU at scale, and then the harder half: the sim-to-real transfer pipeline that decides whether a policy which looks excellent in Isaac Lab still works once it is driving real actuators.",
     ],
     publications: [],
     current: true,
+    image: {
+      src: "/media/illustrations/legged-quadruped-regolith.webp",
+      caption: "A research quadruped stepping across rock-strewn regolith: the terrain the controllers are trained for.",
+      kind: "illustration",
+    },
   },
   {
     slug: "modular-reconfigurable-lunar-robots",
     title: "Modular reconfigurable lunar robots",
     kicker:
-      "MoonBot: one set of limbs and modules that recombines into whichever machine the task needs.",
+      "MoonBot: one set of limbs, wheels and tools that reconfigures on demand into whichever machine a lunar construction task needs.",
     question:
       "If you can only land a fixed mass on the Moon, should it be one specialised machine or a set of parts?",
     body: [
-      "Every kilogram delivered to the lunar surface is expensive enough that sending three single-purpose machines is hard to justify when one set of reconfigurable parts could do all three jobs. That is the argument behind MoonBot, developed at the Space Robotics Lab at Tohoku University under JST Moonshot Goal 3: limbs and modules that attach on demand, so the same hardware becomes a manipulator, a walker, or an excavator depending on what the task requires.",
-      "Modularity moves the difficulty rather than removing it. A robot whose morphology changes cannot rely on a controller written for one fixed body, and it cannot rely on a central planner that assumes it knows what is attached. Most of my doctoral work went into that problem, on both the control side and the software architecture side.",
+      "Every kilogram delivered to the lunar surface is expensive enough that sending three single-purpose machines is hard to justify when one set of reconfigurable parts could do all three jobs. That is the argument behind MoonBot, developed at the Space Robotics Lab at Tohoku University under JST Moonshot Goal 3: limbs, wheels and tools that attach on demand, so the same hardware becomes a manipulator, a vehicle, a walker or an excavator depending on what the task requires.",
+      "Modularity moves the difficulty rather than removing it. A robot whose morphology changes cannot rely on a controller written for one fixed body, and it cannot rely on a central planner that assumes it knows what is attached. Most of my doctoral work went into that problem: decentralized control and reinforcement learning for a body that keeps changing, and the software that lets the modules work as one machine.",
     ],
     publications: [
       "moonbot-modular-reconfigurable-robot-moon-base",
+      "multi-modal-decentralized-rl-modular-lunar-robots",
       "distributed-heterogeneous-modularity-moonbots",
       "modular-bucket-drum-excavator-lunar-isru",
       "multi-limb-synchronization-motion-stack-hypersphere",
@@ -63,6 +71,11 @@ export const themes: Theme[] = [
       "Abukuma Cave, as a stand-in for lunar cave environments",
     ],
     spotlight: { href: "/research/moonbot/", label: "MoonBot in depth, with video" },
+    image: {
+      src: "/media/robotics/jaxa-minimal-dragon-rock-clearing.webp",
+      caption:
+        "Two MoonBot configurations working as a team, a Minimal and a Dragon, clearing rocks to prepare the ground for infrastructure, JAXA Space Exploration Test Field.",
+    },
   },
   {
     slug: "learning-and-autonomy-for-field-robots",
@@ -72,7 +85,7 @@ export const themes: Theme[] = [
     question:
       "What has to be true for a learned policy to still work outside the simulator?",
     body: [
-      "A policy that performs well in simulation and fails on hardware has told you something about your simulator, not about your method. Field robotics is where that distinction stops being academic, and it is the reason the work below is validated on real machines in real terrain rather than in benchmark environments.",
+      "A policy that performs well in simulation and fails on hardware has told you something about your simulator, not about your method. Field robotics is where that distinction stops being academic, and it is why the work below goes onto real hardware in lunar-analogue terrain wherever it can, rather than stopping at benchmark environments.",
       "Two threads run through it. One is decentralization: when a robot's morphology can change, control that assumes a fixed body and a central authority breaks, so each module has to act on what it can observe locally. The other is agentic planning: giving a modular platform enough autonomy to decompose a task and execute it without a human specifying every step.",
     ],
     publications: [
@@ -82,6 +95,11 @@ export const themes: Theme[] = [
       "robogene-modular-drl-framework",
       "human-in-loop-manipulator-control-uncertain-assembly",
     ],
+    image: {
+      src: "/media/robotics/jaxa-hidas-inflation-monitoring.webp",
+      caption:
+        "A MoonBot Dragon monitoring the HIDAS inflatable habitat module as it inflates, using a camera on its limb, JAXA Space Exploration Test Field.",
+    },
     fieldwork: ["JAXA Space Exploration Test Field, Sagamihara"],
   },
 ];

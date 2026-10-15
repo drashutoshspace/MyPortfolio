@@ -17,6 +17,7 @@ interface Props {
     venue: string;
     year: number;
     doi?: string;
+    kind: "journal" | "conference";
   };
   breadcrumbs?: { name: string; path: string }[];
   isProfilePage?: boolean;

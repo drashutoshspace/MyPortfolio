@@ -1,11 +1,12 @@
 ---
 /**
- * A figure plate. If `src` exists it renders the photograph; otherwise it
- * renders a quiet corner-ticked panel naming exactly which photograph belongs
- * there, with the real caption underneath either way.
+ * A figure plate: a photograph, a figure from a paper, or an illustration,
+ * always with its caption underneath.
  *
- * The point is that the layout is finished and only the plate is outstanding.
- * No stock imagery, no gradient standing in for a photograph.
+ * `kind` keeps the record honest. A generated illustration is labelled as one
+ * in the caption, so nobody mistakes a drawing for a field photograph, and in
+ * the dark theme it is inverted so the drawing reads as light ink on the dark
+ * page instead of a white card. A plate with no `src` renders nothing.
  */
 interface Props {
   caption: string;
@@ -14,18 +15,21 @@ interface Props {
   /** CSS aspect-ratio, e.g. "4 / 3". */
   ratio?: string;
   eager?: boolean;
+  kind?: "photo" | "figure" | "illustration";
+  /** object-position for the crop, e.g. "50% 30%". */
+  focus?: string;
 }
-const { caption, src, alt, ratio = "4 / 3", eager = false } = Astro.props;
+const { caption, src, alt, ratio = "4 / 3", eager = false, kind = "photo", focus } = Astro.props;
 // Intrinsic dimensions from the ratio, so the img reserves its box even before
 // the container's aspect-ratio applies. 1600 wide is a sane upper bound.
 const [rw, rh] = ratio.split("/").map((n) => Number(n.trim()));
 const w = 1600, h = Math.round((1600 * rh) / rw);
 ---
 
-<figure>
-  <div class:list={["plate", { "plate--pending": !src }]} style={`aspect-ratio:${ratio}`}>
-    {
-      src ? (
+{
+  src && (
+    <figure>
+      <div class:list={["plate", { "plate--illustration": kind === "illustration", "plate--figure": kind === "figure" }]} style={`aspect-ratio:${ratio}`}>
         <img
           src={src}
           alt={alt ?? caption}
@@ -34,11 +38,13 @@ const w = 1600, h = Math.round((1600 * rh) / rw);
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           fetchpriority={eager ? "high" : undefined}
+          style={focus ? `object-position:${focus}` : undefined}
         />
-      ) : (
-        <p class="plate__note">Photograph to place</p>
-      )
-    }
-  </div>
-  <figcaption>{caption}</figcaption>
-</figure>
+      </div>
+      <figcaption>
+        {caption}
+        {kind === "illustration" && <span class="kind"> Illustration.</span>}
+      </figcaption>
+    </figure>
+  )
+}

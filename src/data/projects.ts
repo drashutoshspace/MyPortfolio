@@ -35,8 +35,17 @@ export interface Project {
   /** Research theme slugs this belongs under. */
   themes?: string[];
   links?: { label: string; href: string }[];
-  /** Photograph the layout wants. Rendered as a captioned pending plate. */
-  image?: { caption: string; src?: string };
+  /** The page's lead image: a field photograph, a figure from the paper, or
+   *  a labelled illustration where no photograph survives. */
+  image?: {
+    caption: string;
+    src: string;
+    alt?: string;
+    kind?: "photo" | "figure" | "illustration";
+    focus?: string;
+  };
+  /** Further photographs and figures, shown as a grid below the text. */
+  gallery?: { src: string; caption: string; kind?: "photo" | "figure" | "illustration"; focus?: string }[];
 }
 
 export const projects: Project[] = [
@@ -44,11 +53,10 @@ export const projects: Project[] = [
     slug: "self-evolving-ai-robot-system-lunar-exploration",
     title: "Self-Evolving AI Robot System for Lunar Exploration",
     kicker:
-      "Autonomous, self-evolving robot systems for lunar exploration and outpost construction, under JST Moonshot Goal 3.",
+      "The JST Moonshot Goal 3 programme behind MoonBot: robot systems that can build and maintain a lunar outpost with minimal human help.",
     from: "2023-10",
-    to: "Present",
-    current: true,
-    context: "Space Robotics Lab, Tohoku University, with Prof. Kazuya Yoshida",
+    to: "2026-03",
+    context: "Space Robotics Lab, Tohoku University, with Kazuya Yoshida",
     era: "space-robotics",
     body: [
       "The umbrella programme behind most of my doctoral work. The goal set by JST Moonshot Goal 3 is a robot system that can build and maintain a lunar outpost with minimal human intervention, which means the system has to keep working when its own configuration, the terrain, and the task all change.",
@@ -59,8 +67,19 @@ export const projects: Project[] = [
     publications: ["moonbot-modular-reconfigurable-robot-moon-base"],
     image: {
       caption:
-        "The MoonBot platform assembled for a construction task, Space Robotics Lab, Tohoku University.",
+        "A Dragon x4 chain of eight MoonBot limb and wheel modules crossing the dune at the JAXA Space Exploration Test Field, July 2025.",
+      src: "/media/robotics/jaxa-dragon-x4-assembly.webp",
     },
+    gallery: [
+      {
+        src: "/media/robotics/jaxa-limb-wheel-self-assembly.webp",
+        caption: "Self-assembly: a limb on the launch-lock palette reaching for a wheel module, JAXA Space Exploration Test Field.",
+      },
+      {
+        src: "/media/robotics/luna-dragon-crater-rim.webp",
+        caption: "MoonBot in Dragon configuration on a crater rim in regolith simulant, DLR-ESA LUNA facility, Cologne.",
+      },
+    ],
   },
   {
     slug: "moonbot-apex-agentic-planning-execution",
@@ -82,8 +101,17 @@ export const projects: Project[] = [
     links: [{ label: "Demo video", href: "https://youtu.be/wrkr4xLJ7zM" }],
     image: {
       caption:
-        "MoonBot executing an APEX-planned task on the regolith bed, JAXA Space Exploration Test Field, Sagamihara.",
+        "Mission control at the JAXA Space Exploration Test Field: the operator desk, with a MoonBot Dragon on the sand behind the screens.",
+      src: "/media/robotics/jaxa-mission-control.webp",
+      focus: "50% 40%",
     },
+    gallery: [
+      {
+        src: "/media/robotics/jaxa-hidas-inflation-monitoring.webp",
+        caption:
+          "A MoonBot Dragon watching the HIDAS inflatable habitat module inflate, with a camera on its limb, JAXA Space Exploration Test Field.",
+      },
+    ],
   },
   {
     slug: "modular-rl-policy-reconfigurable-robots",
@@ -103,8 +131,17 @@ export const projects: Project[] = [
     publications: ["multi-modal-decentralized-rl-modular-lunar-robots"],
     image: {
       caption:
-        "A reconfigured MoonBot morphology under RL policy control, JAXA Space Exploration Test Field, Sagamihara.",
+        "Phase 1 of the field trial: MoonBot detecting its target and driving to it under learned locomotion and steering policies, JAXA Space Exploration Test Field.",
+      src: "/media/robotics/jaxa-decrl-phase1.webp",
+      focus: "50% 12%",
     },
+    gallery: [
+      {
+        src: "/media/isparo-2025-dec-rl-fig1.webp",
+        caption: "Figure 1 of the iSpaRo 2025 paper: each module coloured by the policy that drives it.",
+        kind: "figure",
+      },
+    ],
   },
   {
     slug: "plug-and-play-modular-sensor-box",
@@ -122,9 +159,27 @@ export const projects: Project[] = [
     stack: ["Livox Mid-360 LiDAR", "Intel RealSense D435i", "Sensor fusion", "SLAM", "ROS 2"],
     themes: ["modular-reconfigurable-lunar-robots"],
     image: {
-      caption:
-        "The modular sensor box mapping Abukuma Cave, a lunar cave analogue, under working lights.",
+      caption: "The sensor box mounted on a MoonBot on the lab sand bed, Space Robotics Lab, Tohoku University.",
+      src: "/media/robotics/sensorbox-on-moonbot.webp",
+      focus: "50% 45%",
     },
+    gallery: [
+      {
+        src: "/media/robotics/sensorbox-abukuma-cave.webp",
+        caption: "The sensor box carried by hand through Abukuma Cave.",
+        focus: "50% 100%",
+      },
+      {
+        src: "/media/robotics/abukuma-cave-pointcloud.webp",
+        caption: "LiDAR point cloud of a chamber in Abukuma Cave. The scale bar reads 9.5 m.",
+        kind: "figure",
+      },
+      {
+        src: "/media/robotics/sensorbox-hardware-annotated.webp",
+        caption: "Inside the box: Livox Mid-360 LiDAR, LattePanda Sigma compute, a fisheye stereo pair and a RealSense D435i.",
+        kind: "figure",
+      },
+    ],
   },
   {
     slug: "manipulator-control-solar-infrastructure-deployment",
@@ -144,8 +199,15 @@ export const projects: Project[] = [
     publications: ["human-in-loop-manipulator-control-uncertain-assembly"],
     image: {
       caption:
-        "UR16e manipulator during a deployment trial, JAXA Space Exploration Test Field, Sagamihara.",
+        "The UR16e arm on its construction pallet, gripping the stowed solar panel stack before extension, JAXA Space Exploration Test Field.",
+      src: "/media/robotics/jaxa-solar-panel-setup.webp",
     },
+    gallery: [
+      {
+        src: "/media/robotics/jaxa-solar-tower-extended.webp",
+        caption: "The same arm holding the fully extended solar tower.",
+      },
+    ],
   },
   {
     slug: "international-lunar-university-ssp24",
@@ -154,20 +216,28 @@ export const projects: Project[] = [
       "Project management lead and lead editor for an interdisciplinary lunar university proposal, later presented at IAC 2024.",
     from: "2024-06",
     to: "2024-08",
-    site: "NASA Johnson Space Center and Rice University, Houston",
     context:
-      "International Space University Space Studies Program 2024, with Dr. Jacob Cohen, Chief Scientist at NASA Ames",
+      "International Space University Space Studies Program 2024, at NASA Johnson Space Center and Rice University, Houston, supervised by Jacob Cohen, Chief Scientist at NASA Ames",
     era: "space-robotics",
     body: [
       "During the International Space University Space Studies Program 2024, hosted at NASA Johnson Space Center and Rice University, I led the project management team and served as lead editor for the International Lunar University project.",
-      "The work was interdisciplinary rather than technical: a proposal for how lunar research and public engagement might be organised institutionally, developed with an international team under the supervision of Dr. Jacob Cohen, Chief Scientist at NASA Ames. It was later presented at the International Astronautical Congress 2024.",
+      "The work was interdisciplinary rather than technical: a proposal for how lunar research and public engagement might be organised institutionally, developed with an international team under the supervision of Jacob Cohen, Chief Scientist at NASA Ames. It was later presented at the International Astronautical Congress 2024 as \"International Lunar University: The Dawn of Interplanetary Education\".",
     ],
     stack: ["Project management", "Technical editing", "Space policy"],
     publications: ["international-lunar-university-ssp24"],
     image: {
-      caption:
-        "The Space Studies Program 2024 team at NASA Johnson Space Center, Houston.",
+      caption: "The International Lunar University mission patch. Motto: Globus unus, luna discimus.",
+      src: "/media/projects/ilu-mission-patch.webp",
+      alt: "Circular mission patch: the Moon above the Earth, joined by lines, with a mortarboard, an open book, an atom, DNA, a microscope and a telescope, and the letters ILU.",
+      kind: "figure",
     },
+    gallery: [
+      {
+        src: "/media/robotics/ilu-report-cover-art.webp",
+        caption: "Cover artwork of the International Lunar University final report: a domed lunar campus.",
+        kind: "figure",
+      },
+    ],
   },
   {
     slug: "lidar-object-mapping-identification-rover",
@@ -176,12 +246,16 @@ export const projects: Project[] = [
       "An autonomous rover for mapping and object identification, aimed at space debris tracking and warehouse management.",
     from: "2022-03",
     to: "2022-09",
-    era: "space-robotics",
+    era: "earlier",
     body: [
       "An autonomous rover built around LiDAR mapping and convolutional object identification, with SLAM for localisation. The two application cases explored were tracking space debris and warehouse management, which share a problem: identifying and keeping track of objects in a space you are simultaneously mapping.",
     ],
     stack: ["Python", "CNN", "ROS", "SLAM", "Raspberry Pi", "Keras"],
-    image: { caption: "The LiDAR mapping rover during an indoor identification run." },
+    image: {
+      caption: "A LiDAR rover mapping a warehouse aisle, one of the two application cases.",
+      src: "/media/illustrations/proj-lidar-rover.webp",
+      kind: "illustration",
+    },
   },
   {
     slug: "numerically-controlled-oscillator-isro-seams",
@@ -196,7 +270,11 @@ export const projects: Project[] = [
       "A numerically controlled oscillator implemented on an FPGA, used for spectrum analyser calibration on ISRO's SEAMS payload. Calibration hardware is unglamorous and entirely load-bearing: the analyser's measurements are only as trustworthy as the reference it is calibrated against.",
     ],
     stack: ["Verilog", "Vivado", "Nexys DDR FPGA board"],
-    image: { caption: "The NCO implementation under test on the FPGA board." },
+    image: {
+      caption: "An FPGA-based oscillator providing the reference signal for a spectrum analyser.",
+      src: "/media/illustrations/proj-nco-fpga.webp",
+      kind: "illustration",
+    },
   },
   {
     slug: "8-bit-microcontroller-verilog",
@@ -209,7 +287,11 @@ export const projects: Project[] = [
       "An 8-bit microcontroller designed and implemented in Verilog on a Nexys DDR FPGA board, intended for small automation tasks. Building a processor from the register file up is the exercise that makes the abstractions underneath everything else stop being abstractions.",
     ],
     stack: ["Verilog", "Nexys DDR FPGA board", "Vivado HLS"],
-    image: { caption: "The 8-bit core running on the Nexys DDR FPGA board." },
+    image: {
+      caption: "An 8-bit core on an FPGA board, beside its block diagram.",
+      src: "/media/illustrations/proj-8bit-mcu.webp",
+      kind: "illustration",
+    },
   },
   {
     slug: "electric-vehicle-charging-management-system",
@@ -226,7 +308,11 @@ export const projects: Project[] = [
       "Alongside the platform I managed the Linux servers and backend infrastructure it ran on. It is the piece of my background that is straightforwardly industrial: a deployed system with real users and real uptime expectations.",
     ],
     stack: ["Python", "Django", "AWS", "MySQL", "Apache", "Linux"],
-    image: { caption: "The charging station management dashboard in operation." },
+    image: {
+      caption: "A cluster of charging stations managed from one cloud platform.",
+      src: "/media/illustrations/proj-ev-charging.webp",
+      kind: "illustration",
+    },
   },
   {
     slug: "health-kiosk-employee-monitoring",
@@ -241,7 +327,11 @@ export const projects: Project[] = [
       "A health kiosk machine deployed during the COVID-19 pandemic to monitor the health status of government employees in Meghalaya, India. The constraint that shaped it was deployment: it had to work unattended, in the field, maintained by people who had not built it.",
     ],
     stack: ["Raspberry Pi", "Python", "Flask", "Sensors"],
-    image: { caption: "The deployed health kiosk in use, Meghalaya, India." },
+    image: {
+      caption: "A self-service health screening kiosk of the kind deployed in Meghalaya.",
+      src: "/media/illustrations/proj-health-kiosk.webp",
+      kind: "illustration",
+    },
   },
   {
     slug: "sebai-smart-eye-based-on-ai",
@@ -255,8 +345,13 @@ export const projects: Project[] = [
       "An assistive product for blind, deaf and mute users, combining speech-based navigation, sign language conversion and object identification on an ESP32-Cam with TensorFlow Lite models running on-device.",
       "It was recognised as a finalist in the National Innovation Contest 2020, placing in the top ten of more than thirty thousand submissions.",
     ],
+    links: [{ label: "Prototype video", href: "https://www.youtube.com/watch?v=gBda2A8VR1E" }],
     stack: ["ESP32-Cam", "Keras", "TensorFlow Lite", "Python", "PCB design"],
-    image: { caption: "The SEBAI prototype, showing the camera module and enclosure." },
+    image: {
+      caption: "SEBAI's form: a camera on the glasses, wired to a handheld unit with a speaker.",
+      src: "/media/illustrations/proj-sebai.webp",
+      kind: "illustration",
+    },
   },
 ];
 

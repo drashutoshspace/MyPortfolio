@@ -306,12 +306,27 @@ figure { margin: 0; }
   text-align: center;
 }
 
+/* Illustrations and paper figures sit on white, so they keep a white plate and
+   are shown whole rather than cropped. In the dark theme an illustration is
+   inverted and hue-rotated back, which turns blue ink on white into pale blue
+   ink on the dark page. Photographs are never filtered. */
+.plate--illustration,
+.plate--figure { background: #fff; }
+.plate--figure img { object-fit: contain; }
+:root[data-theme="dark"] .plate--illustration { background: var(--bg); }
+:root[data-theme="dark"] .plate--illustration img { filter: invert(0.9) hue-rotate(180deg); }
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] .plate--illustration { background: var(--bg); }
+  :root[data-theme="auto"] .plate--illustration img { filter: invert(0.9) hue-rotate(180deg); }
+}
+
 figcaption {
   font-size: 0.88rem;
   line-height: 1.5;
   color: var(--ink-3);
   margin-top: 0.55rem;
 }
+figcaption .kind { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-3); }
 figcaption .fig {
   font-family: var(--serif);
   font-weight: 600;

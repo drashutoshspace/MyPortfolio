@@ -1,13 +1,14 @@
 ---
 import { profile } from "~/data/profile";
 
-/* Research absorbed Publications: for a researcher the publication list is the
-   research record, and two nav items for one thing was a redundancy. */
+/* Six items, one line at desktop. Publications has its own index again so the
+   label a hiring committee looks for is in the bar; Collaborations and News
+   live in the footer and on the pages that cite them. */
 const items = [
   { label: "Research", href: "/research/" },
+  { label: "Publications", href: "/publications/" },
   { label: "Projects", href: "/projects/" },
-  { label: "Collaborations", href: "/collaborations/" },
-  { label: "News", href: "/news/" },
+  { label: "Society", href: "/society/" },
   { label: "CV", href: "/cv/" },
   { label: "Contact", href: "/contact/" },
 ];
@@ -134,6 +135,15 @@ const isActive = (href: string) => here === href || here.startsWith(href);
   @media (max-width: 620px) {
     ul { gap: 0.15rem 1.1rem; }
     .item { font-size: 0.88rem; }
+  }
+  /* Six items on one row down to a 360px phone. */
+  @media (max-width: 440px) {
+    ul { gap: 0.1rem 0.72rem; justify-content: space-between; }
+    .item { font-size: 0.84rem; }
+  }
+  @media (max-width: 380px) {
+    ul { gap: 0.1rem 0.5rem; }
+    .item { font-size: 0.79rem; }
   }
 </style>
 

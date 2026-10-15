@@ -1,6 +1,6 @@
 ---
 /**
- * The iSpaRo 2025 Best Research Paper, shown with its own Fig. 1 rather than a
+ * The iSpaRo 2025 Best Paper in Planetary Robotics, shown with its own Fig. 1 rather than a
  * stand-in image. Used on the homepage and on /research/moonbot/.
  */
 import { getPublication } from "~/data/publications";
@@ -20,6 +20,7 @@ const href = `/publications/${pub.slug}/`;
     <p class="acts no-print">
       <a class="btn" href={href}>Paper details</a>
       <a class="btn" href={fig.arxiv} rel="noopener">arXiv preprint</a>
+      {fig.video && <a class="btn" href={`https://www.youtube.com/watch?v=${fig.video}`} rel="noopener">Video</a>}
     </p>
   </div>
 

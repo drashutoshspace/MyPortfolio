@@ -30,6 +30,9 @@ interface Props {
     venue: string;
     year: number;
     doi?: string;
+    /** Proceedings take citation_conference_title, journals
+     *  citation_journal_title, per Scholar's inclusion guidelines. */
+    kind: "journal" | "conference";
   };
   breadcrumbs?: { name: string; path: string }[];
   /** Set on the homepage only, so the Person node is the primary entity there. */
@@ -53,7 +56,7 @@ const {
   title,
   description,
   path,
-  image = "/media/og-default.png",
+  image = "/media/og-default.jpg",
   type = "website",
   citation,
   breadcrumbs,
@@ -96,7 +99,7 @@ const person = {
   ],
   knowsAbout: profile.expertise,
   award: [
-    "Best Research Paper Award, IEEE iSpaRo 2025",
+    "Best Paper Award in Planetary Robotics, IEEE iSpaRo 2025",
     "IAF Emerging Space Leader 2025",
     "Japanese Government MEXT Research Scholarship",
   ],
@@ -145,7 +148,10 @@ if (citation) {
     author: citation.authors.map((n) => ({ "@type": "Person", name: n })),
     datePublished: String(citation.year),
     publication: citation.venue,
-    isPartOf: { "@type": "Periodical", name: citation.venue },
+    isPartOf:
+      citation.kind === "journal"
+        ? { "@type": "Periodical", name: citation.venue }
+        : { "@type": "PublicationEvent", name: citation.venue },
     ...(citation.doi
       ? {
           identifier: { "@type": "PropertyValue", propertyID: "DOI", value: citation.doi },
@@ -234,7 +240,11 @@ const jsonLd = { "@context": "https://schema.org", "@graph": graph };
         <meta name="citation_author" content={a} />
       ))}
       <meta name="citation_publication_date" content={String(citation.year)} />
-      <meta name="citation_journal_title" content={citation.venue} />
+      {citation.kind === "journal" ? (
+        <meta name="citation_journal_title" content={citation.venue} />
+      ) : (
+        <meta name="citation_conference_title" content={citation.venue} />
+      )}
       {citation.doi && <meta name="citation_doi" content={citation.doi} />}
       <meta name="citation_public_url" content={canonical} />
     </>

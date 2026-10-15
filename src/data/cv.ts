@@ -133,12 +133,13 @@ export const awards: Award[] = [
   },
   {
     title: "Invited panelist, IAF Next Generation Plenary",
-    body: "International Astronautical Congress (IAC) 2025",
+    body: "International Astronautical Federation (IAF), IAC 2025",
     year: "2025",
     place: "Sydney, Australia",
+    note: 'Plenary 6, "Designing the Future of Human Spaceflight", 1 October 2025.',
   },
   {
-    title: "Best Research Paper Award",
+    title: "Best Paper Award in Planetary Robotics",
     body: "IEEE iSpaRo 2025, 2nd International Conference on Space Robotics",
     year: "2025",
     place: "Sendai, Japan",
@@ -151,10 +152,11 @@ export const awards: Award[] = [
     note: "Selected as a MEXT Research Scholar through Embassy Recommendation.",
   },
   {
-    title: "I-CON Award",
-    body: "Indian Society of Remote Sensing (ISRS), ISRO",
+    title: "I-CON Award (Silver), ISRS I-CON 2024",
+    body: "Indian Society of Remote Sensing (ISRS)",
     year: "2024",
-    note: "For an AI-enabled satellite-based air pollution monitoring and alert system, developed with NRSC-ISRO scientists during the Space Studies Program 2024.",
+    place: "Lucknow, India",
+    note: "For a cloud-based, AI-enabled air pollution tracking system, developed with NRSC-ISRO scientists during the Space Studies Program 2024.",
   },
   {
     title: "Dispatch Program Grant",
@@ -166,6 +168,7 @@ export const awards: Award[] = [
     title: "Innovation Ambassador",
     body: "Innovation Cell, Ministry of Education, Government of India",
     year: "2020-present",
+    note: "Mentoring students and building awareness of innovation and entrepreneurship.",
   },
   {
     title: "Finalist, National Innovation Contest",
@@ -177,6 +180,7 @@ export const awards: Award[] = [
     title: "2nd Runner Up, National Level IoT Challenge",
     body: "Indian Institute of Technology Bombay",
     year: "2019",
+    note: "An IoT-based AgriTech system for autonomous agricultural monitoring.",
   },
 ];
 
@@ -191,6 +195,7 @@ export const skills: { group: string; items: string[] }[] = [
       "Motion planning",
       "Digital twin simulation",
       "Genetic algorithms",
+      "Agentic planning",
       "Computer vision",
     ],
   },
@@ -207,6 +212,9 @@ export const skills: { group: string; items: string[] }[] = [
       "MoveIt",
       "MuJoCo",
       "Stable-Baselines3",
+      "OpenAI Gym",
+      "scikit-learn",
+      "Keras",
       "OpenCV",
     ],
   },
@@ -220,6 +228,8 @@ export const skills: { group: string; items: string[] }[] = [
       "UR16e manipulator",
       "Modular robotic platforms",
       "FPGAs",
+      "Raspberry Pi",
+      "Microcontrollers",
       "PCB design",
     ],
   },
@@ -230,7 +240,7 @@ export const skills: { group: string; items: string[] }[] = [
 ];
 
 /** Field campaigns. This is the provenance that simulation-only groups
- *  cannot claim, and it is worth its own listing. */
+ *  cannot claim, and it is worth its own listing. Newest first. */
 export const fieldwork = [
   {
     site: "JAXA Space Exploration Test Field",
@@ -249,5 +259,11 @@ export const fieldwork = [
     place: "Fukushima, Japan",
     what: "Modular plug-and-play sensor box for the MoonBot platform, fusing Livox Mid-360 LiDAR, two fisheye cameras and an Intel RealSense D435i. Field-tested by mapping the cave for lunar cave simulation work.",
     when: "2025",
+  },
+  {
+    site: "JAXA Space Exploration Test Field",
+    place: "Sagamihara, Japan",
+    what: "Human-in-the-loop verification of UR16e manipulator control for deploying solar infrastructure, under uncertain terrain and lighting.",
+    when: "2024",
   },
 ];

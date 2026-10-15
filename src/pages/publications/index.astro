@@ -1,0 +1,86 @@
+---
+import Base from "~/layouts/Base.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { profile } from "~/data/profile";
+import { byYear, publications, peerReviewedCount } from "~/data/publications";
+
+const groups = byYear();
+const accepted = publications.filter((p) => p.status === "accepted");
+const underway = publications.filter((p) => p.status === "in-review" || p.status === "in-submission");
+---
+
+<Base
+  title="Publications"
+  description={`Publications of ${profile.name}: ${peerReviewedCount} peer-reviewed papers on modular reconfigurable lunar robots, decentralized reinforcement learning and field robotics, in IEEE Transactions on Field Robotics, IROS, CASE and iSpaRo, plus earlier work on GaN HEMT modelling and memristive circuits.`}
+  path="/publications/"
+  breadcrumbs={[{ name: "Home", path: "/" }, { name: "Publications", path: "/publications/" }]}
+>
+  <header class="section head">
+    <h1>Publications</h1>
+    <p class="prose lede">
+      {peerReviewedCount} peer-reviewed papers, newest first. Author order is as published, with
+      my name in bold; an asterisk marks equal authorship. Each title opens a page with the
+      abstract summary, links and a ready-made citation.
+    </p>
+
+    <p class="actions no-print">
+      <a class="btn btn--primary" href="/publications.bib">Download all citations <span class="btn__sub">BibTeX</span></a>
+      <a class="btn" href={profile.links.scholar} rel="me noopener">Google Scholar</a>
+      <a class="btn" href={profile.links.orcid} rel="me noopener">ORCID</a>
+    </p>
+  </header>
+
+  {
+    accepted.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Accepted, to appear</h2>
+        </div>
+        {accepted.map((p) => <PublicationEntry pub={p} />)}
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Published</h2>
+    </div>
+    {
+      groups.map(([year, items]) => (
+        <div class="yr">
+          <h3 class="yrhead tnum">{year}</h3>
+          {items.map((p) => <PublicationEntry pub={p} />)}
+        </div>
+      ))
+    }
+  </section>
+
+  {
+    underway.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Under review and in submission</h2>
+        </div>
+        <p class="prose note">
+          Listed for completeness. None of these has completed peer review, so please do not cite
+          them as published.
+        </p>
+        {underway.map((p) => <PublicationEntry pub={p} />)}
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .lede { margin-top: 1rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.4rem 0 0; max-width: none; }
+  .note { font-size: 0.94rem; color: var(--ink-3); margin-bottom: 0.6rem; }
+  .yr + .yr { margin-top: 2rem; }
+  .yrhead {
+    font-size: 1.1rem;
+    color: var(--ink-3);
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+</style>

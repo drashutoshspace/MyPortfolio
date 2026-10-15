@@ -5,6 +5,7 @@ import PublicationEntry from "~/components/PublicationEntry.astro";
 import { projects } from "~/data/projects";
 import { getPublication } from "~/data/publications";
 import { getTheme } from "~/data/research";
+import { moonbot } from "~/data/featured";
 
 export function getStaticPaths() {
   return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
@@ -15,6 +16,13 @@ const { project } = Astro.props;
 const pubs = (project.publications ?? [])
   .map(getPublication)
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
+const isMoonbot = moonbot.projects.includes(project.slug);
+const links = [
+  ...(isMoonbot && !(project.links ?? []).some((l) => l.href === moonbot.href)
+    ? [{ label: "MoonBot in depth, with video", href: moonbot.href }]
+    : []),
+  ...(project.links ?? []),
+];
 const relatedThemes = (project.themes ?? [])
   .map(getTheme)
   .filter((t): t is NonNullable<typeof t> => Boolean(t));
@@ -79,7 +87,7 @@ const fmt = (v: string) => {
     {
       project.image && (
         <section class="section no-print">
-          <Plate caption={project.image.caption} src={project.image.src} ratio="16 / 9" />
+          <Plate caption={project.image.caption} src={project.image.src} alt={project.image.alt} kind={project.image.kind} focus={project.image.focus} ratio="16 / 9" eager />
         </section>
       )
     }
@@ -90,10 +98,20 @@ const fmt = (v: string) => {
       </div>
 
       {
-        project.links && project.links.length > 0 && (
-          <p class="links">
-            {project.links.map((l) => (
-              <a class="btn" href={l.href} rel="noopener">{l.label}</a>
+        project.gallery && project.gallery.length > 0 && (
+          <div class="pgal no-print">
+            {project.gallery.map((g) => (
+              <Plate src={g.src} caption={g.caption} kind={g.kind} focus={g.focus} ratio="4 / 3" />
+            ))}
+          </div>
+        )
+      }
+
+      {
+        links.length > 0 && (
+          <p class="links no-print">
+            {links.map((l, i) => (
+              <a class:list={["btn", { "btn--primary": i === 0 }]} href={l.href} rel={l.href.startsWith("http") ? "noopener" : undefined}>{l.label}</a>
             ))}
           </p>
         )
@@ -135,6 +153,9 @@ const fmt = (v: string) => {
   .kick { font-size: 1.1rem; line-height: 1.5; color: var(--ink-2); margin: 0.9rem 0 1.6rem; max-width: 60ch; }
   .body { font-size: 1.03rem; }
   .links { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.5rem 0 0; max-width: none; }
+  .pgal { display: grid; gap: 1.4rem; margin-top: 2rem; }
+  @media (min-width: 640px) { .pgal { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .pgal:has(> :nth-child(3)) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
   .head-link { text-decoration: none; color: var(--ink); }
   .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }

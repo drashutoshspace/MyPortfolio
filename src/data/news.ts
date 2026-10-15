@@ -41,6 +41,20 @@ export const kindLabel: Record<NewsKind, string> = {
 
 export const news: NewsItem[] = [
   {
+    date: "2026-09",
+    kind: "paper",
+    title: "Inflatable-module field demonstration accepted at IEEE iSpaRo 2026",
+    detail: "MoonBot inspecting, aligning and locking the HIDAS inflatable habitat module.",
+    href: "/publications/inflatable-modules-lunar-habitation-field-demonstration/",
+  },
+  {
+    date: "2026-07",
+    kind: "paper",
+    title: "First-author paper on multi-robot lunar cargo transport accepted at IEEE/RSJ IROS 2026",
+    monthUnconfirmed: true,
+    href: "/publications/distributed-multi-robot-lunar-cargo-transportation/",
+  },
+  {
     date: "2026-08",
     kind: "appointment",
     title: "Started as a postdoctoral researcher at Istituto Italiano di Tecnologia (IIT), Genova",
@@ -52,12 +66,13 @@ export const news: NewsItem[] = [
     date: "2026-03",
     kind: "appointment",
     title: "Completed doctoral research at the Space Robotics Lab, Tohoku University",
-    detail: "Three years on modular reconfigurable lunar robots under JST Moonshot Goal 3, as a Japanese Government MEXT scholar.",
+    detail: "Doctoral research from October 2023 on MoonBot, a modular reconfigurable lunar robot, under JST Moonshot Goal 3, as a Japanese Government MEXT scholar.",
+    href: "/research/moonbot/",
   },
   {
     date: "2025-12",
     kind: "award",
-    title: "Best Research Paper Award at IEEE iSpaRo 2025, Sendai",
+    title: "Best Paper Award in Planetary Robotics at IEEE iSpaRo 2025, Sendai",
     detail:
       "For multi-modal decentralized reinforcement learning on modular reconfigurable lunar robots.",
     href: "/publications/multi-modal-decentralized-rl-modular-lunar-robots/",
@@ -75,34 +90,38 @@ export const news: NewsItem[] = [
     kind: "paper",
     title: "MoonBot published in IEEE Transactions on Field Robotics",
     monthUnconfirmed: true,
-    detail: "The full modular platform for lunar base construction, with equal authorship.",
-    href: "/publications/moonbot-modular-reconfigurable-robot-moon-base/",
+    detail: "The modular, on-demand reconfigurable robot for Moon base construction, with equal authorship.",
+    href: "/research/moonbot/",
   },
   {
-    date: "2025-10",
+    date: "2025-10-01",
     kind: "talk",
     title: "Invited panelist at the IAF Next Generation Plenary, IAC 2025, Sydney",
-    monthUnconfirmed: true,
+    detail: 'Plenary 6, "Designing the Future of Human Spaceflight".',
+    href: "https://www.youtube.com/watch?v=ArTSq-hJdfg",
   },
   {
     date: "2025-10",
+    kind: "paper",
+    title: "First-author paper on evolutionary design of modular lunar robots at IAC 2025",
+    href: "/publications/evolutionary-algorithms-adaptive-modular-robotics-lunar/",
+  },
+  {
+    date: "2025-06-04",
     kind: "award",
-    title: "Recognised as an IAF Emerging Space Leader",
-    monthUnconfirmed: true,
-    detail: "Awarded by the International Astronautical Federation, with a grant for IAC 2025.",
+    title: "Selected as an IAF Emerging Space Leader",
+    detail: "By the International Astronautical Federation, with a grant to attend IAC 2025 in Sydney.",
   },
   {
     date: "2025-10",
     kind: "paper",
     title: "Motion Stack limb synchronization presented at IEEE/RSJ IROS 2025",
-    monthUnconfirmed: true,
     href: "/publications/multi-limb-synchronization-motion-stack-hypersphere/",
   },
   {
     date: "2025-08",
     kind: "paper",
     title: "Human-in-the-loop manipulator control presented at IEEE CASE 2025",
-    monthUnconfirmed: true,
     href: "/publications/human-in-loop-manipulator-control-uncertain-assembly/",
   },
   {
@@ -131,16 +150,35 @@ export const news: NewsItem[] = [
     title:
       "Led project management for the International Lunar University at the ISU Space Studies Program",
     detail:
-      "Hosted at NASA Johnson Space Center and Rice University, under Dr. Jacob Cohen, Chief Scientist at NASA Ames.",
+      "Hosted at NASA Johnson Space Center and Rice University, supervised by Jacob Cohen, Chief Scientist at NASA Ames.",
     href: "/projects/international-lunar-university-ssp24/",
   },
   {
-    date: "2024-06",
+    date: "2024-09-29",
+    kind: "talk",
+    title: "Webinar talk: Emerging Trends in Space Robotics, Catalyzing Lunar Habitation and India's Space Vision 2047",
+    detail: "For the AstroNova Club's Astronomy Sundays series.",
+    href: "https://www.youtube.com/watch?v=oZEJ68UlTKI",
+  },
+  {
+    date: "2024-10",
+    kind: "paper",
+    title: "Graph neural network path planning for planetary multi-robot teams at IAC 2024",
+    href: "/publications/gnn-multi-robot-path-planning-planetary-exploration/",
+  },
+  {
+    date: "2024-07-01",
+    kind: "programme",
+    title: "Hosted with the Space Studies Program 2024 Indian delegation by the Consul General of India, Houston",
+    detail: "A conversation on India's role in the space age and US-India collaboration.",
+    href: "/society/",
+  },
+  {
+    date: "2024-12",
     kind: "award",
-    title: "Received the I-CON Award from the Indian Society of Remote Sensing and ISRO",
-    monthUnconfirmed: true,
+    title: "I-CON 2024 Silver award from the Indian Society of Remote Sensing, Lucknow",
     detail:
-      "For an AI-enabled satellite-based air pollution monitoring and alert system, developed with NRSC-ISRO scientists.",
+      "For a cloud-based, AI-enabled air pollution tracking system, developed with NRSC-ISRO scientists.",
   },
   {
     date: "2024-05",
@@ -153,7 +191,7 @@ export const news: NewsItem[] = [
     date: "2023-10",
     kind: "appointment",
     title: "Began doctoral research at the Space Robotics Lab, Tohoku University",
-    detail: "As a Japanese Government MEXT Research Scholar, with Prof. Kazuya Yoshida.",
+    detail: "As a Japanese Government MEXT Research Scholar, with Kazuya Yoshida.",
   },
 ];
 

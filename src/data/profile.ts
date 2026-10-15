@@ -23,7 +23,7 @@ export const profile = {
    *  and it names the problem rather than the job title so that all four
    *  audiences (PIs, agencies, startups, grant co-applicants) see themselves. */
   positioning:
-    "I build legged and modular robots that can work on the lunar surface, and the learning-based control that lets them keep working when the terrain does not cooperate.",
+    "I build legged and modular robots for the lunar surface, and the learning-based control that lets them keep working when the terrain does not cooperate.",
 
   /** The broad statement, deliberately not a closed taxonomy. An early-career
    *  researcher whose direction is still widening should not publish a list
@@ -54,11 +54,12 @@ export const profile = {
     x: "https://twitter.com/drashutoshspace",
   },
 
-  /** Shown in the header link row. GitHub is deliberately absent: the public
-   *  repos are student projects and a keylogger, so a PI clicking through to
-   *  check the RL claims finds the opposite of what the page promised. It
-   *  stays in sameAs below for entity resolution, and returns to the visible
-   *  row once there is a research repo worth landing on. */
+  /** Shown in the header link row. GitHub is deliberately absent: most public
+   *  repos are student projects, and the research code (the Isaac Lab port
+   *  merged into IIT DLS's fault-locomotion-isaaclab, the Motion Stack
+   *  contributions) lives in other organisations' repositories. It stays in
+   *  the footer and in sameAs for entity resolution, and returns to the
+   *  visible row once the profile itself leads with that work. */
   visibleLinks: ["email", "cv", "scholar", "orcid", "linkedin"] as const,
 
   cvPdf: "/CV_Ashutosh_Mishra.pdf",

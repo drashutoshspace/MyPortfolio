@@ -4,6 +4,7 @@ import PublicationEntry from "~/components/PublicationEntry.astro";
 import CiteBlock from "~/components/CiteBlock.astro";
 import { publications } from "~/data/publications";
 import { themes } from "~/data/research";
+import { projects } from "~/data/projects";
 
 export function getStaticPaths() {
   return publications.map((pub) => ({ params: { slug: pub.slug }, props: { pub } }));
@@ -12,9 +13,25 @@ export function getStaticPaths() {
 const { pub } = Astro.props;
 
 const relatedThemes = themes.filter((t) => t.publications.includes(pub.slug));
+const fromProjects = projects.filter((p) => p.publications?.includes(pub.slug));
 const others = publications
-  .filter((p) => p.slug !== pub.slug && p.topics.some((t) => pub.topics.includes(t)))
+  .filter((p) => p.slug !== pub.slug && p.status === "published" && p.topics.some((t) => pub.topics.includes(t)))
   .slice(0, 3);
+
+/* Scholar indexes whatever carries citation_* tags, so only work that has
+   actually been published gets them. A submission page is still useful to a
+   reader; it just must not look like a citable record to a crawler. */
+const citation =
+  pub.status === "published"
+    ? {
+        title: pub.title,
+        authors: pub.authors.map((a) => a.name),
+        venue: pub.venue,
+        year: pub.year,
+        doi: pub.doi,
+        kind: pub.kind,
+      }
+    : undefined;
 ---
 
 <Base
@@ -22,29 +39,44 @@ const others = publications
   description={pub.summary}
   path={`/publications/${pub.slug}/`}
   type="article"
-  citation={{
-    title: pub.title,
-    authors: pub.authors.map((a) => a.name),
-    venue: pub.venue,
-    year: pub.year,
-    doi: pub.doi,
-  }}
+  citation={citation}
   breadcrumbs={[
     { name: "Home", path: "/" },
-    { name: "Publications", path: "/research/" },
+    { name: "Publications", path: "/publications/" },
     { name: pub.title, path: `/publications/${pub.slug}/` },
   ]}
 >
   <article class="section">
-    <p class="key crumb"><a class="link" href="/research/">Publications</a></p>
+    <p class="key crumb"><a class="link" href="/publications/">Publications</a></p>
     <PublicationEntry pub={pub} linked={false} />
 
-    <CiteBlock pub={pub} />
+    {
+      pub.platform === "moonbot" && (
+        <p class="hub no-print">
+          <a class="btn btn--primary" href="/research/moonbot/">MoonBot, the platform behind this paper</a>
+        </p>
+      )
+    }
+
+    {(pub.status === "published" || pub.status === "accepted") && <CiteBlock pub={pub} />}
+
+    {
+      fromProjects.length > 0 && (
+        <section class="rel">
+          <p class="key">Projects behind this paper</p>
+          <ul>
+            {fromProjects.map((p) => (
+              <li><a class="link" href={`/projects/${p.slug}/`}>{p.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       relatedThemes.length > 0 && (
         <section class="rel">
-          <p class="key">Part of</p>
+          <p class="key">Research direction</p>
           <ul>
             {relatedThemes.map((t) => (
               <li><a class="link" href={`/research/${t.slug}/`}>{t.title}</a></li>
@@ -57,7 +89,7 @@ const others = publications
     {
       others.length > 0 && (
         <section class="rel">
-          <p class="key">Related work</p>
+          <p class="key">Related publications</p>
           <ul>
             {others.map((o) => (
               <li><a class="link" href={`/publications/${o.slug}/`}>{o.title}</a></li>
@@ -71,6 +103,7 @@ const others = publications
 
 <style>
   .crumb { margin-bottom: 1.2rem; }
+  .hub { margin: 1.4rem 0 0; max-width: none; }
   .rel { margin-top: 2rem; }
   .rel ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
   .rel li { font-family: var(--sans); font-size: 0.92rem; line-height: 1.4; }

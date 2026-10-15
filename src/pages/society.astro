@@ -1,0 +1,217 @@
+---
+import Base from "~/layouts/Base.astro";
+import Plate from "~/components/Plate.astro";
+import { helpingHut as hh, platformFeatures, programmes, moreFromTheField } from "~/data/society";
+import { profile } from "~/data/profile";
+---
+
+<Base
+  title="Society"
+  description={`${profile.name} is Technical Lead and Advisor at Helping Hut, a student-founded NGO in India running free street schooling, a village library and relief drives, and built the platform it runs on. Also: Innovation Ambassador for India's Ministry of Education and assistive-technology work.`}
+  path="/society/"
+  image="/media/society/gyankutir-opening-day.webp"
+  breadcrumbs={[{ name: "Home", path: "/" }, { name: "Society", path: "/society/" }]}
+>
+  <header class="section head">
+    <h1>Society</h1>
+    <p class="kick">
+      Outside the lab I work with Helping Hut, a student-founded NGO in India that runs free
+      street schooling, a village library and relief drives. I am its {hh.role}, and I built the
+      platform it runs on.
+    </p>
+  </header>
+
+  <section class="section">
+    <div class="hh">
+      <div class="hh__text">
+        <h2>Helping Hut</h2>
+        <div class="prose">
+          <p>
+            Helping Hut began in {hh.founded}, during the COVID-19 pandemic, when a group of students
+            started distributing food and teaching children who had no school to go to. It is now a
+            registered trust recognised by NITI Aayog, with volunteer teams in more than twenty
+            cities. Its mission, in its own words, is "{hh.mission}."
+          </p>
+          <p>
+            My part is technical. I designed, built and maintain{" "}
+            <a href={hh.site} rel="noopener">helpinghutngo.in</a>, which is not a brochure site but
+            the system the organisation runs on, from volunteer check-in to donation receipts.
+          </p>
+        </div>
+
+        <dl class="facts">
+          <div><dt>Role</dt><dd>{hh.role}</dd></div>
+          <div><dt>Organisation</dt><dd>{hh.legalName}, a registered trust</dd></div>
+          <div><dt>Founded</dt><dd>{hh.founded}, by students</dd></div>
+          <div><dt>Website</dt><dd><a class="link" href={hh.site} rel="noopener">helpinghutngo.in</a></dd></div>
+        </dl>
+      </div>
+
+      <figure class="hh__fig">
+        <div class="plate" style="aspect-ratio: 4 / 5">
+          <img
+            src="/media/society/gramsutr-village-gathering.webp"
+            alt="More than a hundred villagers, children and volunteers gathered around Helping Hut and GramSutr banners in Gopalpura."
+            width="1280"
+            height="720"
+            loading="eager"
+            decoding="async"
+            style="object-position: 42% 50%"
+          />
+        </div>
+        <figcaption>Gopalpura turns out for the GramSutr camp, March 2026. Photo: Helping Hut.</figcaption>
+      </figure>
+    </div>
+
+    <dl class="figures" aria-label={`Helping Hut's figures, as of ${hh.figuresAsOf}`}>
+      {
+        hh.figures.map((f) => (
+          <div>
+            <dt>{f.label}</dt>
+            <dd class="tnum">{f.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="key source">Cumulative figures reported by Helping Hut, {hh.figuresAsOf}.</p>
+  </section>
+
+  <section class="section">
+    <h2>What I built</h2>
+    <p class="prose lead2">
+      The platform went live in 2026 on Next.js and Payload CMS, replacing a Django backend I had
+      written for the NGO in 2024 and 2025. It is what lets a volunteer network across many cities
+      work as one organisation.
+    </p>
+    <ul class="features">
+      {
+        platformFeatures.map((f) => (
+          <li>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>The work it supports</h2>
+    <p class="prose lead2">Helping Hut's programmes, which the platform organises and records.</p>
+    <ul class="progs">
+      {
+        programmes.map((p) => (
+          <li>
+            <figure>
+              <div class="plate" style="aspect-ratio: 3 / 2">
+                <img
+                  src={p.image.src}
+                  alt={p.image.alt}
+                  width="1280"
+                  height="853"
+                  loading="lazy"
+                  decoding="async"
+                  style={p.image.focus ? `object-position:${p.image.focus}` : undefined}
+                />
+              </div>
+            </figure>
+            <h3>{p.href ? <a class="head-link" href={p.href} rel="noopener">{p.title}</a> : p.title}</h3>
+            <p class="key when">{p.when}, {p.where}</p>
+            <p class="pb">{p.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="gallery strip" role="list" aria-label="More photographs from Helping Hut's programmes" tabindex="0">
+      {
+        moreFromTheField.map((m) => (
+          <li>
+            <figure>
+              <div class="plate" style="aspect-ratio: 4 / 3">
+                <img src={m.src} alt={m.caption} width="1200" height="900" loading="lazy" decoding="async" />
+              </div>
+              <figcaption>{m.caption}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="key source">Programme photographs: Helping Hut.</p>
+  </section>
+
+  <section class="section">
+    <h2>Also</h2>
+    <div class="also">
+      <ul class="alsolist">
+        <li>
+          <h3>Innovation Ambassador</h3>
+          <p class="key when">Ministry of Education's Innovation Cell, India, 2020 to present</p>
+          <p class="pb">Selected as an Innovation Ambassador, mentoring students and building awareness of innovation and entrepreneurship in higher education.</p>
+        </li>
+        <li>
+          <h3><a class="head-link" href="/projects/sebai-smart-eye-based-on-ai/">Assistive technology: SEBAI</a></h3>
+          <p class="key when">2019 to 2020</p>
+          <p class="pb">An AI device for blind, deaf and mute users, with speech navigation, sign-language conversion and object identification. A National Innovation Contest 2020 finalist, in the top ten of more than 30,000 entries.</p>
+        </li>
+        <li>
+          <h3>Space outreach</h3>
+          <p class="key when">Houston, 2024, and Sydney, 2025</p>
+          <p class="pb">With the Indian delegation of the Space Studies Program 2024, hosted by the Consul General of India in Houston for a conversation on India's role in the space age and US-India collaboration. In 2025, an invited panelist at the IAF Next Generation Plenary at the International Astronautical Congress in Sydney.</p>
+        </li>
+      </ul>
+      <Plate
+        src="/media/talks/ssp24-houston-delegation.webp"
+        caption="The Indian delegation of the Space Studies Program 2024 at the Consul General of India's residence, Houston, 1 July 2024."
+        alt="A group of about twenty people from the Space Studies Program 2024 Indian delegation posing on a staircase in a residence."
+        ratio="10 / 7"
+      />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .kick { font-size: 1.1rem; line-height: 1.5; color: var(--ink-2); margin: 0.9rem 0 0; max-width: 60ch; }
+
+  .hh { display: grid; gap: 2rem clamp(2rem, 5vw, 3.5rem); align-items: start; }
+  @media (min-width: 900px) { .hh { grid-template-columns: minmax(0, 1fr) 22rem; } }
+  .hh h2 { margin-bottom: 1rem; }
+  .hh .facts { margin-top: 1.4rem; }
+
+  .figures {
+    margin: clamp(2rem, 5vw, 2.8rem) 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem 1.5rem;
+  }
+  @media (min-width: 760px) { .figures { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .figures > div { border-top: 2px solid var(--accent); padding-top: 0.7rem; display: flex; flex-direction: column-reverse; }
+  .figures dt { font-size: 0.92rem; color: var(--ink-2); line-height: 1.35; margin-top: 0.2rem; }
+  .figures dd { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.1rem); line-height: 1.1; color: var(--ink); }
+  .source { margin-top: 0.9rem; }
+
+  .lead2 { margin: 0.8rem 0 1.5rem; }
+
+  .features { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  @media (min-width: 640px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .features { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .features li { padding: 1rem 1.1rem; background: var(--bg-alt); border: 1px solid var(--rule); border-radius: var(--r-lg); }
+  .features h3 { font-size: 1rem; }
+  .features p { font-size: 0.93rem; line-height: 1.5; color: var(--ink-2); margin: 0.3rem 0 0; }
+
+  .progs { list-style: none; margin: 0; padding: 0; display: grid; gap: 2rem 1.6rem; }
+  @media (min-width: 760px) { .progs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .progs h3 { font-size: 1.12rem; margin-top: 0.9rem; }
+  .when { margin: 0.3rem 0 0; max-width: none; }
+  .pb { font-size: 0.96rem; line-height: 1.55; color: var(--ink-2); margin: 0.5rem 0 0; }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  .strip { margin-top: clamp(2rem, 5vw, 2.8rem); }
+
+  .also { display: grid; gap: 2rem clamp(2rem, 5vw, 3rem); align-items: start; margin-top: 1.2rem; }
+  @media (min-width: 900px) { .also { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .alsolist { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.4rem; }
+  .alsolist h3 { font-size: 1.05rem; }
+</style>

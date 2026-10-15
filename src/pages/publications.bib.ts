@@ -3,7 +3,7 @@ import { publications } from "~/data/publications";
 import { bibliography } from "~/lib/cite";
 
 export const GET: APIRoute = () =>
-  new Response(bibliography(publications), {
+  new Response(bibliography(publications.filter((p) => p.status === "published" || p.status === "accepted")), {
     headers: {
       "content-type": "application/x-bibtex; charset=utf-8",
       "content-disposition": 'inline; filename="mishra-publications.bib"',

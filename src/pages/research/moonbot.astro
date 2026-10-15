@@ -3,62 +3,64 @@ import Base from "~/layouts/Base.astro";
 import VideoEmbed from "~/components/VideoEmbed.astro";
 import PaperFeature from "~/components/PaperFeature.astro";
 import PublicationEntry from "~/components/PublicationEntry.astro";
-import { getPublication } from "~/data/publications";
-import { moonbotVideo, moonbotArxiv } from "~/data/featured";
+import { publications, getPublication } from "~/data/publications";
+import { getProject } from "~/data/projects";
+import { moonbot, moonbotVideo } from "~/data/featured";
 
 const tfr = getPublication("moonbot-modular-reconfigurable-robot-moon-base");
 if (!tfr) throw new Error("moonbot page: T-FR publication missing");
 
-/* Everything published on the platform, the flagship article first. */
-const pubs = [
-  "moonbot-modular-reconfigurable-robot-moon-base",
-  "multi-modal-decentralized-rl-modular-lunar-robots",
-  "distributed-heterogeneous-modularity-moonbots",
-  "multi-limb-synchronization-motion-stack-hypersphere",
-  "modular-bucket-drum-excavator-lunar-isru",
-  "moonbot-apex-agentic-planning-execution",
-]
-  .map(getPublication)
+/* Everything tagged as MoonBot work: published first, newest first, then
+   accepted, then submissions. Derived from the tag, so this list and the hub
+   links on the publication pages always agree. */
+const order = { published: 0, accepted: 1, "in-review": 2, "in-submission": 3 } as const;
+const pubs = publications
+  .filter((p) => p.platform === "moonbot")
+  .sort((a, b) => order[a.status] - order[b.status] || b.year - a.year);
+const projects = moonbot.projects
+  .map(getProject)
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-const description =
-  "MoonBot is a modular, on-demand reconfigurable robot for Moon base construction, developed at the Space Robotics Lab, Tohoku University under JST Moonshot Goal 3 and published in IEEE Transactions on Field Robotics.";
+const fmt = (v: string) => {
+  const [y, m] = v.split("-");
+  if (!m) return y;
+  return new Date(Number(y), Number(m) - 1).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+};
+
+const description = `MoonBot is ${moonbot.what}, developed at the ${moonbot.lab} under ${moonbot.programme} and published in IEEE Transactions on Field Robotics.`;
 ---
 
 <Base
   title="MoonBot, a modular reconfigurable robot for Moon base construction"
   description={description}
-  path="/research/moonbot/"
+  path={moonbot.href}
   type="article"
   image={moonbotVideo.poster}
   video={moonbotVideo}
   breadcrumbs={[
     { name: "Home", path: "/" },
     { name: "Research", path: "/research/" },
-    { name: "MoonBot", path: "/research/moonbot/" },
+    { name: "MoonBot", path: moonbot.href },
   ]}
 >
   <article>
     <header class="section head">
       <p class="crumb no-print"><a class="link" href="/research/">Research</a></p>
       <h1>MoonBot</h1>
-      <p class="kick">
-        A modular robot for building a Moon base: one set of limbs, wheels and tools that
-        reconfigures on demand into whichever machine the task needs.
-      </p>
+      <p class="kick">{moonbot.oneLine}</p>
 
       <dl class="facts">
         <div>
           <dt>Published</dt>
-          <dd>{tfr.venue}, {tfr.year}</dd>
+          <dd><a class="link" href={`/publications/${tfr.slug}/`}>{tfr.venue}, {tfr.year}</a></dd>
         </div>
         <div>
           <dt>Lab</dt>
-          <dd>Space Robotics Lab, Tohoku University, with Kazuya Yoshida</dd>
+          <dd>{moonbot.lab}, with Kazuya Yoshida</dd>
         </div>
         <div>
           <dt>Programme</dt>
-          <dd>JST Moonshot Goal 3</dd>
+          <dd>{moonbot.programme}</dd>
         </div>
         <div>
           <dt>Authorship</dt>
@@ -70,8 +72,25 @@ const description =
     <section class="section no-print">
       <figure>
         <VideoEmbed video={moonbotVideo} />
-        <figcaption>MoonBot at work. Video: {moonbotVideo.credit}.</figcaption>
+        <figcaption>MoonBot in its Minimal, Vehicle, Dragon and Tricycle configurations. Video: {moonbotVideo.credit}.</figcaption>
       </figure>
+    </section>
+
+    <section class="section no-print">
+      <ul class="gallery" role="list" aria-label="MoonBot in the field" tabindex="0">
+        {
+          moonbot.fieldPhotos.map((f) => (
+            <li>
+              <figure>
+                <div class="plate" style="aspect-ratio: 4 / 3">
+                  <img src={f.src} alt={f.caption} width="1200" height="900" loading="lazy" decoding="async" />
+                </div>
+                <figcaption>{f.caption}</figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
     </section>
 
     <section class="section">
@@ -80,8 +99,8 @@ const description =
         <p>
           Every kilogram landed on the Moon is expensive, so a construction site there cannot
           afford a separate machine for every job. MoonBot answers that with modularity: limbs,
-          wheel modules and tools that connect on demand, so the same hardware becomes a
-          manipulator, a vehicle or a walker, within the mass limits of a lunar payload.
+          wheels and tools that connect on demand, so the same hardware becomes {moonbot.becomes},
+          within the mass limits of a lunar payload.
         </p>
         <p>
           The IEEE T-FR article covers the design and development of the system and a
@@ -90,15 +109,12 @@ const description =
           infrastructure components, and assisting with inflatable modules. It closes with the
           lessons learned during testing, with a focus on connector design.
         </p>
-        <p>
-          My part was the control and learning side: decentralized control and reinforcement
-          learning for a robot whose body changes every time a module is attached or removed.
-        </p>
+        <p>{moonbot.role}</p>
       </div>
 
       <p class="links no-print">
         <a class="btn btn--primary" href={`https://doi.org/${tfr.doi}`} rel="noopener">Read the article</a>
-        <a class="btn" href={moonbotArxiv} rel="noopener">arXiv preprint</a>
+        <a class="btn" href="https://arxiv.org/abs/2512.21853" rel="noopener">arXiv preprint</a>
         <a class="btn" href={`https://www.youtube.com/watch?v=${moonbotVideo.id}`} rel="noopener">Watch on YouTube</a>
       </p>
     </section>
@@ -106,6 +122,35 @@ const description =
     <section class="section">
       <h2 class="sh">Learning to control a body that changes</h2>
       <PaperFeature />
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Field campaigns and systems</h2>
+      </div>
+      <ul class="camps">
+        {
+          projects.map((p) => (
+            <li>
+              <a class="camp" href={`/projects/${p.slug}/`}>
+                {p.image && (
+                  <div class:list={["plate", { "plate--illustration": p.image.kind === "illustration", "plate--figure": p.image.kind === "figure" }]} style="aspect-ratio: 16 / 9">
+                    <img src={p.image.src} alt={p.image.alt ?? p.image.caption} width="1600" height="900" loading="lazy" decoding="async" style={p.image.focus ? `object-position:${p.image.focus}` : undefined} />
+                  </div>
+                )}
+                <span class="key tnum">{fmt(p.from)}{p.site ? `, ${p.site}` : ""}</span>
+                <span class="ct">{p.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="sites">
+        <p class="key">Field tested at</p>
+        <ul>
+          {moonbot.fieldSites.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
     </section>
 
     <section class="section">
@@ -125,4 +170,21 @@ const description =
   .body { margin-top: 1.1rem; font-size: 1.03rem; }
   .links { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.5rem 0 0; max-width: none; }
   .sh { margin-bottom: 1.5rem; }
+
+  .camps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem 1.4rem; }
+  @media (min-width: 640px) { .camps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .camp { display: flex; flex-direction: column; gap: 0.45rem; text-decoration: none; color: var(--ink); }
+  .camp .plate { margin-bottom: 0.35rem; }
+  .ct { font-family: var(--serif); font-weight: 600; font-size: 1.02rem; line-height: 1.3; }
+  .camp:hover .ct { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  .sites {
+    margin-top: 2rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+  }
+  .sites ul { list-style: none; margin: 0.55rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .sites li { font-size: 0.92rem; }
 </style>

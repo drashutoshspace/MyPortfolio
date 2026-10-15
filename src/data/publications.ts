@@ -11,7 +11,7 @@
  * results, numbers or improvements that are not on the CV.
  */
 
-export type PubStatus = "published" | "in-review" | "in-submission";
+export type PubStatus = "published" | "accepted" | "in-review" | "in-submission";
 
 /** Drives whether the citation renders as @article or @inproceedings, and
  *  whether the IEEE string says "in <venue>". */
@@ -37,6 +37,14 @@ export interface Publication {
   peerReviewed: boolean;
   award?: string;
   equalAuthorship?: boolean;
+  /** Set where the published author list is longer than the site shows in
+   *  full, e.g. a 32-author team report. The full list is still emitted to
+   *  citation tags and BibTeX. */
+  manyAuthors?: boolean;
+  /** Work on the MoonBot platform. Drives the publication list on
+   *  /research/moonbot/ and the hub link on each publication page, so the
+   *  three lists that used to be typed separately cannot drift. */
+  platform?: "moonbot";
   summary: string;
   topics: string[];
 }
@@ -45,7 +53,7 @@ export const publications: Publication[] = [
   {
     slug: "moonbot-modular-reconfigurable-robot-moon-base",
     title:
-      "MoonBot: Modular and On-demand Reconfigurable Robot towards Moon Base Construction",
+      "MoonBot: Modular and On-Demand Reconfigurable Robot Toward Moon Base Construction",
     venue: "IEEE Transactions on Field Robotics (T-FR)",
     venueShort: "IEEE T-FR",
     kind: "journal",
@@ -64,11 +72,13 @@ export const publications: Publication[] = [
       { name: "Kazuya Yoshida" },
     ],
     doi: "10.1109/TFR.2025.3624346",
+    urls: [{ label: "arXiv preprint", href: "https://arxiv.org/abs/2512.21853" }],
     status: "published",
     peerReviewed: true,
     equalAuthorship: true,
+    platform: "moonbot",
     summary:
-      "The full MoonBot platform: a modular robot whose limbs and modules can be recombined on demand into different machines for lunar base construction, developed under JST Moonshot Goal 3 and validated in field conditions.",
+      "The MoonBot platform: limbs, wheels and tools that recombine on demand into whichever machine a lunar construction task needs, developed under JST Moonshot Goal 3 and shown in a preliminary field demonstration of lunar infrastructure tasks.",
     topics: ["Modular robotics", "Lunar construction", "Field robotics"],
   },
   {
@@ -86,7 +96,8 @@ export const publications: Publication[] = [
       { name: "Kentaro Uno" },
       { name: "Kazuya Yoshida" },
     ],
-    doi: "10.1109/CASE.2025.11163924",
+    doi: "10.1109/CASE58245.2025.11163924",
+    urls: [{ label: "arXiv preprint", href: "https://arxiv.org/abs/2507.11006" }],
     status: "published",
     peerReviewed: true,
     summary:
@@ -110,10 +121,15 @@ export const publications: Publication[] = [
       { name: "Kentaro Uno" },
       { name: "Kazuya Yoshida" },
     ],
-    doi: "10.48550/arXiv.2510.20347",
+    doi: "10.1109/ISPARO66239.2025.11436148",
+    urls: [
+      { label: "arXiv preprint", href: "https://arxiv.org/abs/2510.20347" },
+      { label: "Video", href: "https://www.youtube.com/watch?v=6kRCybQMMCI" },
+    ],
     status: "published",
     peerReviewed: true,
-    award: "Best Research Paper Award, IEEE iSpaRo 2025, Sendai, Japan",
+    platform: "moonbot",
+    award: "Best Paper Award in Planetary Robotics, IEEE iSpaRo 2025, Sendai, Japan",
     summary:
       "A decentralized reinforcement learning approach for robots whose morphology changes: each module learns to act on local, multi-modal observation rather than from a central controller, so the same policy set survives reconfiguration.",
     topics: ["Reinforcement learning", "Modular robotics", "Decentralized control"],
@@ -135,7 +151,13 @@ export const publications: Publication[] = [
       { name: "Kazuya Yoshida" },
     ],
     doi: "10.1109/IROS60139.2025.11246735",
+    urls: [
+      { label: "arXiv preprint", href: "https://arxiv.org/abs/2507.03934" },
+      { label: "Video", href: "https://www.youtube.com/watch?v=MtAXq8mNaiw" },
+      { label: "Code: Motion Stack", href: "https://github.com/2lian/Motion-Stack" },
+    ],
     status: "published",
+    platform: "moonbot",
     peerReviewed: true,
     summary:
       "Keeping multiple limbs of a space robot synchronized when any of them may be added, removed or delayed, using hypersphere trajectory clamping to bound the motion each limb is allowed to command.",
@@ -144,7 +166,7 @@ export const publications: Publication[] = [
   {
     slug: "distributed-heterogeneous-modularity-moonbots",
     title:
-      "Designing for Distributed Heterogeneous Modularity: On Software Architecture and Deployment of MoonBots",
+      "Designing for Distributed Heterogeneous Modularity: On Software Architecture and Deployment of the MoonBots",
     venue: "IEEE International Conference on Space Robotics (iSpaRo)",
     venueShort: "IEEE iSpaRo",
     kind: "conference",
@@ -153,14 +175,19 @@ export const publications: Publication[] = [
       { name: "Elian Neppel" },
       { name: "Shamistan Karimov" },
       { name: "Ashutosh Mishra", me: true },
-      { name: "Gustavo Hernan Diaz Huenupan", surname: "Diaz Huenupan" },
+      { name: "Gustavo H. Diaz" },
       { name: "Hazal Gozbasi" },
-      { name: "Kentaro Uno" },
       { name: "Shreya Santra" },
+      { name: "Kentaro Uno" },
       { name: "Kazuya Yoshida" },
     ],
-    doi: "10.48550/arXiv.2511.01437",
+    doi: "10.1109/ISPARO66239.2025.11436187",
+    urls: [
+      { label: "arXiv preprint", href: "https://arxiv.org/abs/2511.01437" },
+      { label: "Video", href: "https://www.youtube.com/watch?v=6XAfiojazxg" },
+    ],
     status: "published",
+    platform: "moonbot",
     peerReviewed: true,
     summary:
       "The software architecture question behind modular hardware: how to deploy and coordinate software across heterogeneous modules that do not know in advance what they will be attached to.",
@@ -181,8 +208,13 @@ export const publications: Publication[] = [
       { name: "Kentaro Uno" },
       { name: "Kazuya Yoshida" },
     ],
-    doi: "10.48550/arXiv.2511.00492",
+    doi: "10.1109/ISPARO66239.2025.11437320",
+    urls: [
+      { label: "arXiv preprint", href: "https://arxiv.org/abs/2511.00492" },
+      { label: "Video", href: "https://www.youtube.com/watch?v=N0m7cj-SgxQ" },
+    ],
     status: "published",
+    platform: "moonbot",
     peerReviewed: true,
     summary:
       "A bucket drum excavator built as a MoonBot module, so that regolith excavation for in-situ resource utilisation becomes one configuration of the platform rather than a separate purpose-built machine.",
@@ -190,7 +222,8 @@ export const publications: Publication[] = [
   },
   {
     slug: "mlp-rf-hybrid-model-gan-hemt-parameter-estimation",
-    title: "MLP-RF Based Hybrid ML-NN Model for GaN HEMT Parameter Estimation",
+    title:
+      "Multilayer Perceptron-Random Forest Based Hybrid Machine Learning-Neural Network Model for GaN High Electron Mobility Transistor's Parameter Estimations",
     venue: "International Journal of RF and Microwave Computer-Aided Engineering",
     venueShort: "IJRFMCAE",
     kind: "journal",
@@ -258,11 +291,11 @@ export const publications: Publication[] = [
     urls: [
       {
         label: "Poster (PDF)",
-        href: "https://www.zurich.ibm.com/pdf/aics/3.16_Mishra_DDUC_AICS2021_Poster.pdf",
+        href: "https://www.zurich.ibm.com/pdf/aics/3.16_Mishra_Ashutosh_DDUC_AICS2021_Poster.pdf",
       },
       {
         label: "Symposium programme",
-        href: "https://www.zurich.ibm.com/thinklab/AIcomputesymposium.html",
+        href: "https://www.zurich.ibm.com/thinklab/AIcomputesymposium2021.html",
       },
     ],
     status: "published",
@@ -279,7 +312,14 @@ export const publications: Publication[] = [
     venueShort: "ICDCS",
     kind: "conference",
     year: 2020,
-    authors: [{ name: "Ashutosh Mishra", me: true }],
+    authors: [
+      { name: "Ashutosh Mishra", me: true },
+      { name: "Khushwant Sehra" },
+      { name: "Sahil Sahil" },
+      { name: "Ajay Joshi" },
+      { name: "Poonam Kasturi" },
+      { name: "Manoj Saxena" },
+    ],
     doi: "10.1109/icdcs48716.2020.243573",
     status: "published",
     peerReviewed: true,
@@ -289,18 +329,145 @@ export const publications: Publication[] = [
   },
   {
     slug: "international-lunar-university-ssp24",
-    title: "International Lunar University",
-    venue: "International Astronautical Congress (IAC) 2024",
+    title: "International Lunar University: The Dawn of Interplanetary Education",
+    venue: "International Astronautical Congress (IAC) 2024, IAF Space Exploration Symposium",
     venueShort: "IAC",
     kind: "conference",
     year: 2024,
-    authors: [{ name: "Ashutosh Mishra", me: true }],
+    manyAuthors: true,
+    authors: [
+      { name: "Adam Hanlon" },
+      { name: "Alba Badia Rifà", surname: "Badia Rifà" },
+      { name: "Alejandro J. Garcia Morales", surname: "Garcia Morales" },
+      { name: "Annemarie Schuite" },
+      { name: "Ashutosh Mishra", me: true },
+      { name: "Austin Phillips" },
+      { name: "Bénédicte Darbon" },
+      { name: "Danny Tjokrosetio" },
+      { name: "Eugene Rotherham" },
+      { name: "Gabriele Del Zompo", surname: "Del Zompo" },
+      { name: "Gonzalo Guerrero Rodriguez", surname: "Guerrero Rodriguez" },
+      { name: "Hannah Bradley" },
+      { name: "Hilal Albusaidi" },
+      { name: "Hinako Tanaka" },
+      { name: "Ian Van Den Broek", surname: "Van Den Broek" },
+      { name: "Ismael Tito Freire González", surname: "Freire González" },
+      { name: "Konrad Bojar" },
+      { name: "Laura Antonia Cerbone" },
+      { name: "Madalina Alexandra Grozav" },
+      { name: "Matilda Khoshaba" },
+      { name: "Matteo Rossi" },
+      { name: "Murray Mackay" },
+      { name: "Niamh O'Neill-Berest" },
+      { name: "One Mikulskyte" },
+      { name: "Pierre-Frédéric Siaud" },
+      { name: "Rim Ghanim" },
+      { name: "Sarah Lejczak" },
+      { name: "Tymoteusz Kraski" },
+      { name: "Vittorio Di Pietrantonio", surname: "Di Pietrantonio" },
+      { name: "Meritxell Lorber" },
+      { name: "Dan Rasky" },
+      { name: "Jacob Cohen" },
+    ],
     doi: "10.52202/078357-0031",
     status: "published",
     peerReviewed: false,
     summary:
-      "The International Lunar University proposal from the International Space University Space Studies Program 2024, hosted at NASA Johnson Space Center and Rice University, where he led the project management team and served as lead editor under Dr. Jacob Cohen, Chief Scientist at NASA Ames.",
+      "The International Lunar University proposal from the International Space University Space Studies Program 2024, hosted at NASA Johnson Space Center and Rice University, where I led the project management team and served as lead editor, supervised by Jacob Cohen, Chief Scientist at NASA Ames.",
     topics: ["Space policy", "Outreach"],
+  },
+
+  {
+    slug: "evolutionary-algorithms-adaptive-modular-robotics-lunar",
+    title: "Harnessing Evolutionary Algorithms for Adaptive Modular Robotics Design in Lunar Missions",
+    venue: "International Astronautical Congress (IAC) 2025, IAF Space Exploration Symposium",
+    venueShort: "IAC",
+    kind: "conference",
+    year: 2025,
+    authors: [
+      { name: "Ashutosh Mishra", me: true },
+      { name: "Kangsan Kim" },
+      { name: "Shreya Santra" },
+    ],
+    doi: "10.52202/083076-0098",
+    status: "published",
+    peerReviewed: false,
+    summary:
+      "Evolutionary algorithms for choosing the design of a modular robot to fit a lunar mission, rather than fixing the body first and fitting the task to it.",
+    topics: ["Modular robotics", "Evolutionary algorithms"],
+  },
+  {
+    slug: "gnn-multi-robot-path-planning-planetary-exploration",
+    title:
+      "Coordinated Multi-Robot Path Planning Utilizing Learning-based Approaches with Graph Neural Networks for Planetary Exploration",
+    venue: "International Astronautical Congress (IAC) 2024, IAF Space Systems Symposium",
+    venueShort: "IAC",
+    kind: "conference",
+    year: 2024,
+    authors: [
+      { name: "Shreya Santra" },
+      { name: "Ashutosh Mishra", me: true },
+      { name: "A. Sejal Jain" },
+    ],
+    doi: "10.52202/078372-0095",
+    status: "published",
+    peerReviewed: false,
+    summary:
+      "Graph neural networks for coordinating the paths of several robots exploring planetary terrain together.",
+    topics: ["Multi-agent systems", "Planning"],
+  },
+  {
+    slug: "chandrayaan-2-ohrc-crater-boulder-detection",
+    title:
+      "Automated Detection and Segmentation of Craters and Boulders in Chandrayaan-2 Orbiter High-Resolution Camera (OHRC) Images",
+    venue: "IAF Global Conference on Space Exploration (GLEX) 2025, AI Impact and Autonomy on Space Exploration",
+    venueShort: "GLEX",
+    kind: "conference",
+    year: 2025,
+    authors: [
+      { name: "Shreya Santra" },
+      { name: "Abhishek Mishra" },
+      { name: "Ashutosh Mishra", me: true },
+    ],
+    doi: "10.52202/080565-0008",
+    status: "published",
+    peerReviewed: false,
+    summary:
+      "Automated detection and segmentation of craters and boulders in high-resolution lunar orbiter imagery from Chandrayaan-2.",
+    topics: ["Computer vision", "Planetary science"],
+  },
+
+  /* ---- accepted, to appear ------------------------------------------- */
+
+  {
+    slug: "inflatable-modules-lunar-habitation-field-demonstration",
+    title:
+      "Robot-Assisted Deployment and Maintenance of Inflatable Modules for Lunar Habitation: A Field Demonstration",
+    venue: "IEEE International Conference on Space Robotics (iSpaRo)",
+    venueShort: "IEEE iSpaRo",
+    kind: "conference",
+    year: 2026,
+    authors: [
+      { name: "Kentaro Uno", equal: true },
+      { name: "Shamistan Karimov", equal: true },
+      { name: "Ashutosh Mishra", me: true },
+      { name: "Elian Neppel" },
+      { name: "Hazal Gozbasi" },
+      { name: "Shreya Santra" },
+      { name: "Shinichi Kimura" },
+      { name: "Kazuya Yoshida" },
+    ],
+    equalAuthorship: true,
+    urls: [
+      { label: "arXiv preprint", href: "https://arxiv.org/abs/2609.34498" },
+      { label: "Video", href: "https://www.youtube.com/watch?v=ccDAhaAJAL4" },
+    ],
+    status: "accepted",
+    peerReviewed: true,
+    platform: "moonbot",
+    summary:
+      "MoonBot working alongside the HIDAS inflatable habitat module: inspection during inflation, alignment, final safety locking, and 3D mapping for maintenance, demonstrated on real hardware in the lab and at a lunar analogue site.",
+    topics: ["Modular robotics", "Lunar construction", "Field robotics"],
   },
 
   /* ---- not yet published ---------------------------------------------- */
@@ -313,25 +480,44 @@ export const publications: Publication[] = [
     venueShort: "IEEE/RSJ IROS",
     kind: "conference",
     year: 2026,
-    authors: [{ name: "Ashutosh Mishra", me: true }],
-    status: "in-review",
+    authors: [
+      { name: "Ashutosh Mishra", me: true },
+      { name: "Elian Neppel" },
+      { name: "Shreya Santra" },
+      { name: "Antoine Jonquières" },
+      { name: "Muhammad Athallah Naufal" },
+      { name: "Kentaro Uno" },
+      { name: "Kazuya Yoshida" },
+    ],
+    urls: [{ label: "arXiv preprint", href: "https://arxiv.org/abs/2607.00160" }],
+    status: "accepted",
+    platform: "moonbot",
     peerReviewed: true,
     summary:
-      "Decomposing lunar cargo transport into phases that several robots can learn and execute independently.",
+      "Lunar cargo transport split into lifting, transportation and placement, each learned as its own policy so several robots can share the load, evaluated in simulation and in field experiments at a JAXA test facility.",
     topics: ["Reinforcement learning", "Multi-agent systems"],
   },
   {
     slug: "robogene-modular-drl-framework",
-    title: "RoboGene: Modular DRL Framework for Reconfigurable Lunar Robots",
+    title:
+      "RoboGene: A Task-Oriented Morphology Evolution through Genetic Algorithm and Reinforcement Learning for Modular Reconfigurable Lunar Robots",
     venue: "IEEE Access",
     venueShort: "IEEE Access",
     kind: "journal",
     year: 2026,
-    authors: [{ name: "Ashutosh Mishra", me: true }],
+    authors: [
+      { name: "Ashutosh Mishra", me: true, equal: true },
+      { name: "Elian Neppel", equal: true },
+      { name: "Shreya Santra" },
+      { name: "Kentaro Uno" },
+      { name: "Kazuya Yoshida" },
+    ],
+    equalAuthorship: true,
     status: "in-submission",
     peerReviewed: true,
+    platform: "moonbot",
     summary:
-      "A deep reinforcement learning framework built around reconfiguration as a first-class property rather than an exception.",
+      "Evolving a modular robot's morphology for the task with a genetic algorithm, and learning its control with reinforcement learning, so the body and the policy are chosen together.",
     topics: ["Reinforcement learning", "Modular robotics"],
   },
   {
@@ -341,10 +527,14 @@ export const publications: Publication[] = [
     venueShort: "IEEE RA-L",
     kind: "journal",
     year: 2026,
+    // Under double-blind review: the co-author list stays off the site until
+    // the paper is accepted.
     authors: [{ name: "Ashutosh Mishra", me: true }],
+    manyAuthors: true,
     urls: [{ label: "Demo video", href: "https://youtu.be/wrkr4xLJ7zM" }],
     status: "in-submission",
     peerReviewed: true,
+    platform: "moonbot",
     summary:
       "Agentic planning and execution for modular lunar robots, field-validated at the JAXA Space Exploration Test Field in Sagamihara under Moonshot Goal 3.",
     topics: ["Planning", "Autonomy", "Modular robotics"],

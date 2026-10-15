@@ -3,6 +3,8 @@ import Base from "~/layouts/Base.astro";
 import PublicationEntry from "~/components/PublicationEntry.astro";
 import { themes } from "~/data/research";
 import { getPublication } from "~/data/publications";
+import { projects } from "~/data/projects";
+import Plate from "~/components/Plate.astro";
 
 export function getStaticPaths() {
   return themes.map((theme) => ({ params: { slug: theme.slug }, props: { theme } }));
@@ -12,6 +14,7 @@ const { theme } = Astro.props;
 const pubs = theme.publications
   .map((s) => getPublication(s))
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
+const themeProjects = projects.filter((p) => p.themes?.includes(theme.slug));
 ---
 
 <Base
@@ -32,6 +35,14 @@ const pubs = theme.publications
 
     <h2 class="question">{theme.question}</h2>
 
+    {
+      theme.image && (
+        <div class="lead-fig no-print">
+          <Plate src={theme.image.src} caption={theme.image.caption} alt={theme.image.alt} kind={theme.image.kind} focus={theme.image.focus} ratio="16 / 9" eager />
+        </div>
+      )
+    }
+
     <div class="prose body">
       {theme.body.map((para) => <p>{para}</p>)}
     </div>
@@ -50,6 +61,25 @@ const pubs = theme.publications
           <p class="key">Field tested at</p>
           <ul>
             {theme.fieldwork.map((f) => <li>{f}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      themeProjects.length > 0 && (
+        <section class="pubs">
+          <div class="section-head">
+            <h2>Projects in this direction</h2>
+            <span class="key tnum">{themeProjects.length}</span>
+          </div>
+          <ul class="projs">
+            {themeProjects.map((p) => (
+              <li>
+                <h3><a class="head-link" href={`/projects/${p.slug}/`}>{p.title}</a></h3>
+                <p class="pk">{p.kicker}</p>
+              </li>
+            ))}
           </ul>
         </section>
       )
@@ -94,4 +124,12 @@ const pubs = theme.publications
   .fieldbox ul { list-style: none; margin: 0.55rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
   .fieldbox li { font-family: var(--sans); font-size: 0.9rem; }
   .pubs { margin-top: 3rem; }
+  .lead-fig { margin-top: 1.8rem; }
+  .projs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .projs li { padding-block: 1rem; border-top: 1px solid var(--rule); }
+  .projs li:last-child { border-bottom: 1px solid var(--rule); }
+  .projs h3 { font-size: 1.02rem; }
+  .pk { font-size: 0.94rem; line-height: 1.55; color: var(--ink-2); margin: 0.3rem 0 0; }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 </style>
