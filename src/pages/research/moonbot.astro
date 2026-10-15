@@ -1,0 +1,128 @@
+---
+import Base from "~/layouts/Base.astro";
+import VideoEmbed from "~/components/VideoEmbed.astro";
+import PaperFeature from "~/components/PaperFeature.astro";
+import PublicationEntry from "~/components/PublicationEntry.astro";
+import { getPublication } from "~/data/publications";
+import { moonbotVideo, moonbotArxiv } from "~/data/featured";
+
+const tfr = getPublication("moonbot-modular-reconfigurable-robot-moon-base");
+if (!tfr) throw new Error("moonbot page: T-FR publication missing");
+
+/* Everything published on the platform, the flagship article first. */
+const pubs = [
+  "moonbot-modular-reconfigurable-robot-moon-base",
+  "multi-modal-decentralized-rl-modular-lunar-robots",
+  "distributed-heterogeneous-modularity-moonbots",
+  "multi-limb-synchronization-motion-stack-hypersphere",
+  "modular-bucket-drum-excavator-lunar-isru",
+  "moonbot-apex-agentic-planning-execution",
+]
+  .map(getPublication)
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const description =
+  "MoonBot is a modular, on-demand reconfigurable robot for Moon base construction, developed at the Space Robotics Lab, Tohoku University under JST Moonshot Goal 3 and published in IEEE Transactions on Field Robotics.";
+---
+
+<Base
+  title="MoonBot, a modular reconfigurable robot for Moon base construction"
+  description={description}
+  path="/research/moonbot/"
+  type="article"
+  image={moonbotVideo.poster}
+  video={moonbotVideo}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Research", path: "/research/" },
+    { name: "MoonBot", path: "/research/moonbot/" },
+  ]}
+>
+  <article>
+    <header class="section head">
+      <p class="crumb no-print"><a class="link" href="/research/">Research</a></p>
+      <h1>MoonBot</h1>
+      <p class="kick">
+        A modular robot for building a Moon base: one set of limbs, wheels and tools that
+        reconfigures on demand into whichever machine the task needs.
+      </p>
+
+      <dl class="facts">
+        <div>
+          <dt>Published</dt>
+          <dd>{tfr.venue}, {tfr.year}</dd>
+        </div>
+        <div>
+          <dt>Lab</dt>
+          <dd>Space Robotics Lab, Tohoku University, with Kazuya Yoshida</dd>
+        </div>
+        <div>
+          <dt>Programme</dt>
+          <dd>JST Moonshot Goal 3</dd>
+        </div>
+        <div>
+          <dt>Authorship</dt>
+          <dd>One of five equal-contribution first authors</dd>
+        </div>
+      </dl>
+    </header>
+
+    <section class="section no-print">
+      <figure>
+        <VideoEmbed video={moonbotVideo} />
+        <figcaption>MoonBot at work. Video: {moonbotVideo.credit}.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <h2>Why a modular robot for the Moon</h2>
+      <div class="prose body">
+        <p>
+          Every kilogram landed on the Moon is expensive, so a construction site there cannot
+          afford a separate machine for every job. MoonBot answers that with modularity: limbs,
+          wheel modules and tools that connect on demand, so the same hardware becomes a
+          manipulator, a vehicle or a walker, within the mass limits of a lunar payload.
+        </p>
+        <p>
+          The IEEE T-FR article covers the design and development of the system and a
+          preliminary field demonstration of milestone tasks that simulate setting up lunar
+          infrastructure: civil engineering operations, transporting and deploying
+          infrastructure components, and assisting with inflatable modules. It closes with the
+          lessons learned during testing, with a focus on connector design.
+        </p>
+        <p>
+          My part was the control and learning side: decentralized control and reinforcement
+          learning for a robot whose body changes every time a module is attached or removed.
+        </p>
+      </div>
+
+      <p class="links no-print">
+        <a class="btn btn--primary" href={`https://doi.org/${tfr.doi}`} rel="noopener">Read the article</a>
+        <a class="btn" href={moonbotArxiv} rel="noopener">arXiv preprint</a>
+        <a class="btn" href={`https://www.youtube.com/watch?v=${moonbotVideo.id}`} rel="noopener">Watch on YouTube</a>
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="sh">Learning to control a body that changes</h2>
+      <PaperFeature />
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Publications on MoonBot</h2>
+        <span class="key tnum">{pubs.length}</span>
+      </div>
+      {pubs.map((p) => <PublicationEntry pub={p} compact />)}
+    </section>
+  </article>
+</Base>
+
+<style>
+  .head { padding-bottom: 0; }
+  .crumb { margin-bottom: 1rem; font-size: 0.9rem; }
+  .kick { font-size: 1.1rem; line-height: 1.5; color: var(--ink-2); margin: 0.9rem 0 1.6rem; max-width: 60ch; }
+  .body { margin-top: 1.1rem; font-size: 1.03rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.5rem 0 0; max-width: none; }
+  .sh { margin-bottom: 1.5rem; }
+</style>

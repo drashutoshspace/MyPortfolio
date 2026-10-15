@@ -3,6 +3,7 @@ import "~/styles/global.css";
 import SEO from "~/components/SEO.astro";
 import Nav from "~/components/Nav.astro";
 import Footer from "~/components/Footer.astro";
+import type { Video } from "~/data/featured";
 
 interface Props {
   title: string;
@@ -27,6 +28,7 @@ interface Props {
     keywords: string[];
     location?: string;
   };
+  video?: Video;
   /** The homepage runs its hero full-bleed under the bar. */
   wide?: boolean;
 }

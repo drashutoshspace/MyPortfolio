@@ -13,6 +13,7 @@
  *   3. Ordinary link previews.
  */
 import { profile } from "~/data/profile";
+import type { Video } from "~/data/featured";
 
 interface Props {
   title: string;
@@ -43,6 +44,9 @@ interface Props {
     keywords: string[];
     location?: string;
   };
+  /** Set only where the video is the page's main content, which is what
+   *  Google's video indexing requires before it will show a video result. */
+  video?: Video;
 }
 
 const {
@@ -55,6 +59,7 @@ const {
   breadcrumbs,
   isProfilePage = false,
   creativeWork,
+  video,
 } = Astro.props;
 
 const site = profile.site;
@@ -168,6 +173,21 @@ if (creativeWork) {
       ? { locationCreated: { "@type": "Place", name: creativeWork.location } }
       : {}),
     isPartOf: { "@id": `${site}/#website` },
+  });
+}
+
+if (video) {
+  graph.push({
+    "@type": "VideoObject",
+    "@id": `${canonical}#video`,
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: new URL(video.poster, site).href,
+    uploadDate: video.uploadDate,
+    duration: video.duration,
+    embedUrl: `https://www.youtube.com/embed/${video.id}`,
+    url: `https://www.youtube.com/watch?v=${video.id}`,
+    creator: { "@type": "Organization", name: video.credit },
   });
 }
 

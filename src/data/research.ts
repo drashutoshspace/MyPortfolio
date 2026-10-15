@@ -22,6 +22,8 @@ export interface Theme {
    *  part of the record that machine-learning-only groups cannot claim. */
   fieldwork?: string[];
   current?: boolean;
+  /** A dedicated page that goes deeper than the theme, linked from it. */
+  spotlight?: { href: string; label: string };
 }
 
 export const themes: Theme[] = [
@@ -60,6 +62,7 @@ export const themes: Theme[] = [
       "JAXA Space Exploration Test Field, Sagamihara",
       "Abukuma Cave, as a stand-in for lunar cave environments",
     ],
+    spotlight: { href: "/research/moonbot/", label: "MoonBot in depth, with video" },
   },
   {
     slug: "learning-and-autonomy-for-field-robots",

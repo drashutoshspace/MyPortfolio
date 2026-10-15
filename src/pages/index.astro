@@ -11,6 +11,9 @@ import Gallery from "~/components/Gallery.astro";
 import Icon from "~/components/Icon.astro";
 import { talks } from "~/data/talks";
 import { latestNews, kindLabel } from "~/data/news";
+import VideoEmbed from "~/components/VideoEmbed.astro";
+import PaperFeature from "~/components/PaperFeature.astro";
+import { moonbotVideo } from "~/data/featured";
 
 const featured = [
   "moonbot-modular-reconfigurable-robot-moon-base",
@@ -100,6 +103,29 @@ const recentProjects = spaceProjects.slice(0, 4);
         </div>
       </dl>
     </aside>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Featured research</h2></div>
+
+    <div class="feature">
+      <figure class="no-print">
+        <VideoEmbed video={moonbotVideo} />
+      </figure>
+      <div class="feature__text">
+        <p class="key">IEEE Transactions on Field Robotics, 2025</p>
+        <h3><a class="head-link" href="/research/moonbot/">MoonBot: a modular robot for building a Moon base</a></h3>
+        <p class="fk">
+          One set of limbs, wheels and tools that reconfigures on demand into whichever machine
+          a lunar construction task needs.
+        </p>
+        <p class="no-print"><a class="btn btn--primary" href="/research/moonbot/">About MoonBot</a></p>
+      </div>
+    </div>
+
+    <div class="feature-paper">
+      <PaperFeature />
+    </div>
   </section>
 
   <section class="section plates no-print">
@@ -224,6 +250,12 @@ const recentProjects = spaceProjects.slice(0, 4);
 
   .side { display: flex; flex-direction: column; gap: 1.2rem; }
   .portrait { aspect-ratio: 558 / 582; }
+
+  .feature { display: grid; gap: 1.2rem clamp(1.5rem, 4vw, 2.5rem); align-items: center; }
+  @media (min-width: 760px) { .feature { grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); } }
+  .feature h3 { font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.25; margin-top: 0.35rem; }
+  .fk { font-size: 0.98rem; line-height: 1.55; color: var(--ink-2); margin: 0.6rem 0 1.1rem; }
+  .feature-paper { margin-top: clamp(2rem, 5vw, 3rem); padding-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--rule); }
 
   .plates { padding-top: 0; border-top: 0 !important; }
   .plate-row { display: grid; gap: 1.2rem; grid-template-columns: 1fr; }

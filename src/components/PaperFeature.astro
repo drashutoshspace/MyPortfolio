@@ -1,0 +1,48 @@
+---
+/**
+ * The iSpaRo 2025 Best Research Paper, shown with its own Fig. 1 rather than a
+ * stand-in image. Used on the homepage and on /research/moonbot/.
+ */
+import { getPublication } from "~/data/publications";
+import { decRlFigure as fig } from "~/data/featured";
+
+const pub = getPublication(fig.pub);
+if (!pub) throw new Error(`PaperFeature: no publication "${fig.pub}"`);
+const href = `/publications/${pub.slug}/`;
+---
+
+<div class="paper">
+  <div class="paper__text">
+    {pub.award && <p class="award"><span class="badge">{pub.award}</span></p>}
+    <h3><a class="head-link" href={href}>{pub.title}</a></h3>
+    <p class="venue">{pub.venue}, {pub.year}</p>
+    <p class="sum">{pub.summary}</p>
+    <p class="acts no-print">
+      <a class="btn" href={href}>Paper details</a>
+      <a class="btn" href={fig.arxiv} rel="noopener">arXiv preprint</a>
+    </p>
+  </div>
+
+  <figure class="paper__fig">
+    <a class="plate" href={fig.src} style={`aspect-ratio:${fig.width} / ${fig.height}`}>
+      <img src={fig.src} alt={fig.alt} width={fig.width} height={fig.height} loading="lazy" decoding="async" />
+    </a>
+    <figcaption><span class="fig">Fig. 1.</span> {fig.caption}</figcaption>
+  </figure>
+</div>
+
+<style>
+  .paper { display: grid; gap: 1.5rem clamp(1.5rem, 4vw, 3rem); align-items: center; }
+  @media (min-width: 760px) { .paper { grid-template-columns: minmax(0, 1fr) minmax(0, 25rem); } }
+
+  .paper__fig { order: -1; }
+  @media (min-width: 760px) { .paper__fig { order: 0; } }
+
+  .award { margin: 0 0 0.8rem; max-width: none; }
+  h3 { font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.25; }
+  .head-link { text-decoration: none; color: var(--ink); }
+  .head-link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .venue { font-family: var(--serif); font-style: italic; font-size: 0.92rem; color: var(--ink-3); margin: 0.45rem 0 0; }
+  .sum { font-size: 0.98rem; line-height: 1.55; color: var(--ink-2); margin: 0.7rem 0 0; }
+  .acts { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.2rem 0 0; max-width: none; }
+</style>
